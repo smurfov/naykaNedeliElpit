@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Что-то на науку недели</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- Шапка сайта -->
+    <header class="header" id="header"></header>
+
+    <!-- Тело сайта -->
+    <main class="main" id="main">
+      <div class="container-main">
+        <div class="rodTagi" id="rodTagi">
+          <p class="rodTagi__title">Выбор рода тяги</p>
+          <select name="rodTagi__list" id="rodTagi-list" class="rodTagi__list">
+            <option value="Автономная">Автономная</option>
+            <option value="Электрическая постоянного тока">
+              Электрическая постоянного тока
+            </option>
+            <option value="Электрическая постоянного тока">
+              Электрическая переменного тока
+            </option>
+          </select>
+        </div>
+        <div class="vneshnee-eletrosnabzhenie" style="padding-top: 15px">
+          <p class="vneshnee-eletrosnabzhenie__title">
+            Внешнее электроснабжение
+          </p>
+          <table class="vneshnee-eletrosnabzhenie__table">
+            <tr>
+              <td rowspan="2">
+                <span>Основной</span>
+              </td>
+              <td><span>Вид источника*</span></td>
+              <td>
+                <select
+                  name="vid-istochnika"
+                  class="vneshnee-eletrosnabzhenie__vid-istochnika"
+                  id="vid-istochnika-osnovnoy"
+                >
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Подстанции районных энергосистем"
+                  >
+                    Подстанции районных энергосистем
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Тяговая подстанция"
+                  >
+                    Тяговая подстанция
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Подстанция промышленного предприятия"
+                  >
+                    Подстанция промышленного предприятия
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Электростанция узловая (станционная)"
+                  >
+                    Электростанция узловая (станционная)
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Дизель-генраторная электростанция"
+                  >
+                    Дизель-генраторная электростанция
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Высоковольная линия СЦБ (ВЛ СЦБ)"
+                  >
+                    Высоковольная линия СЦБ (ВЛ СЦБ)
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Воздушная линия электроснабжения (ВЛ)"
+                  >
+                    Воздушная линия электроснабжения (ВЛ)
+                  </option>
+                  <option
+                    value="Высоковольная линия продольного жлектроснабжения (ВЛ) типа два «провода-рельс»
+                  (ДПР)"
+                  >
+                    Высоковольная линия продольного жлектроснабжения (ВЛ) типа
+                    два «провода-рельс» (ДПР)
+                  </option>
+                  <option
+                    value="Линия продольного электроснабжения типа «провод-рельс» (ПР)"
+                  >
+                    Линия продольного электроснабжения типа провод-рельс (ПР)
+                  </option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><span>Напряжение, В</span></td>
+              <td>
+                <select name="voltage" id="voltage-onovnoy">
+                  <option value="220" class="">220</option>
+                  <option value="380" class="">380</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="2">
+                <span>Резервный</span>
+              </td>
+              <td><span>Вид источника*</span></td>
+              <td>
+                <select
+                  name="vid-istochnika"
+                  class="vneshnee-eletrosnabzhenie__vid-istochnika"
+                  id="vid-istochnika-reserv"
+                >
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Подстанции районных энергосистем"
+                  >
+                    Подстанции районных энергосистем
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Тяговая подстанция"
+                  >
+                    Тяговая подстанция
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Подстанция промышленного предприятия"
+                  >
+                    Подстанция промышленного предприятия
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Электростанция узловая (станционная)"
+                  >
+                    Электростанция узловая (станционная)
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Дизель-генраторная электростанция"
+                  >
+                    Дизель-генраторная электростанция
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Высоковольная линия СЦБ (ВЛ СЦБ)"
+                  >
+                    Высоковольная линия СЦБ (ВЛ СЦБ)
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Воздушная линия электроснабжения (ВЛ)"
+                  >
+                    Воздушная линия электроснабжения (ВЛ)
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Высоковольная линия продольного жлектроснабжения (ВЛ) типа два «провода-рельс» (ДПР)"
+                  >
+                    Высоковольная линия продольного жлектроснабжения (ВЛ) типа
+                    два «провода-рельс» (ДПР)
+                  </option>
+                  <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    value="Линия продольного электроснабжения типа «провод-рельс» (ПР)"
+                  >
+                    Линия продольного электроснабжения типа провод-рельс (ПР)
+                  </option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><span>Напряжение, В</span></td>
+              <td>
+                <select name="voltage" id="voltage-reserv">
+                  <option value="220" class="">220</option>
+                  <option value="380" class="">380</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="station" style="padding-top: 15px">
+          <p class="station__title">Характеристика станции</p>
+          <table>
+            <tr>
+              <td colspan="2">
+                <span>Число центральванных стрелок (ЦС)</span>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  placeholder="Введите число стрелок"
+                  id="drive"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span>Число спаренных стрелок изобщего числа ЦС</span>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  placeholder="Введите число спаренных стрелок"
+                  id="dual-drive"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span>Наличие стрелок двойного направления</span>
+              </td>
+              <td>
+                <select name="dual-ways" id="dual-ways">
+                  <option value="+">+</option>
+                  <option value="-">-</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><span>Количество путей на станции</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="number-of-lines"
+                  id="number-of-lines"
+                  placeholder="Введите кол-во путей"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span>Наличие устройства торжения (УТС)</span>
+              </td>
+              <td>
+                <select name="stop-device" id="stop-device">
+                  <option value="+">+</option>
+                  <option value="-">-</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><span>Наличие местных маневровых работ</span></td>
+              <td>
+                <select name="manevor-work" id="manevor-work">
+                  <option value="+">+</option>
+                  <option value="-">-</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span>Переездная сигнализация, охраняемый переезд</span>
+              </td>
+              <td>
+                <select
+                  name="pereezdnaya-signalitation"
+                  id="pereezdnaya-signalitation"
+                >
+                  <option value="+">+</option>
+                  <option value="-">-</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><span>Число подходов в станции</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="number-approaches"
+                  id="number-approaches"
+                  placeholder="Введите число подходов"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><span>Входных светофоров</span></td>
+              <td>
+                <input
+                  type="text"
+                  id="entrance-signal"
+                  name="entrance-signal"
+                  placeholder="Введите кол-во вх. светофоров"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><span>Выходных светофоров</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="departure-signal"
+                  id="departure-signal"
+                  placeholder="Введите кол-во выход. светофоров"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><span>Маневровых светофоров</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="shunting-dwarf"
+                  id="shunting-dwarf"
+                  placeholder="Введите кол-во маневров. светофоров"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="2">Устройства гарантированного питания</td>
+              <td><span>S, ВА</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="device-power"
+                  id="device-power"
+                  placeholder="Введите мощность"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><span>Cos &phi;</span></td>
+              <td><input type="text" name="device-cos" id="device-cos" /></td>
+            </tr>
+            <tr>
+              <td><span>Маршрутные указатели</span></td>
+              <td>
+                <select name="route-signs" id="route-signs">
+                  <option value="Светодиодные">Светодиодные</option>
+                  <option value="Ламповые">Ламповые</option>
+                </select>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="number-of-route-signs"
+                  id="number-of-route-signs"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span>Наличие диспечерского контроля (АПК-ДК)</span>
+              </td>
+              <td>
+                <select name="dispecher-control" id="dispecher-control">
+                  <option value="+">+</option>
+                  <option value="-">-</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span>Подверженность снежным заносам</span>
+              </td>
+              <td>
+                <select name="snow-drift" id="snow-drift">
+                  <option value="+">+</option>
+                  <option value="-">-</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span>Климатическа зона</span>
+              </td>
+              <td>
+                <select name="climate-zone" id="climate-zone">
+                  <option value="Теплая">Теплая</option>
+                  <option value="Средняя">Средняя</option>
+                  <option value="Суровая">Суровая</option>
+                  <option value="Теплая">Теплая</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="garant-and-negarant-load" style="padding-top: 15px">
+          <p>Гарантированные и негарантированные нагрузки</p>
+          <table>
+            <tr>
+              <td><span>Наименование нагрузки, цепь</span></td>
+              <td><span>Потребляемая мощность S, кВа</span></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span>Гарантированные нагрузки, напряжение 220 В</span>
+              </td>
+            </tr>
+            <tr>
+              <td><span>Связь</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="connection-input"
+                  id="connection-input"
+                  placeholder="Введите мощность"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><span>Освещение релейной и ДСП</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="light-relay"
+                  id="light-relay"
+                  placeholder="Введите мощность"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><span>Кондиционирование технол. оборудования</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="conditional-device"
+                  id="conditional-device"
+                  placeholder="Введите мощность"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><span>Прогрев ДГА, ЗУ</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="heating-dga"
+                  id="heating-dga"
+                  placeholder="Введите мощность"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span>Негарантированные нагрузки, напряжение 220 В</span>
+              </td>
+            </tr>
+            <tr>
+              <td><span>Общее освещение</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="total-lights"
+                  id="total-lights"
+                  placeholder="Введите мощность"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><span>Силовое оборудование</span></td>
+              <td>
+                <input
+                  type="text"
+                  name="power-equipment"
+                  id="power-equipment"
+                  placeholder="Введите мощность"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+        <button type="button" id="result">Кнопка</button>
+
+        <details>
+          <summary>Расчеты</summary>
+          <p>Тут должны быть расчеты, но пока их нет...</p>
+        </details>
+      </div>
+    </main>
+
+    <!-- Подвал сайта -->
+    <footer class="footer" id="footer"></footer>
+
+    <script src="./main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.header {
+  height: 200px;
+  background-color: #548e69;
+}
+
+.container-main {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+.rodTagi {
+  display: flex;
+  align-items: center;
+}
+.rodTagi__title {
+  margin: 0 10px 0 0;
+}
