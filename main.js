@@ -104,13 +104,25 @@ function build(a) {
   a.garantAndNotgarantLoad.powerEquipment = Number(
     document.getElementById("power-equipment").value
   );
+}
 
-  console.log(a);
+build(body);
+console.log(body);
+
+// Проверка, все ли поля заполнены
+function inputEmpty() {
+  let input = document.getElementsByTagName("input");
+  for (let i = 0; i < input.length; i++) {
+    if (input[i].value == "") {
+      alert("Вы не заполнили все поля");
+      break;
+    }
+  }
 }
 
 buttonResult.addEventListener("click", () => {
+  inputEmpty();
   console.log("Work");
-  build(body);
 });
 
 // Do something
