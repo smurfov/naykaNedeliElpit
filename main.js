@@ -117,7 +117,7 @@ function inputEmpty() {
   }
 }
 
-body.mathLoad = new Object();
+body.mathload = new Object();
 
 // Расчет мощности нагрузок бесперебойного питания
 function mathLoad(element) {
@@ -131,45 +131,76 @@ function mathLoad(element) {
   const lightsPS = 115;
 
   // math enterece
-  element.mathLoad.entranceSignalTotalP =  entranceSignalP * element.station.entranceSignal;
-  element.mathLoad.entranceSignalTotalQ = entranceSignalQ * element.station.entranceSignal;
-  element.mathLoad.entranceSignalTotalS = entranceSignalS * element.station.entranceSignal;
+  element.mathload.entranceSignalTotalP =  entranceSignalP * element.station.entranceSignal;
+  element.mathload.entranceSignalTotalQ = entranceSignalQ * element.station.entranceSignal;
+  element.mathload.entranceSignalTotalS = entranceSignalS * element.station.entranceSignal;
 
   // math depart_manSignal
-  element.mathLoad.depart_manSignalTotalP = depart_manSignalP * (element.station.departureSignal + element.station.shuntingDwarf);
-  element.mathLoad.depart_manSignalTotalQ = depart_manSignalQ * (element.station.departureSignal + element.station.shuntingDwarf);
-  element.mathLoad.depart_manSignalTotalS = depart_manSignalS * (element.station.departureSignal + element.station.shuntingDwarf);
+  element.mathload.depart_manSignalTotalP = depart_manSignalP * (element.station.departureSignal + element.station.shuntingDwarf);
+  element.mathload.depart_manSignalTotalQ = depart_manSignalQ * (element.station.departureSignal + element.station.shuntingDwarf);
+  element.mathload.depart_manSignalTotalS = depart_manSignalS * (element.station.departureSignal + element.station.shuntingDwarf);
 
   // math signals 
   if (element.station.routeSigns == "Светодиодные") {
-    element.mathLoad.lightDiodTotalPS = lightDiodPS * element.station.routeSignsNumbers;
+    element.mathload.lightDiodTotalPS = lightDiodPS * element.station.routeSignsNumbers;
     // console.log(lightDiodPS, element.station.routeSignsNumbers, element.mathLoad.lightDiodTotalPS);
     
   } else {
-    element.mathLoad.lampsTotalPS = lampsPS * element.station.routeSignsNumbers;
+    element.mathload.lampsTotalPS = lampsPS * element.station.routeSignsNumbers;
   }
 
   // math rta1
-  element.mathLoad.rta1TotalP = rta1P * element.station.numberApproaches;
-  element.mathLoad.rta1TotalQ = rta1Q * element.station.numberApproaches;
-  element.mathLoad.rta1TotalS = rta1S * element.station.numberApproaches;
+  element.mathload.rta1TotalP = rta1P * element.station.numberApproaches;
+  element.mathload.rta1TotalQ = rta1Q * element.station.numberApproaches;
+  element.mathload.rta1TotalS = rta1S * element.station.numberApproaches;
 
   // math heating
-  element.mathLoad.haetingTotalP = heatingP * element.station.numberApproaches;
-  element.mathLoad.haetingTotalQ = heatingQ * element.station.numberApproaches;
-  element.mathLoad.haetingTotalS = heatingS * element.station.numberApproaches;
+  element.mathload.haetingTotalP = heatingP * element.station.numberApproaches;
+  element.mathload.haetingTotalQ = heatingQ * element.station.numberApproaches;
+  element.mathload.haetingTotalS = heatingS * element.station.numberApproaches;
   
   // math chto-to
-  element.mathLoad.lightTotalP = lightsPS
-  element.mathLoad.lightTotalS = lightsPS;
+  element.mathload.lightTotalP = lightsPS
+  element.mathload.lightTotalS = lightsPS;
 }
 
+// Расчет рельсовой цепи с преобразователями частоты 25 Гц.
+body.mathrelay = new Object();
+function mathRelay(element) {
+  // Relay data
+  const localElement_P = 2.44, localElement_Q = 7.5, localElement_S = 7.9;
 
+  element.mathrelay.localElement_TotalP = localElement_P * (element.station.numberOfLines + 2 * element.station.drive);
+  element.mathrelay.localElement_TotalQ = localElement_Q * (element.station.numberOfLines + 2 * element.station.drive);
+  element.mathrelay.localElement_TotalS = localElement_S * (element.station.numberOfLines + 2 * element.station.drive);
+
+  if (element.rodTagi.name == "Электрическая переменного тока") {
+    const elTagaPerem_P = 31.5, elTagaPerem_Q = 14.8, elTagaPerem_S = 34.8;
+
+    element.mathrelay.elTagaPerem_TotalP =  elTagaPerem_P * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.elTagaPerem_TotalQ =  elTagaPerem_Q * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.elTagaPerem_TotalS =  elTagaPerem_S * (element.station.numberOfLines + element.station.drive);
+  } else if (element.rodTagi.name == "Электрическая постоянного тока") {
+    const elTagaPost_P = 17.2, elTagaPost_Q = 12.2, elTagaPost_S = 21.1;
+    
+    element.mathrelay.elTagaPost_TotalP =  elTagaPost_P * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.elTagaPost_TotalQ =  elTagaPost_Q * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.elTagaPost_TotalS =  elTagaPost_S * (element.station.numberOfLines + element.station.drive);    
+  } else if (element.rodTagi.name == "Автономная") {
+    const automatic_P = 16.8, automatic_Q = 7.85, automatic_S = 18.54;
+
+    element.mathrelay.automatic_TotalP = automatic_P * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.automatic_TotalQ = automatic_Q * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.automatic_TotalS = automatic_S * (element.station.numberOfLines + element.station.drive);
+    
+  }
+}
 
 buttonResult.addEventListener("click", () => {
   // inputEmpty();
   build(body);
   mathLoad(body);
+  mathRelay(body);
   console.log(body);
 });
 
