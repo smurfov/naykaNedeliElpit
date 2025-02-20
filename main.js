@@ -120,6 +120,8 @@ function inputEmpty() {
   }
 }
 
+// Сделали сегодня 
+
 buttonResult.addEventListener("click", () => {
   inputEmpty();
   console.log("Work");
