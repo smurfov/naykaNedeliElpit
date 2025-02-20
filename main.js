@@ -106,9 +106,6 @@ function build(a) {
   );
 }
 
-build(body);
-console.log(body);
-
 // Проверка, все ли поля заполнены
 function inputEmpty() {
   let input = document.getElementsByTagName("input");
@@ -120,11 +117,60 @@ function inputEmpty() {
   }
 }
 
-// Сделали сегодня 
+body.mathLoad = new Object();
+
+// Расчет мощности нагрузок бесперебойного питания
+function mathLoad(element) {
+  // Signals data
+  const entranceSignalP = 31, entranceSignalQ = 11.3, entranceSignalS = 33;
+  const depart_manSignalP = 21, depart_manSignalQ = 6.8, depart_manSignalS = 22;
+  const lampsPS = 25;
+  const lightDiodPS = 15;
+  const rta1P = 228, rta1Q = 46.2, rta1S = 232.6;
+  const heatingP = 30, heatingQ = 8.8, heatingS = 31.3;
+  const lightsPS = 115;
+
+  // math enterece
+  element.mathLoad.entranceSignalTotalP =  entranceSignalP * element.station.entranceSignal;
+  element.mathLoad.entranceSignalTotalQ = entranceSignalQ * element.station.entranceSignal;
+  element.mathLoad.entranceSignalTotalS = entranceSignalS * element.station.entranceSignal;
+
+  // math depart_manSignal
+  element.mathLoad.depart_manSignalTotalP = depart_manSignalP * (element.station.departureSignal + element.station.shuntingDwarf);
+  element.mathLoad.depart_manSignalTotalQ = depart_manSignalQ * (element.station.departureSignal + element.station.shuntingDwarf);
+  element.mathLoad.depart_manSignalTotalS = depart_manSignalS * (element.station.departureSignal + element.station.shuntingDwarf);
+
+  // math signals 
+  if (element.station.routeSigns == "Светодиодные") {
+    element.mathLoad.lightDiodTotalPS = lightDiodPS * element.station.routeSignsNumbers;
+    // console.log(lightDiodPS, element.station.routeSignsNumbers, element.mathLoad.lightDiodTotalPS);
+    
+  } else {
+    element.mathLoad.lampsTotalPS = lampsPS * element.station.routeSignsNumbers;
+  }
+
+  // math rta1
+  element.mathLoad.rta1TotalP = rta1P * element.station.numberApproaches;
+  element.mathLoad.rta1TotalQ = rta1Q * element.station.numberApproaches;
+  element.mathLoad.rta1TotalS = rta1S * element.station.numberApproaches;
+
+  // math heating
+  element.mathLoad.haetingTotalP = heatingP * element.station.numberApproaches;
+  element.mathLoad.haetingTotalQ = heatingQ * element.station.numberApproaches;
+  element.mathLoad.haetingTotalS = heatingS * element.station.numberApproaches;
+  
+  // math chto-to
+  element.mathLoad.lightTotalP = lightsPS
+  element.mathLoad.lightTotalS = lightsPS;
+}
+
+
 
 buttonResult.addEventListener("click", () => {
-  inputEmpty();
-  console.log("Work");
+  // inputEmpty();
+  build(body);
+  mathLoad(body);
+  console.log(body);
 });
 
 // Do something
