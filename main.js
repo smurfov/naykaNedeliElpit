@@ -177,24 +177,27 @@ function mathRelay(element) {
   if (element.rodTagi.name == "Электрическая переменного тока") {
     const elTagaPerem_P = 31.5, elTagaPerem_Q = 14.8, elTagaPerem_S = 34.8;
 
-    element.mathrelay.elTagaPerem_TotalP =  elTagaPerem_P * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.elTagaPerem_TotalQ =  elTagaPerem_Q * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.elTagaPerem_TotalS =  elTagaPerem_S * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalP =  elTagaPerem_P * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalQ =  elTagaPerem_Q * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalS =  elTagaPerem_S * (element.station.numberOfLines + element.station.drive);
   } else if (element.rodTagi.name == "Электрическая постоянного тока") {
     const elTagaPost_P = 17.2, elTagaPost_Q = 12.2, elTagaPost_S = 21.1;
     
-    element.mathrelay.elTagaPost_TotalP =  elTagaPost_P * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.elTagaPost_TotalQ =  elTagaPost_Q * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.elTagaPost_TotalS =  elTagaPost_S * (element.station.numberOfLines + element.station.drive);    
+    element.mathrelay.taga_TotalP =  elTagaPost_P * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalQ =  elTagaPost_Q * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalS =  elTagaPost_S * (element.station.numberOfLines + element.station.drive);    
   } else if (element.rodTagi.name == "Автономная") {
     const automatic_P = 16.8, automatic_Q = 7.85, automatic_S = 18.54;
 
-    element.mathrelay.automatic_TotalP = automatic_P * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.automatic_TotalQ = automatic_Q * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.automatic_TotalS = automatic_S * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalP = automatic_P * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalQ = automatic_Q * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalS = automatic_S * (element.station.numberOfLines + element.station.drive);
     
   }
 }
+
+// Кодирование рельсовых цепей
+
 
 buttonResult.addEventListener("click", () => {
   // inputEmpty();

@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Tenor Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Tanor Sans'),
+      url('./font/TenorSans-Regular.ttf');
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,11 +13,17 @@
 
 body {
   min-height: 100vh;
+  font-size: 14pt;
+  font-family: "Tenor Sans";
+}
+
+.text {
+  font-family: "Tenor Sans";
 }
 
 .header {
   height: 200px;
-  background-color: #548e69;
+  background-color: #337a61; /* #11a676 */
 }
 
 .container-main {
