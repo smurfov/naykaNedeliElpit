@@ -108,20 +108,30 @@ function build(a) {
 
 // Проверка, все ли поля заполнены
 function inputEmpty() {
+  let inputCount = 0; // Подсчет пустых полей
   let input = document.getElementsByTagName("input");
   for (let i = 0; i < input.length; i++) {
     if (input[i].value == "") {
-      alert("Вы не заполнили все поля");
-      break;
+      // alert("Вы не заполнили все поля");s
+      inputCount++;
+      // break;
     }
+    
+  }
+  // console.log(inputCount); // Проверка значения переменной inputCount
+  
+  if (inputCount == 0) {    
+    return false
+  } else {
+    return true;
   }
 }
 
-body.mathload = new Object();
 
 // Расчет мощности нагрузок бесперебойного питания
 function mathLoad(element) {
   // Signals data
+  body.mathload = new Object();
   const entranceSignalP = 31, entranceSignalQ = 11.3, entranceSignalS = 33;
   const depart_manSignalP = 21, depart_manSignalQ = 6.8, depart_manSignalS = 22;
   const lampsPS = 25;
@@ -165,9 +175,9 @@ function mathLoad(element) {
 }
 
 // Расчет рельсовой цепи с преобразователями частоты 25 Гц.
-body.mathrelay = new Object();
 function mathRelay(element) {
   // Relay data
+  body.mathrelay = new Object();
   const localElement_P = 2.44, localElement_Q = 7.5, localElement_S = 7.9;
 
   element.mathrelay.localElement_TotalP = localElement_P * (element.station.numberOfLines + 2 * element.station.drive);
@@ -199,12 +209,21 @@ function mathRelay(element) {
 // Кодирование рельсовых цепей
 
 
+
+let empty; // Переменная которая указывает на то, пустые ли поля (false = все поля заполненны, true = все поля пустые)
 buttonResult.addEventListener("click", () => {
-  // inputEmpty();
-  build(body);
-  mathLoad(body);
-  mathRelay(body);
+  empty = inputEmpty();
+  // console.log(`Поля пустые? ${empty}`); Проверка что возвращает 
+  
+  if (empty == false) { // Если поля все заполнены 
+    build(body);
+    mathLoad(body);
+    mathRelay(body);
+  } else { // Если поля пустые то возвращет пустой объект body
+    body = {}
+  }
   console.log(body);
+  
 });
 
 // Do something
