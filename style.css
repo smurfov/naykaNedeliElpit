@@ -10,6 +10,11 @@
   padding: 0;
 }
 
+input,
+button {
+  outline: none;
+}
+
 body {
   min-height: 100vh;
   font-family: "Tenor Sans";
@@ -19,7 +24,11 @@ body {
 * {
   font-size: 12pt;
   font-family: "Tenor Sans";
-  word-wrap: break-word;
+  word-wrap: break-all;
+}
+
+.text {
+  /* width: 100%; */
 }
 
 table {
@@ -35,6 +44,10 @@ table td {
   padding: 5px;
 }
 
+table td input {
+  width: 99%;
+}
+
 .header {
   height: 200px;
   background-color: #337a61; /* #11a676 */
@@ -45,20 +58,77 @@ table td {
   margin: 0 auto;
   padding: 20px 0;
 }
+
 .rodTagi {
   display: flex;
   align-items: center;
 }
 .rodTagi__title {
-  margin: 0 10px 0 0;
-  min-width: 200px;
+  width: 200px;
 }
-.rodTagi > select,
-.vneshnee-eletrosnabzhenie select {
-  width: 95%;
+/* .text {
+} */
+.rodTagi__list {
+}
+.vneshnee-eletrosnabzhenie {
+}
+.vneshnee-eletrosnabzhenie__title {
+}
+.vneshnee-eletrosnabzhenie__table {
+  width: 100%;
+}
+.vneshnee-eletrosnabzhenie__vid-istochnika {
+  width: 100%;
+}
+.vneshnee-eletrosnabzhenie__vid-istochnika__option {
+}
+.station {
+}
+.station__title {
+}
+.station__table {
+  width: 100%;
+}
+.station__table td:nth-child(1) {
+  width: 30%;
+}
+.garant-and-negarant-load {
+}
+.garant-and-negarant-load__title {
 }
 
-table,
-tbody {
-  width: 90%;
+@media screen and (max-width: 640px) {
+  .text,
+  * {
+    font-size: 10pt;
+    font-family: "Tenor Sans";
+    word-wrap: break-all;
+  }
+  .rodTagi__title {
+    width: 150px;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .rodTagi__list {
+    width: 200px;
+  }
+  .route-signs {
+    font-size: 8pt;
+  }
+  .route-signs {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .rodTagi__list {
+    width: 120px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .text-colspan1 {
+    font-size: 7pt;
+  }
 }

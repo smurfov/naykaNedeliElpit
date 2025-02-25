@@ -16,21 +16,15 @@
       <div class="container-main">
         <div class="rodTagi" id="rodTagi">
           <p class="rodTagi__title text">Выбор рода тяги</p>
-          <div>
-            <select
-              name="rodTagi__list"
-              id="rodTagi-list"
-              class="rodTagi__list"
-            >
-              <option value="Автономная" class="text">Автономная</option>
-              <option value="Электрическая постоянного тока" class="text">
-                Электрическая постоянного тока
-              </option>
-              <option value="Электрическая переменного тока" class="text">
-                Электрическая переменного тока
-              </option>
-            </select>
-          </div>
+          <select name="rodTagi__list" id="rodTagi-list" class="rodTagi__list">
+            <option value="Автономная" class="text">Автономная</option>
+            <option value="Электрическая постоянного тока" class="text">
+              Электрическая постоянного тока
+            </option>
+            <option value="Электрическая переменного тока" class="text">
+              Электрическая переменного тока
+            </option>
+          </select>
         </div>
         <div class="vneshnee-eletrosnabzhenie" style="padding-top: 15px">
           <p class="vneshnee-eletrosnabzhenie__title text">
@@ -49,48 +43,49 @@
                   id="vid-istochnika-osnovnoy"
                 >
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Подстанции районных энергосистем"
                   >
                     Подстанции районных энергосистем
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Тяговая подстанция"
                   >
                     Тяговая подстанция
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Подстанция промышленного предприятия"
                   >
                     Подстанция промышленного предприятия
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Электростанция узловая (станционная)"
                   >
                     Электростанция узловая (станционная)
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Дизель-генраторная электростанция"
                   >
                     Дизель-генраторная электростанция
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Высоковольная линия СЦБ (ВЛ СЦБ)"
                   >
                     Высоковольная линия СЦБ (ВЛ СЦБ)
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Воздушная линия электроснабжения (ВЛ)"
                   >
                     Воздушная линия электроснабжения (ВЛ)
                   </option>
                   <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Высоковольная линия продольного жлектроснабжения (ВЛ) типа два «провода-рельс»
                   (ДПР)"
                   >
@@ -98,6 +93,7 @@
                     два «провода-рельс» (ДПР)
                   </option>
                   <option
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Линия продольного электроснабжения типа «провод-рельс» (ПР)"
                   >
                     Линия продольного электроснабжения типа провод-рельс (ПР)
@@ -109,12 +105,8 @@
               <td><span class="text">Напряжение, В</span></td>
               <td>
                 <select name="voltage" id="voltage-onovnoy">
-                  <option value="220" class="">
-                    <span class="text">220</span>
-                  </option>
-                  <option value="380" class="">
-                    <span class="text">380</span>
-                  </option>
+                  <option value="220" class="text">220</option>
+                  <option value="380" class="text">380</option>
                 </select>
               </td>
             </tr>
@@ -130,70 +122,59 @@
                   id="vid-istochnika-reserv"
                 >
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Подстанции районных энергосистем"
                   >
-                    <span class="text">Подстанции районных энергосистем</span>
+                    Подстанции районных энергосистем
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Тяговая подстанция"
                   >
-                    <span class="text">Тяговая подстанция</span>
+                    Тяговая подстанция
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Подстанция промышленного предприятия"
                   >
-                    <span class="text"
-                      >Подстанция промышленного предприятия</span
-                    >
+                    Подстанция промышленного предприятия
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Электростанция узловая (станционная)"
                   >
-                    <span class="text"
-                      >Электростанция узловая (станционная)</span
-                    >
+                    Электростанция узловая (станционная)
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Дизель-генраторная электростанция"
                   >
-                    <span class="text">Дизель-генраторная электростанция</span>
+                    Дизель-генраторная электростанция
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Высоковольная линия СЦБ (ВЛ СЦБ)"
                   >
-                    <span class="text">Высоковольная линия СЦБ (ВЛ СЦБ)</span>
+                    Высоковольная линия СЦБ (ВЛ СЦБ)
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Воздушная линия электроснабжения (ВЛ)"
                   >
-                    <span class="text"
-                      >Воздушная линия электроснабжения (ВЛ)</span
-                    >
+                    Воздушная линия электроснабжения (ВЛ)
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Высоковольная линия продольного жлектроснабжения (ВЛ) типа два «провода-рельс» (ДПР)"
                   >
-                    <span class="text"
-                      >Высоковольная линия продольного жлектроснабжения (ВЛ)
-                      типа два «провода-рельс» (ДПР)</span
-                    >
+                    Высоковольная линия продольного жлектроснабжения (ВЛ) типа
+                    два «провода-рельс» (ДПР)
                   </option>
                   <option
-                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option"
+                    class="vneshnee-eletrosnabzhenie__vid-istochnika__option text"
                     value="Линия продольного электроснабжения типа «провод-рельс» (ПР)"
                   >
-                    <span class="text"
-                      >Линия продольного электроснабжения типа провод-рельс
-                      (ПР)</span
-                    >
+                    Линия продольного электроснабжения типа провод-рельс (ПР)
                   </option>
                 </select>
               </td>
@@ -211,17 +192,13 @@
         </div>
         <div class="station" style="padding-top: 15px">
           <p class="station__title text">Характеристика станции</p>
-          <table>
+          <table class="station__table">
             <tr>
               <td colspan="2">
                 <span class="text">Число центральванных стрелок (ЦС)</span>
               </td>
               <td>
-                <input
-                  type="text"
-                  placeholder="Введите число стрелок"
-                  id="drive"
-                />
+                <input type="text" id="drive" class="text" />
               </td>
             </tr>
             <tr>
@@ -231,11 +208,7 @@
                 >
               </td>
               <td>
-                <input
-                  type="text"
-                  placeholder="Введите число спаренных стрелок"
-                  id="dual-drive"
-                />
+                <input type="text" id="dual-drive" class="text" />
               </td>
             </tr>
             <tr>
@@ -256,9 +229,9 @@
               <td>
                 <input
                   type="text"
+                  class="text"
                   name="number-of-lines"
                   id="number-of-lines"
-                  placeholder="Введите кол-во путей"
                 />
               </td>
             </tr>
@@ -307,9 +280,9 @@
               <td>
                 <input
                   type="text"
+                  class="text"
                   name="number-approaches"
                   id="number-approaches"
-                  placeholder="Введите число подходов"
                 />
               </td>
             </tr>
@@ -318,9 +291,9 @@
               <td>
                 <input
                   type="text"
+                  class="text"
                   id="entrance-signal"
                   name="entrance-signal"
-                  placeholder="Введите кол-во вх. светофоров"
                 />
               </td>
             </tr>
@@ -330,8 +303,8 @@
                 <input
                   type="text"
                   name="departure-signal"
+                  class="text"
                   id="departure-signal"
-                  placeholder="Введите кол-во выход. светофоров"
                 />
               </td>
             </tr>
@@ -343,35 +316,44 @@
                 <input
                   type="text"
                   name="shunting-dwarf"
+                  class="text"
                   id="shunting-dwarf"
-                  placeholder="Введите кол-во маневров. светофоров"
                 />
               </td>
             </tr>
             <tr>
               <td rowspan="2">
-                <span class="text">Устройства гарантированного питания</span>
+                <span class="text text-colspan1"
+                  >Устройства гарантированного питания</span
+                >
               </td>
               <td><span class="text">S, ВА</span></td>
               <td>
                 <input
                   type="text"
+                  class="text"
                   name="device-power"
                   id="device-power"
-                  placeholder="Введите мощность"
                 />
               </td>
             </tr>
             <tr>
               <td><span class="text">Cos &phi;</span></td>
               <td>
-                <input type="text" name="device-cos" id="device-cos" />
+                <input
+                  type="text"
+                  name="device-cos"
+                  id="device-cos"
+                  class="text"
+                />
               </td>
             </tr>
             <tr>
-              <td><span class="text">Маршрутные указатели</span></td>
               <td>
-                <select name="route-signs" id="route-signs">
+                <span class="text text-colspan1">Маршрутные указатели</span>
+              </td>
+              <td>
+                <select name="route-signs" id="route-signs" class="route-signs">
                   <option value="Светодиодные" class="text">
                     Светодиодные
                   </option>
@@ -382,8 +364,8 @@
                 <input
                   type="text"
                   name="number-of-route-signs"
+                  class="text"
                   id="number-of-route-signs"
-                  placeholder="Введите кол-во указателей"
                 />
               </td>
             </tr>
@@ -417,95 +399,103 @@
               </td>
               <td>
                 <select name="climate-zone" id="climate-zone">
-                  <option value="Теплая">Теплая</option>
-                  <option value="Средняя">Средняя</option>
-                  <option value="Суровая">Суровая</option>
-                  <option value="Теплая">Теплая</option>
+                  <option value="Теплая" class="text">Теплая</option>
+                  <option value="Средняя" class="text">Средняя</option>
+                  <option value="Суровая" class="text">Суровая</option>
+                  <option value="Теплая" class="text">Теплая</option>
                 </select>
               </td>
             </tr>
           </table>
         </div>
         <div class="garant-and-negarant-load" style="padding-top: 15px">
-          <p>Гарантированные и негарантированные нагрузки</p>
+          <p class="garant-and-negarant-load__title text">
+            Гарантированные и негарантированные нагрузки
+          </p>
           <table>
             <tr>
-              <td><span>Наименование нагрузки, цепь</span></td>
-              <td><span>Потребляемая мощность S, кВа</span></td>
+              <td><span class="text">Наименование нагрузки, цепь</span></td>
+              <td><span class="text">Потребляемая мощность S, кВа</span></td>
             </tr>
             <tr>
               <td colspan="2">
-                <span>Гарантированные нагрузки, напряжение 220 В</span>
+                <span class="text"
+                  >Гарантированные нагрузки, напряжение 220 В</span
+                >
               </td>
             </tr>
             <tr>
-              <td><span>Связь</span></td>
+              <td><span class="text">Связь</span></td>
               <td>
                 <input
                   type="text"
+                  class="text"
                   name="connection-input"
                   id="connection-input"
-                  placeholder="Введите мощность"
                 />
               </td>
             </tr>
             <tr>
-              <td><span>Освещение релейной и ДСП</span></td>
+              <td><span class="text">Освещение релейной и ДСП</span></td>
               <td>
                 <input
                   type="text"
+                  class="text"
                   name="light-relay"
                   id="light-relay"
-                  placeholder="Введите мощность"
                 />
               </td>
             </tr>
             <tr>
-              <td><span>Кондиционирование технол. оборудования</span></td>
+              <td>
+                <span class="text">Кондиционирование технол. оборудования</span>
+              </td>
               <td>
                 <input
                   type="text"
+                  class="text"
                   name="conditional-device"
                   id="conditional-device"
-                  placeholder="Введите мощность"
                 />
               </td>
             </tr>
             <tr>
-              <td><span>Прогрев ДГА, ЗУ</span></td>
+              <td><span class="text">Прогрев ДГА, ЗУ</span></td>
               <td>
                 <input
+                  class="text"
                   type="text"
                   name="heating-dga"
                   id="heating-dga"
-                  placeholder="Введите мощность"
                 />
               </td>
             </tr>
             <tr>
               <td colspan="2">
-                <span>Негарантированные нагрузки, напряжение 220 В</span>
+                <span class="text"
+                  >Негарантированные нагрузки, напряжение 220 В</span
+                >
               </td>
             </tr>
             <tr>
-              <td><span>Общее освещение</span></td>
+              <td><span class="text">Общее освещение</span></td>
               <td>
                 <input
                   type="text"
+                  class="text"
                   name="total-lights"
                   id="total-lights"
-                  placeholder="Введите мощность"
                 />
               </td>
             </tr>
             <tr>
-              <td><span>Силовое оборудование</span></td>
+              <td><span class="text">Силовое оборудование</span></td>
               <td>
                 <input
                   type="text"
+                  class="text"
                   name="power-equipment"
                   id="power-equipment"
-                  placeholder="Введите мощность"
                 />
               </td>
             </tr>
