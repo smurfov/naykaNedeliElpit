@@ -27,6 +27,10 @@ body {
   word-wrap: break-all;
 }
 
+.center {
+  text-align: center;
+}
+
 .text {
   /* width: 100%; */
 }
@@ -75,10 +79,8 @@ table td input {
 .vneshnee-eletrosnabzhenie__title {
 }
 .vneshnee-eletrosnabzhenie__table {
-  width: 100%;
 }
 .vneshnee-eletrosnabzhenie__vid-istochnika {
-  width: 100%;
 }
 .vneshnee-eletrosnabzhenie__vid-istochnika__option {
 }
@@ -87,7 +89,6 @@ table td input {
 .station__title {
 }
 .station__table {
-  width: 100%;
 }
 .station__table td:nth-child(1) {
   width: 30%;
@@ -95,6 +96,13 @@ table td input {
 .garant-and-negarant-load {
 }
 .garant-and-negarant-load__title {
+}
+
+.station__table,
+.vneshnee-eletrosnabzhenie__table,
+.vneshnee-eletrosnabzhenie__vid-istochnika,
+.garant-and-negarant-load__table {
+  width: 100%;
 }
 
 @media screen and (max-width: 640px) {
