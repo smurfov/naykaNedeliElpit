@@ -1,3 +1,5 @@
+const deviceCos = document.getElementById("device-cos");
+
 let body = new Object();
 
 let buttonResult = document.getElementById("result");
@@ -65,9 +67,7 @@ function build(a) {
   a.station.garantePowerDevice.power = Number(
     document.getElementById("device-power").value
   );
-  a.station.garantePowerDevice.cos = Number(
-    document.getElementById("device-cos").value
-  );
+  a.station.garantePowerDevice.cos = Number(deviceCos.value);
   a.station.routeSigns = document.getElementById("route-signs").value;
   a.station.routeSignsNumbers = Number(
     document.getElementById("number-of-route-signs").value
@@ -116,45 +116,60 @@ function inputEmpty() {
       inputCount++;
       // break;
     }
-    
   }
   // console.log(inputCount); // Проверка значения переменной inputCount
-  
-  if (inputCount == 0) {    
-    return false
+
+  if (inputCount == 0) {
+    return false;
   } else {
     return true;
   }
 }
 
-
 // Расчет мощности нагрузок бесперебойного питания
 function mathLoad(element) {
   // Signals data
   body.mathload = new Object();
-  const entranceSignalP = 31, entranceSignalQ = 11.3, entranceSignalS = 33;
-  const depart_manSignalP = 21, depart_manSignalQ = 6.8, depart_manSignalS = 22;
+  const entranceSignalP = 31,
+    entranceSignalQ = 11.3,
+    entranceSignalS = 33;
+  const depart_manSignalP = 21,
+    depart_manSignalQ = 6.8,
+    depart_manSignalS = 22;
   const lampsPS = 25;
   const lightDiodPS = 15;
-  const rta1P = 228, rta1Q = 46.2, rta1S = 232.6;
-  const heatingP = 30, heatingQ = 8.8, heatingS = 31.3;
+  const rta1P = 228,
+    rta1Q = 46.2,
+    rta1S = 232.6;
+  const heatingP = 30,
+    heatingQ = 8.8,
+    heatingS = 31.3;
   const lightsPS = 115;
 
   // math enterece
-  element.mathload.entranceSignalTotalP =  entranceSignalP * element.station.entranceSignal;
-  element.mathload.entranceSignalTotalQ = entranceSignalQ * element.station.entranceSignal;
-  element.mathload.entranceSignalTotalS = entranceSignalS * element.station.entranceSignal;
+  element.mathload.entranceSignalTotalP =
+    entranceSignalP * element.station.entranceSignal;
+  element.mathload.entranceSignalTotalQ =
+    entranceSignalQ * element.station.entranceSignal;
+  element.mathload.entranceSignalTotalS =
+    entranceSignalS * element.station.entranceSignal;
 
   // math depart_manSignal
-  element.mathload.depart_manSignalTotalP = depart_manSignalP * (element.station.departureSignal + element.station.shuntingDwarf);
-  element.mathload.depart_manSignalTotalQ = depart_manSignalQ * (element.station.departureSignal + element.station.shuntingDwarf);
-  element.mathload.depart_manSignalTotalS = depart_manSignalS * (element.station.departureSignal + element.station.shuntingDwarf);
+  element.mathload.depart_manSignalTotalP =
+    depart_manSignalP *
+    (element.station.departureSignal + element.station.shuntingDwarf);
+  element.mathload.depart_manSignalTotalQ =
+    depart_manSignalQ *
+    (element.station.departureSignal + element.station.shuntingDwarf);
+  element.mathload.depart_manSignalTotalS =
+    depart_manSignalS *
+    (element.station.departureSignal + element.station.shuntingDwarf);
 
-  // math signals 
+  // math signals
   if (element.station.routeSigns == "Светодиодные") {
-    element.mathload.lightDiodTotalPS = lightDiodPS * element.station.routeSignsNumbers;
+    element.mathload.lightDiodTotalPS =
+      lightDiodPS * element.station.routeSignsNumbers;
     // console.log(lightDiodPS, element.station.routeSignsNumbers, element.mathLoad.lightDiodTotalPS);
-    
   } else {
     element.mathload.lampsTotalPS = lampsPS * element.station.routeSignsNumbers;
   }
@@ -168,9 +183,9 @@ function mathLoad(element) {
   element.mathload.haetingTotalP = heatingP * element.station.numberApproaches;
   element.mathload.haetingTotalQ = heatingQ * element.station.numberApproaches;
   element.mathload.haetingTotalS = heatingS * element.station.numberApproaches;
-  
+
   // math chto-to
-  element.mathload.lightTotalP = lightsPS
+  element.mathload.lightTotalP = lightsPS;
   element.mathload.lightTotalS = lightsPS;
 }
 
@@ -178,52 +193,82 @@ function mathLoad(element) {
 function mathRelay(element) {
   // Relay data
   body.mathrelay = new Object();
-  const localElement_P = 2.44, localElement_Q = 7.5, localElement_S = 7.9;
+  const localElement_P = 2.44,
+    localElement_Q = 7.5,
+    localElement_S = 7.9;
 
-  element.mathrelay.localElement_TotalP = localElement_P * (element.station.numberOfLines + 2 * element.station.drive);
-  element.mathrelay.localElement_TotalQ = localElement_Q * (element.station.numberOfLines + 2 * element.station.drive);
-  element.mathrelay.localElement_TotalS = localElement_S * (element.station.numberOfLines + 2 * element.station.drive);
+  element.mathrelay.localElement_TotalP =
+    localElement_P *
+    (element.station.numberOfLines + 2 * element.station.drive);
+  element.mathrelay.localElement_TotalQ =
+    localElement_Q *
+    (element.station.numberOfLines + 2 * element.station.drive);
+  element.mathrelay.localElement_TotalS =
+    localElement_S *
+    (element.station.numberOfLines + 2 * element.station.drive);
 
   if (element.rodTagi.name == "Электрическая переменного тока") {
-    const elTagaPerem_P = 31.5, elTagaPerem_Q = 14.8, elTagaPerem_S = 34.8;
+    // Значения если род тяги "Электрическая переменного тока"
+    const elTagaPerem_P = 31.5,
+      elTagaPerem_Q = 14.8,
+      elTagaPerem_S = 34.8;
 
-    element.mathrelay.taga_TotalP =  elTagaPerem_P * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalQ =  elTagaPerem_Q * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalS =  elTagaPerem_S * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalP =
+      elTagaPerem_P * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalQ =
+      elTagaPerem_Q * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalS =
+      elTagaPerem_S * (element.station.numberOfLines + element.station.drive);
   } else if (element.rodTagi.name == "Электрическая постоянного тока") {
-    const elTagaPost_P = 17.2, elTagaPost_Q = 12.2, elTagaPost_S = 21.1;
-    
-    element.mathrelay.taga_TotalP =  elTagaPost_P * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalQ =  elTagaPost_Q * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalS =  elTagaPost_S * (element.station.numberOfLines + element.station.drive);    
-  } else if (element.rodTagi.name == "Автономная") {
-    const automatic_P = 16.8, automatic_Q = 7.85, automatic_S = 18.54;
+    // Значения если род тяги "Электрическая постоянного тока"
+    const elTagaPost_P = 17.2,
+      elTagaPost_Q = 12.2,
+      elTagaPost_S = 21.1;
 
-    element.mathrelay.taga_TotalP = automatic_P * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalQ = automatic_Q * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalS = automatic_S * (element.station.numberOfLines + element.station.drive);
-    
+    element.mathrelay.taga_TotalP =
+      elTagaPost_P * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalQ =
+      elTagaPost_Q * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalS =
+      elTagaPost_S * (element.station.numberOfLines + element.station.drive);
+  } else if (element.rodTagi.name == "Автономная") {
+    // Значения если род тяги "Автономная"
+    const automatic_P = 16.8,
+      automatic_Q = 7.85,
+      automatic_S = 18.54;
+
+    element.mathrelay.taga_TotalP =
+      automatic_P * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalQ =
+      automatic_Q * (element.station.numberOfLines + element.station.drive);
+    element.mathrelay.taga_TotalS =
+      automatic_S * (element.station.numberOfLines + element.station.drive);
   }
 }
 
 // Кодирование рельсовых цепей
 
-
-
 let empty; // Переменная которая указывает на то, пустые ли поля (false = все поля заполненны, true = все поля пустые)
 buttonResult.addEventListener("click", () => {
   empty = inputEmpty();
-  // console.log(`Поля пустые? ${empty}`); Проверка что возвращает 
-  
-  if (empty == false) { // Если поля все заполнены 
+  // console.log(`Поля пустые? ${empty}`); Проверка что возвращает
+
+  if (empty == false) {
+    // Если поля все заполнены
     build(body);
-    mathLoad(body);
-    mathRelay(body);
-  } else { // Если поля пустые то возвращет пустой объект body
-    body = {}
+    if (deviceCos.value <= 1) {
+      // Проверка значения cos φ, т.к. оно не может быть больше 1
+      mathLoad(body);
+      mathRelay(body);
+    } else {
+      alert("Значение cos φ не может быть больше 1.");
+    }
+  } else {
+    // Если поля пустые то возвращет пустой объект body
+    body = {};
+    alert("Есть пустые поля");
   }
   console.log(body);
-  
 });
 
 // Do something

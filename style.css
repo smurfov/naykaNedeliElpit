@@ -1,9 +1,8 @@
 @font-face {
-  font-family: 'Tenor Sans';
+  font-family: "Tenor Sans";
   font-style: normal;
   font-weight: 400;
-  src: local('Tanor Sans'),
-      url('./font/TenorSans-Regular.ttf');
+  src: local("Tanor Sans"), url("./font/TenorSans-Regular.ttf");
 }
 
 * {
@@ -13,12 +12,27 @@
 
 body {
   min-height: 100vh;
-  font-size: 14pt;
   font-family: "Tenor Sans";
 }
 
-.text {
+.text,
+* {
+  font-size: 12pt;
   font-family: "Tenor Sans";
+  word-wrap: break-word;
+}
+
+table {
+  border-spacing: 0;
+  border: 1px solid black;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+table td {
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 5px;
 }
 
 .header {
@@ -37,4 +51,14 @@ body {
 }
 .rodTagi__title {
   margin: 0 10px 0 0;
+  min-width: 200px;
+}
+.rodTagi > select,
+.vneshnee-eletrosnabzhenie select {
+  width: 95%;
+}
+
+table,
+tbody {
+  width: 90%;
 }
