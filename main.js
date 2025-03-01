@@ -4,6 +4,7 @@ let body = new Object();
 
 let buttonResult = document.getElementById("result");
 
+// Создание объекта который хранит данные которые ввел пользователь на самом сайте
 function build(a) {
   // Выбор рода тяги
   a.rodTagi = new Object();
@@ -113,8 +114,11 @@ function inputEmpty() {
   for (let i = 0; i < input.length; i++) {
     if (input[i].value == "") {
       // alert("Вы не заполнили все поля");s
+      input[i].classList.add("errorInput");
       inputCount++;
       // break;
+    } else {
+      input[i].classList.remove("errorInput");
     }
   }
   // console.log(inputCount); // Проверка значения переменной inputCount
@@ -125,11 +129,44 @@ function inputEmpty() {
     return true;
   }
 }
+let empty;
+
+let errors = [];
+const errorWindow = document.getElementById("error-window");
+function countError() {
+  const errorWindowList = document.querySelectorAll(".error-window__list");
+  if (errorWindowList.length >= 1) {
+    for (let i = 0; i < errorWindowList.length; i++) {
+      errorWindowList[i].remove();
+    }
+  }
+  const ol = document.createElement("ol");
+  errorWindow.appendChild(ol);
+  let pointOfList = document.getElementsByClassName(
+    "error-window__list__point"
+  );
+  for (let i = 0; i < pointOfList.length; i++) {
+    pointOfList[i].remove();
+  }
+  if (empty) {
+    errors.push("Есть пустые поля");
+  }
+  if (deviceCos.value > 1) {
+    errors.push("Значение cos φ не может быть больше 1.");
+  }
+  for (let i = 0; i < errors.length; i++) {
+    ol.classList.add("error-window__list");
+    const li = document.createElement("li");
+    li.textContent = errors[i];
+    li.classList.add("error-window__list__point");
+    ol.appendChild(li);
+  }
+}
 
 // Расчет мощности нагрузок бесперебойного питания
 function mathLoad(element) {
   // Signals data
-  body.mathload = new Object();
+  element.mathload = new Object();
   const entranceSignalP = 31,
     entranceSignalQ = 11.3,
     entranceSignalS = 33;
@@ -192,7 +229,7 @@ function mathLoad(element) {
 // Расчет рельсовой цепи с преобразователями частоты 25 Гц.
 function mathRelay(element) {
   // Relay data
-  body.mathrelay = new Object();
+  element.mathrelay = new Object();
   const localElement_P = 2.44,
     localElement_Q = 7.5,
     localElement_S = 7.9;
@@ -247,27 +284,66 @@ function mathRelay(element) {
 }
 
 // Кодирование рельсовых цепей
+function coddingRelay(params) {
+  params.coddingRelay = new Object();
+  // Мощноость, потребляемая КПТШ и ТШ
+  params.coddingRelay.kptsh_TotalS = 110;
+  params.coddingRelay.kptsh_TotalCos = 0.8;
 
-let empty; // Переменная которая указывает на то, пустые ли поля (false = все поля заполненны, true = все поля пустые)
+  // Кодирующий трансформатор 50 Гц.
+  const transformer_P = 22,
+    transformer_Q = 76;
+  const transformer_S = Math.round(
+    Math.sqrt(transformer_P ** 2 + transformer_Q ** 2)
+  );
+
+  params.coddingRelay.powerFromCoddingTransformer =
+    transformer_S * params.numberApproaches;
+  // В методе там что-то что-то при кодировании 50 Гц и 25 Гц, лучше посмотреть
+
+  // Дешифраторные ячейки
+  const decryptingDevice_P = 16.6,
+    decryptingDevice_Q = 16.8;
+  const decryptingDevice_S = Math.round(
+    Math.sqrt(decryptingDevice_P ** 2 + decryptingDevice_Q ** 2)
+  );
+
+  params.coddingRelay.powerFromDecryptingDevice =
+    decryptingDevice_S * params.numberApproaches;
+  // Там что-то тоже написано после этой формулы, лучше посмотреть и понять что там написано.
+
+  // АЛС-ЕН
+  // Саня хотел что то надумать, но прочитав методу, он нифига не понял что надо делать с этим АЛС-ЕН
+}
+
 buttonResult.addEventListener("click", () => {
-  empty = inputEmpty();
+  empty = inputEmpty(); // Переменная которая указывает на то, пустые ли поля (false = все поля заполненны, true = есть пустые поля)
+  errors = [];
   // console.log(`Поля пустые? ${empty}`); Проверка что возвращает
 
-  if (empty == false) {
-    // Если поля все заполнены
+  if (empty == false && deviceCos.value <= 1) {
     build(body);
-    if (deviceCos.value <= 1) {
-      // Проверка значения cos φ, т.к. оно не может быть больше 1
-      mathLoad(body);
-      mathRelay(body);
-    } else {
-      alert("Значение cos φ не может быть больше 1.");
-    }
-  } else {
-    // Если поля пустые то возвращет пустой объект body
+    mathLoad(body);
+    mathRelay(body);
+    coddingRelay(body);
+  } else if (deviceCos.value > 1) {
     body = {};
-    alert("Есть пустые поля");
+    countError();
+    console.log(errors);
+    deviceCos.classList.add("errorInput");
+  } else {
+    body = {};
+    countError();
+    console.log(errors);
   }
+  if (errors.length == 0) {
+    errorWindow.classList.remove("visible");
+    errorWindow.classList.add("hidden");
+  } else {
+    errorWindow.classList.add("visible");
+    errorWindow.classList.remove("hidden");
+  }
+
   console.log(body);
 });
 

@@ -31,8 +31,9 @@ body {
   text-align: center;
 }
 
-.text {
-  /* width: 100%; */
+.errorInput {
+  border: 1px solid lightcoral;
+  background-color: pink;
 }
 
 table {
@@ -49,7 +50,10 @@ table td {
 }
 
 table td input {
-  width: 99%;
+  width: 98%;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding: 0 3px;
 }
 
 .header {
@@ -103,6 +107,44 @@ table td input {
 .vneshnee-eletrosnabzhenie__vid-istochnika,
 .garant-and-negarant-load__table {
   width: 100%;
+}
+
+.footer {
+}
+
+.error-window.visible {
+  position: fixed;
+  right: 5px;
+  bottom: 5px;
+  width: 350px;
+  height: 150px;
+  padding: 15px;
+  z-index: 1;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.85);
+}
+
+.error-window.hidden {
+  display: none;
+}
+
+.close-sign {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.close-sign:hover {
+  cursor: pointer;
+}
+
+.error-window__title {
+  color: red;
+}
+
+.error-window__list {
+  padding: 15px;
 }
 
 @media screen and (max-width: 640px) {

@@ -198,7 +198,7 @@
                 <span class="text">Число центральванных стрелок (ЦС)</span>
               </td>
               <td>
-                <input type="text" id="drive" class="text" />
+                <input type="number" id="drive" class="text" />
               </td>
             </tr>
             <tr>
@@ -208,7 +208,7 @@
                 >
               </td>
               <td>
-                <input type="text" id="dual-drive" class="text" />
+                <input type="number" id="dual-drive" class="text" />
               </td>
             </tr>
             <tr>
@@ -228,7 +228,7 @@
               </td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   class="text"
                   name="number-of-lines"
                   id="number-of-lines"
@@ -279,7 +279,7 @@
               </td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   class="text"
                   name="number-approaches"
                   id="number-approaches"
@@ -290,7 +290,7 @@
               <td colspan="2"><span class="text">Входных светофоров</span></td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   class="text"
                   id="entrance-signal"
                   name="entrance-signal"
@@ -301,7 +301,7 @@
               <td colspan="2"><span class="text">Выходных светофоров</span></td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   name="departure-signal"
                   class="text"
                   id="departure-signal"
@@ -314,7 +314,7 @@
               </td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   name="shunting-dwarf"
                   class="text"
                   id="shunting-dwarf"
@@ -330,7 +330,7 @@
               <td><span class="text">S, ВА</span></td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   class="text"
                   name="device-power"
                   id="device-power"
@@ -341,7 +341,7 @@
               <td><span class="text">Cos &phi;</span></td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   name="device-cos"
                   id="device-cos"
                   class="text"
@@ -362,7 +362,7 @@
               </td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   name="number-of-route-signs"
                   class="text"
                   id="number-of-route-signs"
@@ -430,7 +430,7 @@
               <td><span class="text">Связь</span></td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   class="text"
                   name="connection-input"
                   id="connection-input"
@@ -441,7 +441,7 @@
               <td><span class="text">Освещение релейной и ДСП</span></td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   class="text"
                   name="light-relay"
                   id="light-relay"
@@ -454,7 +454,7 @@
               </td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   class="text"
                   name="conditional-device"
                   id="conditional-device"
@@ -466,7 +466,7 @@
               <td>
                 <input
                   class="text"
-                  type="text"
+                  type="number"
                   name="heating-dga"
                   id="heating-dga"
                 />
@@ -483,7 +483,7 @@
               <td><span class="text">Общее освещение</span></td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   class="text"
                   name="total-lights"
                   id="total-lights"
@@ -494,7 +494,7 @@
               <td><span class="text">Силовое оборудование</span></td>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   class="text"
                   name="power-equipment"
                   id="power-equipment"
@@ -514,6 +514,11 @@
 
     <!-- Подвал сайта -->
     <footer class="footer" id="footer"></footer>
+
+    <div id="error-window" class="error-window hidden">
+      <div class="close-sign">X</div>
+      <p class="error-window__title">Ошибка ! ! !</p>
+    </div>
 
     <script src="./main.js"></script>
   </body>
