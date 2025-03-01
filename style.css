@@ -50,10 +50,10 @@ table td {
 }
 
 table td input {
-  width: 98%;
+  width: 100%;
   border-radius: 5px;
   border: 1px solid black;
-  padding: 0 3px;
+  /* padding: 0 3px; */
 }
 
 .header {
@@ -74,8 +74,6 @@ table td input {
 .rodTagi__title {
   width: 200px;
 }
-/* .text {
-} */
 .rodTagi__list {
 }
 .vneshnee-eletrosnabzhenie {
@@ -116,9 +114,9 @@ table td input {
   position: fixed;
   right: 5px;
   bottom: 5px;
-  width: 350px;
+  width: 300px;
   height: 150px;
-  padding: 15px;
+  padding: 10px;
   z-index: 1;
   border-radius: 10px;
   background-color: white;
@@ -151,8 +149,6 @@ table td input {
   .text,
   * {
     font-size: 10pt;
-    font-family: "Tenor Sans";
-    word-wrap: break-all;
   }
   .rodTagi__title {
     width: 150px;
