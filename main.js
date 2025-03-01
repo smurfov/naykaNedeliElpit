@@ -347,4 +347,10 @@ buttonResult.addEventListener("click", () => {
   console.log(body);
 });
 
+const closeSign = document.getElementById("close-sign");
+closeSign.addEventListener("click", () => {
+  errorWindow.classList.remove("visible");
+  errorWindow.classList.add("hidden");
+});
+
 // Do something
