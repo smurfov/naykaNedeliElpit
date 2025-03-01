@@ -144,7 +144,7 @@ table td input {
 }
 
 .error-window__list {
-  padding: 15px;
+  padding: 10px 5px 10px 15px;
 }
 
 @media screen and (max-width: 640px) {
