@@ -2,7 +2,9 @@ const deviceCos = document.getElementById("device-cos");
 
 let body = new Object();
 
-let buttonResult = document.getElementById("result");
+const buttonResult = document.getElementById("result");
+
+const tableResult = document.getElementById("tableResult");
 
 // Создание объекта который хранит данные которые ввел пользователь на самом сайте
 function build(a) {
@@ -50,7 +52,7 @@ function build(a) {
   if (document.getElementById("pereezdnaya-signalitation").value == "+") {
     a.station.pereezdnayaSignalitation = true;
   } else {
-    a.station.stopDpereezdnayaSignalitationevice = false;
+    a.station.pereezdnayaSignalitation = false;
   }
   a.station.numberApproaches = Number(
     document.getElementById("number-approaches").value
@@ -169,19 +171,19 @@ function mathLoad(element) {
   element.mathload = new Object();
   const entranceSignalP = 31,
     entranceSignalQ = 11.3,
-    entranceSignalS = 33;
-  const depart_manSignalP = 21,
+    entranceSignalS = 33,
+    depart_manSignalP = 21,
     depart_manSignalQ = 6.8,
-    depart_manSignalS = 22;
-  const lampsPS = 25;
-  const lightDiodPS = 15;
-  const rta1P = 228,
+    depart_manSignalS = 22,
+    rta1P = 228,
     rta1Q = 46.2,
-    rta1S = 232.6;
-  const heatingP = 30,
+    rta1S = 232.6,
+    heatingP = 30,
     heatingQ = 8.8,
-    heatingS = 31.3;
-  const lightsPS = 115;
+    heatingS = 31.3,
+    lightsPS = 115;
+  element.mathload.lampsPS = 25;
+  element.mathload.lightDiodPS = 15;
 
   // math enterece
   element.mathload.entranceSignalTotalP =
@@ -192,23 +194,23 @@ function mathLoad(element) {
     entranceSignalS * element.station.entranceSignal;
 
   // math depart_manSignal
-  element.mathload.depart_manSignalTotalP =
-    depart_manSignalP *
-    (element.station.departureSignal + element.station.shuntingDwarf);
-  element.mathload.depart_manSignalTotalQ =
-    depart_manSignalQ *
-    (element.station.departureSignal + element.station.shuntingDwarf);
-  element.mathload.depart_manSignalTotalS =
-    depart_manSignalS *
-    (element.station.departureSignal + element.station.shuntingDwarf);
+  element.mathload.departManSignal =
+    element.station.departureSignal + element.station.shuntingDwarf;
+  element.mathload.departManSignalTotalP =
+    depart_manSignalP * element.mathload.departManSignal;
+  element.mathload.departManSignalTotalQ =
+    depart_manSignalQ * element.mathload.departManSignal;
+  element.mathload.departManSignalTotalS =
+    depart_manSignalS * element.mathload.departManSignal;
 
   // math signals
   if (element.station.routeSigns == "Светодиодные") {
     element.mathload.lightDiodTotalPS =
-      lightDiodPS * element.station.routeSignsNumbers;
+      element.mathload.lightDiodPS * element.station.routeSignsNumbers;
     // console.log(lightDiodPS, element.station.routeSignsNumbers, element.mathLoad.lightDiodTotalPS);
   } else {
-    element.mathload.lampsTotalPS = lampsPS * element.station.routeSignsNumbers;
+    element.mathload.lampsTotalPS =
+      element.mathload.lampsPS * element.station.routeSignsNumbers;
   }
 
   // math rta1
@@ -224,6 +226,14 @@ function mathLoad(element) {
   // math chto-to
   element.mathload.lightTotalP = lightsPS;
   element.mathload.lightTotalS = lightsPS;
+  console.log("mathload");
+
+  for (const key in element.mathload) {
+    if (Object.prototype.hasOwnProperty.call(element.mathload, key)) {
+      element.mathload[key] = Math.round(element.mathload[key] * 100) / 100;
+      // console.log(obj);
+    }
+  }
 }
 
 // Расчет рельсовой цепи с преобразователями частоты 25 Гц.
@@ -281,6 +291,12 @@ function mathRelay(element) {
     element.mathrelay.taga_TotalS =
       automatic_S * (element.station.numberOfLines + element.station.drive);
   }
+
+  for (const key in element.mathrelay) {
+    if (Object.prototype.hasOwnProperty.call(element.mathrelay, key)) {
+      element.mathrelay[key] = Math.round(element.mathrelay[key] * 100) / 10;
+    }
+  }
 }
 
 // Кодирование рельсовых цепей
@@ -298,7 +314,7 @@ function coddingRelay(params) {
   );
 
   params.coddingRelay.powerFromCoddingTransformer =
-    transformer_S * params.numberApproaches;
+    transformer_S * params.station.numberApproaches;
   // В методе там что-то что-то при кодировании 50 Гц и 25 Гц, лучше посмотреть
 
   // Дешифраторные ячейки
@@ -309,11 +325,128 @@ function coddingRelay(params) {
   );
 
   params.coddingRelay.powerFromDecryptingDevice =
-    decryptingDevice_S * params.numberApproaches;
-  // Там что-то тоже написано после этой формулы, лучше посмотреть и понять что там написано.
+    decryptingDevice_S * params.station.numberApproaches;
+}
 
-  // АЛС-ЕН
-  // Саня хотел что то надумать, но прочитав методу, он нифига не понял что надо делать с этим АЛС-ЕН
+// Стрелочные электроприводы
+function driveElectric(params) {
+  // Контроль цепей и УТС
+  params.driveElectric = new Object();
+  const controlCircutsAndUTS = 9.3;
+  params.driveElectric.powerFromDeviceControl =
+    controlCircutsAndUTS * (params.station.drive - params.station.dualDrive);
+
+  // Стрелки двойного управления
+  const powerDeviceTransmitter = 10,
+    cosDeviceTransmitter = 0.8;
+  params.driveElectric.trasmitterDevice_S = params.station.dualWays
+    ? powerDeviceTransmitter
+    : 0;
+
+  // Рабочие стрелки постоянного (переменного тока) и УТС
+  const powerDriveElectric = 742;
+  let numberSwitchesDrive =
+    params.station.drive <= 60
+      ? 4
+      : params.station.drive > 60 && params.station.drive <= 100
+      ? 6
+      : 8;
+  params.station.stopDevice ? numberSwitchesDrive++ : numberSwitchesDrive;
+  params.driveElectric.drive = powerDriveElectric * numberSwitchesDrive;
+
+  // Электрообогрев
+  if (
+    params.station.climateZone == "Средняя" ||
+    params.station.climateZone == "Суровая"
+  ) {
+    const powerFromHeating = 50;
+    params.driveElectric.powerFromHeating =
+      powerFromHeating * params.station.drive;
+  }
+
+  // Пневмоочистка стрелок
+  if (params.station.snowDrift) {
+    params.driveElectric.pneumoCleaningDrive = Math.sqrt(13 ** 2 + 47 ** 2);
+  }
+
+  for (const key in params.driveElectric) {
+    if (Object.prototype.hasOwnProperty.call(params.driveElectric, key)) {
+      const element = Math.round(params.driveElectric[key] * 100) / 10;
+    }
+  }
+}
+
+// Постовые цепи
+function postsCircuts(params) {
+  params.postCircuts = new Object();
+
+  // Комплекс технических средств управления и контроля КТС УК системы ЭЦ-МПК.
+  const numberKTS_UK =
+    params.station.drive >= 40
+      ? 1
+      : params.station.drive >= 41 && params.station.drive <= 80
+      ? 2
+      : 3;
+  params.postCircuts.powerComplex = numberKTS_UK * 150;
+
+  // Управляющий вычислительный комплекс УВК РА системы ЭЦ-ЕМ
+  const powerFromCPU = 118.6;
+  const powerFromUSO24min = 62.5;
+  const powerFromUSO_in_out = 61.5;
+}
+
+function createTable(params) {
+  // Сигналы
+  const tableResultRouteSigns = document.getElementById(
+      "tableResultRouteSigns"
+    ),
+    powerRouteSign = document.getElementsByClassName("powerRouteSign"),
+    startEntranceSignal = document.getElementById("startEntranceSignal"),
+    resultEntranceSignalP = document.getElementById("resultEntranceSignalP"),
+    resultEntranceSignalQ = document.getElementById("resultEntranceSignalQ"),
+    resultEntranceSignalS = document.getElementById("resultEntranceSignalS"),
+    startDepartManSignal = document.getElementById("startDepart-manSignal"),
+    resultDepartManSignalP = document.getElementById("resultDepart-manSignalP"),
+    resultDepartManSignalQ = document.getElementById("resultDepart-manSignalQ"),
+    resultDepartManSignalS = document.getElementById("resultDepart-manSignalS"),
+    startRouteSigns = document.getElementById("startRouteSigns"),
+    resultRouteSignsPS = document.getElementsByClassName("resultRouteSignsPS"),
+    startRSH = document.getElementById("startRSH"),
+    resultRSHP = document.getElementById("resultRSHP"),
+    resultRSHQ = document.getElementById("resultRSHQ"),
+    resultRSHS = document.getElementById("resultRSHS");
+
+  tableResultRouteSigns.textContent =
+    params.station.routeSigns == "Светодиодные"
+      ? "Светодиодные маршрутные указатели"
+      : "Ламповые маршрутные указатели";
+  for (let index = 0; index < powerRouteSign.length; index++) {
+    powerRouteSign[index].textContent = params.mathload.lightDiodTotalPS
+      ? params.mathload.lightDiodPS
+      : params.mathload.lampsPS;
+  }
+
+  startEntranceSignal.textContent = params.station.entranceSignal;
+  resultEntranceSignalP.textContent = params.mathload.entranceSignalTotalP;
+  resultEntranceSignalQ.textContent = params.mathload.entranceSignalTotalQ;
+  resultEntranceSignalS.textContent = params.mathload.entranceSignalTotalS;
+
+  startDepartManSignal.textContent = params.mathload.departManSignal;
+  resultDepartManSignalP.textContent = params.mathload.departManSignalTotalP;
+  resultDepartManSignalQ.textContent = params.mathload.departManSignalTotalQ;
+  resultDepartManSignalS.textContent = params.mathload.departManSignalTotalS;
+
+  startRouteSigns.textContent = params.mathload.routeSignsNumbers;
+  for (let index = 0; index < resultRouteSignsPS.length; index++) {
+    resultRouteSignsPS[index].textContent = params.mathload.lightDiodTotalPS
+      ? params.mathload.lightDiodTotalPS
+      : params.mathload.lampsTotalPS;
+  }
+
+  startRSH.innerHTML = `${params.station.numberApproaches}<br />${params.station.numberApproaches}<br />1`;
+  resultRSHP.innerHTML = `${params.mathload.rta1TotalP}<br />${params.mathload.haetingTotalP}<br />${params.mathload.lightTotalP}`;
+  resultRSHQ.innerHTML = `${params.mathload.rta1TotalQ}<br />${params.mathload.haetingTotalQ}<br />-`;
+  resultRSHS.innerHTML = `${params.mathload.rta1TotalS}<br />${params.mathload.haetingTotalS}<br />${params.mathload.lightTotalS}`;
 }
 
 buttonResult.addEventListener("click", () => {
@@ -326,15 +459,21 @@ buttonResult.addEventListener("click", () => {
     mathLoad(body);
     mathRelay(body);
     coddingRelay(body);
+    driveElectric(body);
+    postsCircuts(body);
+    createTable(body);
+    tableResult.classList.add("visible");
+    tableResult.classList.remove("hidden");
+    // Включение таблицы
   } else if (deviceCos.value > 1) {
     body = {};
     countError();
-    console.log(errors);
+    // console.log(errors);
     deviceCos.classList.add("errorInput");
   } else {
     body = {};
     countError();
-    console.log(errors);
+    // console.log(errors);
   }
   if (errors.length == 0) {
     errorWindow.classList.remove("visible");
@@ -344,7 +483,7 @@ buttonResult.addEventListener("click", () => {
     errorWindow.classList.remove("hidden");
   }
 
-  console.log(body);
+  // console.log(body);
 });
 
 const closeSign = document.getElementById("close-sign");

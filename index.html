@@ -402,7 +402,6 @@
                   <option value="Теплая" class="text">Теплая</option>
                   <option value="Средняя" class="text">Средняя</option>
                   <option value="Суровая" class="text">Суровая</option>
-                  <option value="Теплая" class="text">Теплая</option>
                 </select>
               </td>
             </tr>
@@ -503,11 +502,652 @@
             </tr>
           </table>
         </div>
-        <button type="button" id="result">Кнопка</button>
+        <button type="button" id="result" class="buttonResult">Кнопка</button>
+
+        <!-- Итоговая таблица -->
+        <table class="tableResult visible" id="tableResult">
+          <tr>
+            <td rowspan="2"><span>№ п/п</span></td>
+            <td rowspan="2"><span>Наименование нагрузки</span></td>
+            <td rowspan="2"><span>Единица измерения</span></td>
+            <td colspan="3"><span>Мощность на единицу</span></td>
+            <td rowspan="2">
+              <span>Кол-во одновременно работающих единиц</span>
+            </td>
+            <td colspan="3"><span>Общая мощность</span></td>
+            <td rowspan="2"><span>Фаза подключения нагрузки</span></td>
+            <td rowspan="2"><span>Примечание</span></td>
+          </tr>
+          <tr>
+            <td><span>P, Вт</span></td>
+            <td><span>Q, ВАр</span></td>
+            <td><span>S, ВА</span></td>
+            <td><span>P, Вт</span></td>
+            <td><span>Q, ВАр</span></td>
+            <td><span>S, ВА</span></td>
+          </tr>
+          <tr>
+            <td><span class="bold">1.</span></td>
+            <td colspan="11"><span class="bold">Сигналы</span></td>
+          </tr>
+          <tr>
+            <td><span>1.1</span></td>
+            <td><span>Светофоры входные</span></td>
+            <td><span>лампа</span></td>
+            <td><span>31,0</span></td>
+            <td><span>11,3</span></td>
+            <td><span>33,0</span></td>
+            <td><span id="startEntranceSignal"></span></td>
+            <td><span id="resultEntranceSignalP"></span></td>
+            <td><span id="resultEntranceSignalQ"></span></td>
+            <td><span id="resultEntranceSignalS"></span></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>1.2</span></td>
+            <td><span>Светофоры выходные и маневровые</span></td>
+            <td><span>лампа</span></td>
+            <td><span>21,0</span></td>
+            <td><span>6,8</span></td>
+            <td><span>22,0</span></td>
+            <td><span id="startDepart-manSignal"></span></td>
+            <td><span id="resultDepart-manSignalP"></span></td>
+            <td><span id="resultDepart-manSignalQ"></span></td>
+            <td><span id="resultDepart-manSignalS"></span></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>1.3</span></td>
+            <td><span id="tableResultRouteSigns"></span></td>
+            <td><span>индикатор</span></td>
+            <td><span class="powerRouteSign"></span></td>
+            <td><span>-</span></td>
+            <td><span class="powerRouteSign"></span></td>
+            <td><span id="startRouteSigns"></span></td>
+            <td><span class="resultRouteSignsPS"></span></td>
+            <td><span id="resultRouteSignsQ">-</span></td>
+            <td><span class="resultRouteSignsPS"></span></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>1.4</td>
+            <td>РШ входных светофоров</td>
+            <td>РТА1 обогр. освещ.</td>
+            <td>
+              <span>228,0<br />30,0<br />115,0</span>
+            </td>
+            <td>
+              <span>46,2<br />8,8<br />-</span>
+            </td>
+            <td>
+              <span>232,6<br />31,3<br />115,0</span>
+            </td>
+            <td><span id="startRSH"></span></td>
+            <td><span id="resultRSHP"></span></td>
+            <td><span id="resultRSHQ"></span></td>
+            <td><span id="resultRSHS"></span></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="bold">2.</span></td>
+            <td colspan="11"><span class="bold">Рельсовые цепи</span></td>
+          </tr>
+          <tr>
+            <td><span>2.1</span></td>
+            <td><span>Местные элементы РЦ 25Гц (релейный конец)</span></td>
+            <td><span>путь</span></td>
+            <td><span>2,44</span></td>
+            <td><span>7,5</span></td>
+            <td><span>7,9</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>2.2</span></td>
+            <td>
+              <span
+                >Путевые элементы РЦ 25Гц (питающий конец) при электрической
+                тяге ~I</span
+              >
+            </td>
+            <td><span>путь</span></td>
+            <td><span>31,5</span></td>
+            <td><span>14,8</span></td>
+            <td><span>34,8</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>2.3</span></td>
+            <td><span>ПЧ50/25-300 (при одиночном включении)</span></td>
+            <td><span>1шт.</span></td>
+            <td><span>430</span></td>
+            <td><span>770</span></td>
+            <td><span>880</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>2.4</span></td>
+            <td>
+              <span>ПЧ50/25-300 (при попарно противофазном включении)</span>
+            </td>
+            <td><span>2шт.</span></td>
+            <td><span>860</span></td>
+            <td><span>1140</span></td>
+            <td><span>1430</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="bold">3</span></td>
+            <td colspan="11"><span class="bold">Кодирование</span></td>
+          </tr>
+          <tr>
+            <td><span>3.1</span></td>
+            <td>
+              <span>АЛСН (пути), при L=1000 м<sup>5</sup></span>
+            </td>
+            <td><span>путь</span></td>
+            <td><span>15</span></td>
+            <td><span>12</span></td>
+            <td><span>19</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>3.2</span></td>
+            <td>
+              <span>АЛСН (маршруты), при L=300 м<sup>5</sup></span>
+            </td>
+            <td><span>секция</span></td>
+            <td><span>7</span></td>
+            <td><span>11</span></td>
+            <td><span>13</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>3.3</span></td>
+            <td><span>Питание ТШ, КПТШ</span></td>
+            <td><span>станция</span></td>
+            <td><span>88,0</span></td>
+            <td><span>66,0</span></td>
+            <td><span>110,0</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>3.4</span></td>
+            <td><span>Дешифр. ячейки</span></td>
+            <td><span>подход</span></td>
+            <td><span>16,6</span></td>
+            <td><span>16,8</span></td>
+            <td><span>23,6</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>3.5</span></td>
+            <td><span>Кодирующие трансформаторы</span></td>
+            <td><span>подход</span></td>
+            <td><span>22</span></td>
+            <td><span>76</span></td>
+            <td><span>79,1</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="bold">4</span></td>
+            <td colspan="11"><span>Рабочие цепи СЭП</span></td>
+          </tr>
+          <tr>
+            <td><span>4.1</span></td>
+            <td><span>Рабочие цепи стрелок и УТС</span></td>
+            <td><span>стр.</span></td>
+            <td><span>534</span></td>
+            <td><span>515</span></td>
+            <td><span>742</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>4.2</span></td>
+            <td><span>Стрелки двойного управления</span></td>
+            <td><span>стр.</span></td>
+            <td><span>8</span></td>
+            <td><span>6</span></td>
+            <td><span>10</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>4.3</span></td>
+            <td><span>Контрольные цепи стрелок и УТС</span></td>
+            <td><span>комплект.</span></td>
+            <td><span>7,7</span></td>
+            <td><span>5,3</span></td>
+            <td><span>9,3</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- Пустые -->
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="bold">5.</span></td>
+            <td colspan="11"><span class="bold">Постовые 24 В</span></td>
+          </tr>
+          <tr>
+            <td><span>5.1</span></td>
+            <td><span>Реле П-М (0,34 А х 28 В)</span></td>
+            <td><span>стр.</span></td>
+            <td><span>7,7</span></td>
+            <td><span>-</span></td>
+            <td><span>7,7</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>5.2</span></td>
+            <td><span>КТС УК</span></td>
+            <td><span>комплект</span></td>
+            <td><span>150,0</span></td>
+            <td><span>-</span></td>
+            <td><span>150,0</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>5.3</span></td>
+            <td><span>ДЦ «СЕТУНЬ»</span></td>
+            <td><span>комплект</span></td>
+            <td><span>96,0</span></td>
+            <td><span>-</span></td>
+            <td><span>96,0</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>6.</span></td>
+            <td colspan="11"><span>Внепостовые 24 В</span></td>
+          </tr>
+          <tr>
+            <td><span>6.1</span></td>
+            <td><span>Внепостовые цепи ЛП-ЛМ</span></td>
+            <td><span>станция</span></td>
+            <td><span>72,0</span></td>
+            <td><span>-</span></td>
+            <td><span>72,0</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>6.2</span></td>
+            <td><span>Ограждение составов</span></td>
+            <td><span>путь</span></td>
+            <td><span>2,16</span></td>
+            <td><span>-</span></td>
+            <td><span>2,16</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="bold">7.</span></td>
+            <td colspan="11"><span class="bold">Внепостовые 220 В</span></td>
+          </tr>
+          <tr>
+            <td><span>7.1</span></td>
+            <td><span>РШ охраняемого переезда</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>7.2</span></td>
+            <td>
+              <span>Потери в трансформаторах (10% при 80% загрузки)</span>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="bold">8.</span></td>
+            <td colspan="11">
+              <span>НЕИЗОЛИРОВАННЫЕ БЕСПЕРЕБОЙНЫЕ НАГРУЗКИ -220 В</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span>8.1</span></td>
+            <td><span>Постовые 220 В</span></td>
+            <td><span>комплект</span></td>
+            <td><span>850,0</span></td>
+            <td><span>637,5</span></td>
+            <td><span>1062,5</span></td>
+            <td><span></span></td>
+            <td><span></span></td>
+            <td><span></span></td>
+            <td><span></span></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>8.2</span></td>
+            <td><span>АРМ ДСП</span></td>
+            <td><span>комплект</span></td>
+            <td><span>320,0</span></td>
+            <td><span>240,0</span></td>
+            <td><span>400,0</span></td>
+            <td><span></span></td>
+            <td><span></span></td>
+            <td><span></span></td>
+            <td><span></span></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>8.2</span></td>
+            <td><span>АРМ ШН</span></td>
+            <td><span>комплект</span></td>
+            <td><span>320,0 </span></td>
+            <td><span>240,0</span></td>
+            <td><span>400,0</span></td>
+            <td><span></span></td>
+            <td><span></span></td>
+            <td><span></span></td>
+            <td><span></span></td>
+            <td><span></span></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span>8.2</span></td>
+            <td><span>АДК-ДК</span></td>
+            <td><span>комплект</span></td>
+            <td><span>800,0</span></td>
+            <td><span>600,0</span></td>
+            <td><span>1000,0</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
 
         <details>
           <summary>Расчеты</summary>
-          <p>Тут должны быть расчеты, но пока их нет...</p>
+          <div></div>
         </details>
       </div>
     </main>
