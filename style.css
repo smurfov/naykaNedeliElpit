@@ -31,6 +31,10 @@ body {
   text-align: center;
 }
 
+.left {
+  text-align: left !important;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -100,9 +104,6 @@ table td input {
 .station__title {
 }
 .station__table {
-}
-.station__table td:nth-child(2) {
-  text-align: center;
 }
 .station__table td:nth-child(1) {
   width: 30%;
@@ -181,10 +182,6 @@ table td input {
 
 .tableResult tr td {
   text-align: center;
-}
-
-.tableResult tr td:nth-child(2) {
-  text-align: left;
 }
 
 @media screen and (max-width: 640px) {

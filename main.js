@@ -7,104 +7,105 @@ const buttonResult = document.getElementById("result");
 const tableResult = document.getElementById("tableResult");
 
 // Создание объекта который хранит данные которые ввел пользователь на самом сайте
-function build(a) {
+function build(params) {
   // Выбор рода тяги
-  a.rodTagi = new Object();
-  a.rodTagi.name = document.getElementById("rodTagi-list").value;
+  params.rodTagi = new Object();
+  params.rodTagi.name = document.getElementById("rodTagi-list").value;
 
   // Внешнее электроснабжение
-  a.vneshneeEletrosnabzhenie = new Object();
-  a.vneshneeEletrosnabzhenie.vidIsochnikaOsnovnoy = document.getElementById(
-    "vid-istochnika-osnovnoy"
-  ).value;
-  a.vneshneeEletrosnabzhenie.voltageOsnovnoy = Number(
+  params.vneshneeEletrosnabzhenie = new Object();
+  params.vneshneeEletrosnabzhenie.vidIsochnikaOsnovnoy =
+    document.getElementById("vid-istochnika-osnovnoy").value;
+  params.vneshneeEletrosnabzhenie.voltageOsnovnoy = Number(
     document.getElementById("voltage-onovnoy").value
   );
-  a.vneshneeEletrosnabzhenie.vidIsochnikaReserv = document.getElementById(
+  params.vneshneeEletrosnabzhenie.vidIsochnikaReserv = document.getElementById(
     "vid-istochnika-reserv"
   ).value;
-  a.vneshneeEletrosnabzhenie.voltageReserv = Number(
+  params.vneshneeEletrosnabzhenie.voltageReserv = Number(
     document.getElementById("voltage-reserv").value
   );
 
   // Характеристика станции
-  a.station = new Object();
-  a.station.drive = Number(document.getElementById("drive").value);
-  a.station.dualDrive = Number(document.getElementById("dual-drive").value);
+  params.station = new Object();
+  params.station.drive = Number(document.getElementById("drive").value);
+  params.station.dualDrive = Number(
+    document.getElementById("dual-drive").value
+  );
   if (document.getElementById("dual-ways").value == "+") {
-    a.station.dualWays = true;
+    params.station.dualWays = true;
   } else {
-    a.station.dualWays = false;
+    params.station.dualWays = false;
   }
-  a.station.numberOfLines = Number(
+  params.station.numberOfLines = Number(
     document.getElementById("number-of-lines").value
   );
   if (document.getElementById("stop-device").value == "+") {
-    a.station.stopDevice = true;
+    params.station.stopDevice = true;
   } else {
-    a.station.stopDevice = false;
+    params.station.stopDevice = false;
   }
   if (document.getElementById("manevor-work").value == "+") {
-    a.station.manevorWork = true;
+    params.station.manevorWork = true;
   } else {
-    a.station.manevorWork = false;
+    params.station.manevorWork = false;
   }
   if (document.getElementById("pereezdnaya-signalitation").value == "+") {
-    a.station.pereezdnayaSignalitation = true;
+    params.station.pereezdnayaSignalitation = true;
   } else {
-    a.station.pereezdnayaSignalitation = false;
+    params.station.pereezdnayaSignalitation = false;
   }
-  a.station.numberApproaches = Number(
+  params.station.numberApproaches = Number(
     document.getElementById("number-approaches").value
   );
-  a.station.entranceSignal = Number(
+  params.station.entranceSignal = Number(
     document.getElementById("entrance-signal").value
   );
-  a.station.departureSignal = Number(
+  params.station.departureSignal = Number(
     document.getElementById("departure-signal").value
   );
-  a.station.shuntingDwarf = Number(
+  params.station.shuntingDwarf = Number(
     document.getElementById("shunting-dwarf").value
   );
-  a.station.garantePowerDevice = new Object();
-  a.station.garantePowerDevice.power = Number(
+  params.station.garantePowerDevice = new Object();
+  params.station.garantePowerDevice.power = Number(
     document.getElementById("device-power").value
   );
-  a.station.garantePowerDevice.cos = Number(deviceCos.value);
-  a.station.routeSigns = document.getElementById("route-signs").value;
-  a.station.routeSignsNumbers = Number(
+  params.station.garantePowerDevice.cos = Number(deviceCos.value);
+  params.station.routeSigns = document.getElementById("route-signs").value;
+  params.station.routeSignsNumbers = Number(
     document.getElementById("number-of-route-signs").value
   );
   if (document.getElementById("dispecher-control").value == "+") {
-    a.station.dispecherControl = true;
+    params.station.dispecherControl = true;
   } else {
-    a.station.dispecherControl = false;
+    params.station.dispecherControl = false;
   }
   if (document.getElementById("snow-drift").value == "+") {
-    a.station.snowDrift = true;
+    params.station.snowDrift = true;
   } else {
-    a.station.snowDrift = false;
+    params.station.snowDrift = false;
   }
-  a.station.climateZone = document.getElementById("climate-zone").value;
+  params.station.climateZone = document.getElementById("climate-zone").value;
 
   // Гарантированные и не гарантированные нагрузки
-  a.garantAndNotgarantLoad = new Object();
-  a.garantAndNotgarantLoad.connection = Number(
+  params.garantAndNotgarantLoad = new Object();
+  params.garantAndNotgarantLoad.connection = Number(
     document.getElementById("connection-input").value
   );
-  a.garantAndNotgarantLoad.lightRelay = Number(
+  params.garantAndNotgarantLoad.lightRelay = Number(
     document.getElementById("light-relay").value
   );
-  a.garantAndNotgarantLoad.conditionalDevice = Number(
+  params.garantAndNotgarantLoad.conditionalDevice = Number(
     document.getElementById("conditional-device").value
   );
-  a.garantAndNotgarantLoad.heatingDga = Number(
+  params.garantAndNotgarantLoad.heatingDga = Number(
     document.getElementById("heating-dga").value
   );
-  a.garantAndNotgarantLoad.totalLights = Number(
+  params.garantAndNotgarantLoad.totalLights = Number(
     document.getElementById("total-lights").value
   );
-  a.garantAndNotgarantLoad.powerEquipment = Number(
+  params.garantAndNotgarantLoad.powerEquipment = Number(
     document.getElementById("power-equipment").value
   );
 }
@@ -166,9 +167,9 @@ function countError() {
 }
 
 // Расчет мощности нагрузок бесперебойного питания
-function mathLoad(element) {
+function mathLoad(params) {
   // Signals data
-  element.mathload = new Object();
+  params.mathload = new Object();
   const entranceSignalP = 31,
     entranceSignalQ = 11.3,
     entranceSignalS = 33,
@@ -182,119 +183,122 @@ function mathLoad(element) {
     heatingQ = 8.8,
     heatingS = 31.3,
     lightsPS = 115;
-  element.mathload.lampsPS = 25;
-  element.mathload.lightDiodPS = 15;
+  params.mathload.lampsPS = 25;
+  params.mathload.lightDiodPS = 15;
 
   // math enterece
-  element.mathload.entranceSignalTotalP =
-    entranceSignalP * element.station.entranceSignal;
-  element.mathload.entranceSignalTotalQ =
-    entranceSignalQ * element.station.entranceSignal;
-  element.mathload.entranceSignalTotalS =
-    entranceSignalS * element.station.entranceSignal;
+  params.mathload.entranceSignalTotalP =
+    entranceSignalP * params.station.entranceSignal;
+  params.mathload.entranceSignalTotalQ =
+    entranceSignalQ * params.station.entranceSignal;
+  params.mathload.entranceSignalTotalS =
+    entranceSignalS * params.station.entranceSignal;
 
   // math depart_manSignal
-  element.mathload.departManSignal =
-    element.station.departureSignal + element.station.shuntingDwarf;
-  element.mathload.departManSignalTotalP =
-    depart_manSignalP * element.mathload.departManSignal;
-  element.mathload.departManSignalTotalQ =
-    depart_manSignalQ * element.mathload.departManSignal;
-  element.mathload.departManSignalTotalS =
-    depart_manSignalS * element.mathload.departManSignal;
+  params.mathload.departManSignal =
+    params.station.departureSignal + params.station.shuntingDwarf;
+  params.mathload.departManSignalTotalP =
+    depart_manSignalP * params.mathload.departManSignal;
+  params.mathload.departManSignalTotalQ =
+    depart_manSignalQ * params.mathload.departManSignal;
+  params.mathload.departManSignalTotalS =
+    depart_manSignalS * params.mathload.departManSignal;
 
   // math signals
-  if (element.station.routeSigns == "Светодиодные") {
-    element.mathload.lightDiodTotalPS =
-      element.mathload.lightDiodPS * element.station.routeSignsNumbers;
-    // console.log(lightDiodPS, element.station.routeSignsNumbers, element.mathLoad.lightDiodTotalPS);
+  if (params.station.routeSigns == "Светодиодные") {
+    params.mathload.lightDiodTotalPS =
+      params.mathload.lightDiodPS * params.station.routeSignsNumbers;
+    // console.log(lightDiodPS, params.station.routeSignsNumbers, params.mathLoad.lightDiodTotalPS);
   } else {
-    element.mathload.lampsTotalPS =
-      element.mathload.lampsPS * element.station.routeSignsNumbers;
+    params.mathload.lampsTotalPS =
+      params.mathload.lampsPS * params.station.routeSignsNumbers;
   }
 
   // math rta1
-  element.mathload.rta1TotalP = rta1P * element.station.numberApproaches;
-  element.mathload.rta1TotalQ = rta1Q * element.station.numberApproaches;
-  element.mathload.rta1TotalS = rta1S * element.station.numberApproaches;
+  params.mathload.rta1TotalP = rta1P * params.station.numberApproaches;
+  params.mathload.rta1TotalQ = rta1Q * params.station.numberApproaches;
+  params.mathload.rta1TotalS = rta1S * params.station.numberApproaches;
 
   // math heating
-  element.mathload.haetingTotalP = heatingP * element.station.numberApproaches;
-  element.mathload.haetingTotalQ = heatingQ * element.station.numberApproaches;
-  element.mathload.haetingTotalS = heatingS * element.station.numberApproaches;
+  params.mathload.haetingTotalP = heatingP * params.station.numberApproaches;
+  params.mathload.haetingTotalQ = heatingQ * params.station.numberApproaches;
+  params.mathload.haetingTotalS = heatingS * params.station.numberApproaches;
 
   // math chto-to
-  element.mathload.lightTotalP = lightsPS;
-  element.mathload.lightTotalS = lightsPS;
+  params.mathload.lightTotalP = lightsPS;
+  params.mathload.lightTotalS = lightsPS;
   console.log("mathload");
 
-  for (const key in element.mathload) {
-    if (Object.prototype.hasOwnProperty.call(element.mathload, key)) {
-      element.mathload[key] = Math.round(element.mathload[key] * 100) / 100;
+  for (const key in params.mathload) {
+    if (Object.prototype.hasOwnProperty.call(params.mathload, key)) {
+      params.mathload[key] = Math.round(params.mathload[key] * 100) / 100;
       // console.log(obj);
     }
   }
 }
 
 // Расчет рельсовой цепи с преобразователями частоты 25 Гц.
-function mathRelay(element) {
+function mathRelay(params) {
   // Relay data
-  element.mathrelay = new Object();
+  params.mathrelay = new Object();
   const localElement_P = 2.44,
     localElement_Q = 7.5,
-    localElement_S = 7.9;
+    localElement_S = 7.9,
+    powerLocalConvertor = 300,
+    powerWaysConvertor = 280;
 
-  element.mathrelay.localElement_TotalP =
-    localElement_P *
-    (element.station.numberOfLines + 2 * element.station.drive);
-  element.mathrelay.localElement_TotalQ =
-    localElement_Q *
-    (element.station.numberOfLines + 2 * element.station.drive);
-  element.mathrelay.localElement_TotalS =
-    localElement_S *
-    (element.station.numberOfLines + 2 * element.station.drive);
+  params.mathrelay.localElementNumber =
+    params.station.numberOfLines + 2 * params.station.drive;
+  params.mathrelay.localElement_TotalP =
+    localElement_P * params.mathrelay.localElementNumber;
+  params.mathrelay.localElement_TotalQ =
+    localElement_Q * params.mathrelay.localElementNumber;
+  params.mathrelay.localElement_TotalS =
+    localElement_S * params.mathrelay.localElementNumber;
+  params.mathrelay.powerWaysTransformator = Math.sqrt(
+    params.mathrelay.localElement_TotalP ** 2 +
+      params.mathrelay.localElement_TotalQ ** 2
+  );
+  params.mathrelay.numberLocal =
+    params.mathrelay.localElement_TotalS / powerLocalConvertor;
+  params.mathrelay.numberWays =
+    params.mathrelay.powerWaysTransformator / powerWaysConvertor;
 
-  if (element.rodTagi.name == "Электрическая переменного тока") {
+  params.mathrelay.tagaNumber =
+    params.station.numberOfLines + params.station.drive;
+
+  if (params.rodTagi.name == "Электрическая переменного тока") {
     // Значения если род тяги "Электрическая переменного тока"
     const elTagaPerem_P = 31.5,
       elTagaPerem_Q = 14.8,
       elTagaPerem_S = 34.8;
 
-    element.mathrelay.taga_TotalP =
-      elTagaPerem_P * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalQ =
-      elTagaPerem_Q * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalS =
-      elTagaPerem_S * (element.station.numberOfLines + element.station.drive);
-  } else if (element.rodTagi.name == "Электрическая постоянного тока") {
+    params.mathrelay.taga_TotalP = elTagaPerem_P * params.mathrelay.tagaNumber;
+    params.mathrelay.taga_TotalQ = elTagaPerem_Q * params.mathrelay.tagaNumber;
+    params.mathrelay.taga_TotalS = elTagaPerem_S * params.mathrelay.tagaNumber;
+  } else if (params.rodTagi.name == "Электрическая постоянного тока") {
     // Значения если род тяги "Электрическая постоянного тока"
     const elTagaPost_P = 17.2,
       elTagaPost_Q = 12.2,
       elTagaPost_S = 21.1;
 
-    element.mathrelay.taga_TotalP =
-      elTagaPost_P * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalQ =
-      elTagaPost_Q * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalS =
-      elTagaPost_S * (element.station.numberOfLines + element.station.drive);
-  } else if (element.rodTagi.name == "Автономная") {
+    params.mathrelay.taga_TotalP = elTagaPost_P * params.mathrelay.tagaNumber;
+    params.mathrelay.taga_TotalQ = elTagaPost_Q * params.mathrelay.tagaNumber;
+    params.mathrelay.taga_TotalS = elTagaPost_S * params.mathrelay.tagaNumber;
+  } else if (params.rodTagi.name == "Автономная") {
     // Значения если род тяги "Автономная"
     const automatic_P = 16.8,
       automatic_Q = 7.85,
       automatic_S = 18.54;
 
-    element.mathrelay.taga_TotalP =
-      automatic_P * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalQ =
-      automatic_Q * (element.station.numberOfLines + element.station.drive);
-    element.mathrelay.taga_TotalS =
-      automatic_S * (element.station.numberOfLines + element.station.drive);
+    params.mathrelay.taga_TotalP = automatic_P * params.mathrelay.tagaNumber;
+    params.mathrelay.taga_TotalQ = automatic_Q * params.mathrelay.tagaNumber;
+    params.mathrelay.taga_TotalS = automatic_S * params.mathrelay.tagaNumber;
   }
 
-  for (const key in element.mathrelay) {
-    if (Object.prototype.hasOwnProperty.call(element.mathrelay, key)) {
-      element.mathrelay[key] = Math.round(element.mathrelay[key] * 100) / 10;
+  for (const key in params.mathrelay) {
+    if (Object.prototype.hasOwnProperty.call(params.mathrelay, key)) {
+      params.mathrelay[key] = Math.round(params.mathrelay[key] * 100) / 100;
     }
   }
 }
@@ -302,6 +306,28 @@ function mathRelay(element) {
 // Кодирование рельсовых цепей
 function coddingRelay(params) {
   params.coddingRelay = new Object();
+  // АЛСН
+  const alsnLinesP = 15,
+    alsnLinesQ = 12,
+    alsnLinesS = 19,
+    alsnRouteP = 7,
+    alsnRouteQ = 11,
+    alsnRouteS = 13;
+
+  params.coddingRelay.alsnLines_TotalP =
+    alsnLinesP * params.station.numberOfLines;
+  params.coddingRelay.alsnLines_TotalQ =
+    alsnLinesQ * params.station.numberOfLines;
+  params.coddingRelay.alsnLines_TotalS =
+    alsnLinesS * params.station.numberOfLines;
+
+  params.coddingRelay.alsnRoute_TotalP =
+    alsnRouteP * params.station.numberApproaches;
+  params.coddingRelay.alsnRoute_TotalQ =
+    alsnRouteQ * params.station.numberApproaches;
+  params.coddingRelay.alsnRoute_TotalS =
+    alsnRouteS * params.station.numberApproaches;
+
   // Мощноость, потребляемая КПТШ и ТШ
   params.coddingRelay.kptsh_TotalS = 110;
   params.coddingRelay.kptsh_TotalCos = 0.8;
@@ -309,32 +335,57 @@ function coddingRelay(params) {
   // Кодирующий трансформатор 50 Гц.
   const transformer_P = 22,
     transformer_Q = 76;
-  const transformer_S = Math.round(
-    Math.sqrt(transformer_P ** 2 + transformer_Q ** 2)
-  );
+  const transformer_S = Math.sqrt(transformer_P ** 2 + transformer_Q ** 2);
 
-  params.coddingRelay.powerFromCoddingTransformer =
+  params.coddingRelay.powerFromCoddingTransformerS =
     transformer_S * params.station.numberApproaches;
+  params.coddingRelay.powerFromCoddingTransformerP =
+    transformer_P * params.station.numberApproaches;
+  params.coddingRelay.powerFromCoddingTransformerQ =
+    transformer_Q * params.station.numberApproaches;
+
   // В методе там что-то что-то при кодировании 50 Гц и 25 Гц, лучше посмотреть
 
   // Дешифраторные ячейки
   const decryptingDevice_P = 16.6,
     decryptingDevice_Q = 16.8;
-  const decryptingDevice_S = Math.round(
-    Math.sqrt(decryptingDevice_P ** 2 + decryptingDevice_Q ** 2)
+  const decryptingDevice_S = Math.sqrt(
+    decryptingDevice_P ** 2 + decryptingDevice_Q ** 2
   );
 
-  params.coddingRelay.powerFromDecryptingDevice =
+  params.coddingRelay.powerFromDecryptingDeviceS =
     decryptingDevice_S * params.station.numberApproaches;
+  params.coddingRelay.powerFromDecryptingDeviceP =
+    decryptingDevice_P * params.station.numberApproaches;
+  params.coddingRelay.powerFromDecryptingDeviceQ =
+    decryptingDevice_Q * params.station.numberApproaches;
+
+  for (const key in params.coddingRelay) {
+    if (Object.prototype.hasOwnProperty.call(params.coddingRelay, key)) {
+      params.coddingRelay[key] =
+        Math.round(params.coddingRelay[key] * 100) / 100;
+    }
+  }
 }
 
 // Стрелочные электроприводы
 function driveElectric(params) {
   // Контроль цепей и УТС
   params.driveElectric = new Object();
-  const controlCircutsAndUTS = 9.3;
-  params.driveElectric.powerFromDeviceControl =
-    controlCircutsAndUTS * (params.station.drive - params.station.dualDrive);
+  params.driveElectric.controlCircutsAndUTS_S = 9.3;
+  params.driveElectric.controlCircutsAndUTS_P = 7.7;
+  params.driveElectric.controlCircutsAndUTS_Q = 5.3;
+  params.driveElectric.numberDeviceConrtol =
+    params.station.drive - params.station.dualDrive;
+  params.driveElectric.controlCircutsAndUTS_TotalS =
+    params.driveElectric.controlCircutsAndUTS_S *
+    params.driveElectric.numberDeviceConrtol;
+  params.driveElectric.controlCircutsAndUTS_TotalP =
+    params.driveElectric.controlCircutsAndUTS_P *
+    params.driveElectric.numberDeviceConrtol;
+  params.driveElectric.controlCircutsAndUTS_TotalQ =
+    params.driveElectric.controlCircutsAndUTS_Q *
+    params.driveElectric.numberDeviceConrtol;
 
   // Стрелки двойного управления
   const powerDeviceTransmitter = 10,
@@ -344,34 +395,64 @@ function driveElectric(params) {
     : 0;
 
   // Рабочие стрелки постоянного (переменного тока) и УТС
-  const powerDriveElectric = 742;
-  let numberSwitchesDrive =
+  params.driveElectric.powerDriveElectricS = 742;
+  params.driveElectric.powerDriveElectricP = 534;
+  params.driveElectric.powerDriveElectricQ = 515;
+  params.driveElectric.numberSwitchesDrive =
     params.station.drive <= 60
       ? 4
       : params.station.drive > 60 && params.station.drive <= 100
       ? 6
       : 8;
-  params.station.stopDevice ? numberSwitchesDrive++ : numberSwitchesDrive;
-  params.driveElectric.drive = powerDriveElectric * numberSwitchesDrive;
+  params.station.stopDevice
+    ? params.driveElectric.numberSwitchesDrive++
+    : params.driveElectric.numberSwitchesDrive;
+  params.driveElectric.powerDriveElectric_TotalS =
+    params.driveElectric.powerDriveElectricS *
+    params.driveElectric.numberSwitchesDrive;
+  params.driveElectric.powerDriveElectric_TotalP =
+    params.driveElectric.powerDriveElectricP *
+    params.driveElectric.numberSwitchesDrive;
+  params.driveElectric.powerDriveElectric_TotalQ =
+    params.driveElectric.powerDriveElectricQ *
+    params.driveElectric.numberSwitchesDrive;
 
   // Электрообогрев
   if (
     params.station.climateZone == "Средняя" ||
     params.station.climateZone == "Суровая"
   ) {
-    const powerFromHeating = 50;
-    params.driveElectric.powerFromHeating =
-      powerFromHeating * params.station.drive;
+    params.driveElectric.powerFromHeatingS = 50;
+    params.driveElectric.powerFromHeatingP = 45;
+    params.driveElectric.powerFromHeatingQ = 22;
+    params.driveElectric.powerFromHeating_TotalS =
+      params.driveElectric.powerFromHeatingS * params.station.drive;
+    params.driveElectric.powerFromHeating_TotalP =
+      params.driveElectric.powerFromHeatingP * params.station.drive;
+    params.driveElectric.powerFromHeating_TotalQ =
+      params.driveElectric.powerFromHeatingQ * params.station.drive;
   }
 
   // Пневмоочистка стрелок
   if (params.station.snowDrift) {
-    params.driveElectric.pneumoCleaningDrive = Math.sqrt(13 ** 2 + 47 ** 2);
+    params.driveElectric.pneumoCleaningDriveP = 13;
+    params.driveElectric.pneumoCleaningDriveQ = 47;
+    params.driveElectric.pneumoCleaningDriveS = Math.sqrt(
+      params.driveElectric.pneumoCleaningDriveP ** 2 +
+        params.driveElectric.pneumoCleaningDriveQ ** 2
+    );
+    params.driveElectric.pneumoCleaningDrive_TotalS =
+      params.driveElectric.pneumoCleaningDriveS * params.station.drive;
+    params.driveElectric.pneumoCleaningDrive_TotalP =
+      params.driveElectric.pneumoCleaningDriveP * params.station.drive;
+    params.driveElectric.pneumoCleaningDrive_TotalQ =
+      params.driveElectric.pneumoCleaningDriveQ * params.station.drive;
   }
 
   for (const key in params.driveElectric) {
     if (Object.prototype.hasOwnProperty.call(params.driveElectric, key)) {
-      const element = Math.round(params.driveElectric[key] * 100) / 10;
+      params.driveElectric[key] =
+        Math.round(params.driveElectric[key] * 100) / 100;
     }
   }
 }
@@ -395,6 +476,7 @@ function postsCircuts(params) {
   const powerFromUSO_in_out = 61.5;
 }
 
+// Чтоб таблица отображалась
 function createTable(params) {
   // Сигналы
   const tableResultRouteSigns = document.getElementById(
@@ -414,7 +496,53 @@ function createTable(params) {
     startRSH = document.getElementById("startRSH"),
     resultRSHP = document.getElementById("resultRSHP"),
     resultRSHQ = document.getElementById("resultRSHQ"),
-    resultRSHS = document.getElementById("resultRSHS");
+    resultRSHS = document.getElementById("resultRSHS"),
+    startLocalElement = document.getElementById("startLocalElement"),
+    localElement_TotalP = document.getElementById("localElementTotalP"),
+    localElement_TotalQ = document.getElementById("localElementTotalQ"),
+    localElement_TotalS = document.getElementById("localElementTotalS"),
+    startTaga = document.getElementById("startTaga"),
+    tagaTotalP = document.getElementById("tagaTotalP"),
+    tagaTotalQ = document.getElementById("tagaTotalQ"),
+    tagaTotalS = document.getElementById("tagaTotalS"),
+    numberLocal = document.getElementById("numberLocal"),
+    numberWays = document.getElementById("numberWays"),
+    numberApproaches = document.getElementsByClassName("numberApproaches"),
+    numberOfLines = document.getElementsByClassName("numberOfLines"),
+    rodtagi = document.getElementsByClassName("rodtagi"),
+    rotagi2 = document.getElementById("rotagi2"),
+    alsnLinesP = document.getElementById("alsnLinesP"),
+    alsnLinesQ = document.getElementById("alsnLinesQ"),
+    alsnLinesS = document.getElementById("alsnLinesS"),
+    alsnRouteP = document.getElementById("alsnRouteP"),
+    alsnRouteQ = document.getElementById("alsnRouteQ"),
+    alsnRouteS = document.getElementById("alsnRouteS"),
+    decryptingDeviceP = document.getElementById("decryptingDeviceP"),
+    decryptingDeviceQ = document.getElementById("decryptingDeviceQ"),
+    decryptingDeviceS = document.getElementById("decryptingDeviceS"),
+    coddingTransformerP = document.getElementById("coddingTransformerP"),
+    coddingTransformerQ = document.getElementById("coddingTransformerQ"),
+    coddingTransformerS = document.getElementById("coddingTransformerS"),
+    numberDeviceConrtol = document.getElementById("numberDeviceConrtol"),
+    controlCircutsAndUTSTotalP = document.getElementById(
+      "controlCircutsAndUTSTotalP"
+    ),
+    controlCircutsAndUTSTotalQ = document.getElementById(
+      "controlCircutsAndUTSTotalQ"
+    ),
+    controlCircutsAndUTSTotalS = document.getElementById(
+      "controlCircutsAndUTSTotalS"
+    ),
+    numberSwitchesDrive = document.getElementById("numberSwitchesDrive"),
+    powerDriveElectricTotalP = document.getElementById(
+      "powerDriveElectricTotalP"
+    ),
+    powerDriveElectricTotalQ = document.getElementById(
+      "powerDriveElectricTotalQ"
+    ),
+    powerDriveElectricTotalS = document.getElementById(
+      "powerDriveElectricTotalS"
+    );
 
   tableResultRouteSigns.textContent =
     params.station.routeSigns == "Светодиодные"
@@ -436,7 +564,7 @@ function createTable(params) {
   resultDepartManSignalQ.textContent = params.mathload.departManSignalTotalQ;
   resultDepartManSignalS.textContent = params.mathload.departManSignalTotalS;
 
-  startRouteSigns.textContent = params.mathload.routeSignsNumbers;
+  startRouteSigns.textContent = params.station.routeSignsNumbers;
   for (let index = 0; index < resultRouteSignsPS.length; index++) {
     resultRouteSignsPS[index].textContent = params.mathload.lightDiodTotalPS
       ? params.mathload.lightDiodTotalPS
@@ -447,6 +575,170 @@ function createTable(params) {
   resultRSHP.innerHTML = `${params.mathload.rta1TotalP}<br />${params.mathload.haetingTotalP}<br />${params.mathload.lightTotalP}`;
   resultRSHQ.innerHTML = `${params.mathload.rta1TotalQ}<br />${params.mathload.haetingTotalQ}<br />-`;
   resultRSHS.innerHTML = `${params.mathload.rta1TotalS}<br />${params.mathload.haetingTotalS}<br />${params.mathload.lightTotalS}`;
+
+  startLocalElement.textContent = params.mathrelay.localElementNumber;
+  localElement_TotalP.textContent = params.mathrelay.localElement_TotalP;
+  localElement_TotalQ.textContent = params.mathrelay.localElement_TotalQ;
+  localElement_TotalS.textContent = params.mathrelay.localElement_TotalS;
+
+  startTaga.textContent = params.mathrelay.tagaNumber;
+  tagaTotalP.textContent = params.mathrelay.taga_TotalP;
+  tagaTotalQ.textContent = params.mathrelay.taga_TotalQ;
+  tagaTotalS.textContent = params.mathrelay.taga_TotalS;
+
+  numberLocal.textContent = params.mathrelay.numberLocal;
+  numberWays.textContent = params.mathrelay.numberWays;
+
+  for (let index = 0; index < numberApproaches.length; index++) {
+    numberApproaches[index].textContent = params.station.numberApproaches;
+  }
+
+  for (let index = 0; index < numberOfLines.length; index++) {
+    numberOfLines[index].textContent = params.station.numberOfLines;
+  }
+
+  for (let index = 0; index < rodtagi.length; index++) {
+    rodtagi[index].innerHTML =
+      params.rodTagi.name == "Автономная"
+        ? "АТ"
+        : params.rodTagi.name == "Электрическая переменного тока"
+        ? "ЭТ &sim;I"
+        : "ЭТ -I";
+  }
+
+  rotagi2.innerHTML =
+    params.rodTagi.name == "Автономная"
+      ? "автономной тяге"
+      : params.rodTagi.name == "Электрическая переменного тока"
+      ? "электрической тяге &sim;I"
+      : "электрической тяге -I";
+
+  alsnLinesP.textContent = params.coddingRelay.alsnLines_TotalP;
+  alsnLinesQ.textContent = params.coddingRelay.alsnLines_TotalQ;
+  alsnLinesS.textContent = params.coddingRelay.alsnLines_TotalS;
+  alsnRouteP.textContent = params.coddingRelay.alsnRoute_TotalP;
+  alsnRouteQ.textContent = params.coddingRelay.alsnRoute_TotalQ;
+  alsnRouteS.textContent = params.coddingRelay.alsnRoute_TotalS;
+
+  decryptingDeviceP.textContent =
+    params.coddingRelay.powerFromDecryptingDeviceP;
+  decryptingDeviceQ.textContent =
+    params.coddingRelay.powerFromDecryptingDeviceQ;
+  decryptingDeviceS.textContent =
+    params.coddingRelay.powerFromDecryptingDeviceS;
+
+  coddingTransformerP.textContent =
+    params.coddingRelay.powerFromCoddingTransformerP;
+  coddingTransformerQ.textContent =
+    params.coddingRelay.powerFromCoddingTransformerQ;
+  coddingTransformerS.textContent =
+    params.coddingRelay.powerFromCoddingTransformerS;
+
+  numberDeviceConrtol.textContent = params.driveElectric.numberDeviceConrtol;
+  controlCircutsAndUTSTotalP.textContent =
+    params.driveElectric.controlCircutsAndUTS_TotalP;
+  controlCircutsAndUTSTotalQ.textContent =
+    params.driveElectric.controlCircutsAndUTS_TotalQ;
+  controlCircutsAndUTSTotalS.textContent =
+    params.driveElectric.controlCircutsAndUTS_TotalS;
+
+  // добавление строк в таблицу
+  let countRows = 2;
+  params.station.climateZone == "Средняя" ||
+  params.station.climateZone == "Суровая"
+    ? countRows++
+    : countRows;
+  params.station.snowDrift ? countRows++ : countRows;
+  params.station.dualWays ? countRows++ : countRows;
+
+  const trRows = document.getElementById("trRows");
+  let trRowsClass = document.getElementsByClassName("trRows");
+  console.log(trRowsClass.length);
+
+  if (trRowsClass.length > 0) {
+    for (let index = 0; index < trRowsClass.length; index++) {
+      trRowsClass[index].innerHTML = ``;
+    }
+  }
+  let trText = ``;
+  if (
+    params.station.climateZone == "Средняя" ||
+    params.station.climateZone == "Суровая"
+  ) {
+    trText = `
+          <tr class="trRows"><td><span>4.${countRows}</span></td>
+          <td class="left"><span>Электрообогрев</span></td>
+          <td><span>стр.</span></td>
+          <td><span>${params.driveElectric.powerFromHeatingP}</span></td>
+          <td><span>${params.driveElectric.powerFromHeatingQ}</span></td>
+          <td><span>${params.driveElectric.powerFromHeatingS}</span></td>
+          <td><span>${params.station.drive}</span></td>
+          <td><span>${params.driveElectric.powerFromHeating_TotalP}</span></td>
+          <td><span>${params.driveElectric.powerFromHeating_TotalQ}</span></td>
+          <td><span>${params.driveElectric.powerFromHeating_TotalS}</span></td>
+          <!-- Пустые -->
+          <td></td>
+          <td></td></tr>
+          `;
+    countRows--;
+    trRows.insertAdjacentHTML("afterend", trText);
+  }
+  if (params.station.snowDrift) {
+    trText = `
+          <tr class="trRows"><td><span>4.${countRows}</span></td>
+          <td class="left"><span>Пневмоочистка</span></td>
+          <td><span>стр.</span></td>
+          <td><span>${params.driveElectric.pneumoCleaningDriveP}</span></td>
+          <td><span>${params.driveElectric.pneumoCleaningDriveQ}</span></td>
+          <td><span>${params.driveElectric.pneumoCleaningDriveS}</span></td>
+          <td><span>${params.station.drive}</span></td>
+          <td><span>${params.driveElectric.pneumoCleaningDrive_TotalP}</span></td>
+          <td><span>${params.driveElectric.pneumoCleaningDrive_TotalQ}</span></td>
+          <td><span>${params.driveElectric.pneumoCleaningDrive_TotalS}</span></td>
+          <!-- Пустые -->
+          <td></td>
+          <td></td></tr>
+          `;
+    countRows--;
+    trRows.insertAdjacentHTML("afterend", trText);
+  }
+
+  if (params.station.dualWays) {
+    params.station.dualWaysP = 8;
+    params.station.dualWaysQ = 6;
+    params.station.dualWaysS = 10;
+    params.station.dualWaysNumber = 1;
+    trText = `
+        <tr class="trRows"><td><span>4.${countRows}</span></td>
+        <td class="left"><span>Стрелки двойного управления</span></td>
+        <td><span>стр.</span></td>
+        <td><span>${params.station.dualWaysP}</span></td>
+        <td><span>${params.station.dualWaysQ}</span></td>
+        <td><span>${params.station.dualWaysS}</span></td>
+        <td><span>1</span></td>
+        <td><span>${
+          params.station.dualWaysP * params.station.dualWaysNumber
+        }</span></td>
+        <td><span>${
+          params.station.dualWaysQ * params.station.dualWaysNumber
+        }</span></td>
+        <td><span>${
+          params.station.dualWaysS * params.station.dualWaysNumber
+        }</span></td>
+        <!-- Пустые -->
+        <td></td>
+        <td></td></tr>`;
+    countRows--;
+    trRows.insertAdjacentHTML("afterend", trText);
+  }
+
+  numberSwitchesDrive.textContent = params.driveElectric.numberSwitchesDrive;
+  powerDriveElectricTotalP.textContent =
+    params.driveElectric.powerDriveElectric_TotalP;
+  powerDriveElectricTotalQ.textContent =
+    params.driveElectric.powerDriveElectric_TotalQ;
+  powerDriveElectricTotalS.textContent =
+    params.driveElectric.powerDriveElectric_TotalS;
 }
 
 buttonResult.addEventListener("click", () => {
@@ -464,6 +756,8 @@ buttonResult.addEventListener("click", () => {
     createTable(body);
     tableResult.classList.add("visible");
     tableResult.classList.remove("hidden");
+    console.log(body);
+
     // Включение таблицы
   } else if (deviceCos.value > 1) {
     body = {};
