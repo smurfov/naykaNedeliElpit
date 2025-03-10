@@ -24,7 +24,7 @@ body {
 * {
   font-size: 12pt;
   font-family: "Tenor Sans";
-  word-wrap: break-all;
+  overflow-wrap: break-word;
 }
 
 .center {

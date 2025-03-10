@@ -1,19 +1,27 @@
 const deviceCos = document.getElementById("device-cos");
 
-let body = new Object();
+let body = {};
 
 const buttonResult = document.getElementById("result");
 
 const tableResult = document.getElementById("tableResult");
 
+function round(params) {
+  for (const key in params) {
+    if (Object.prototype.hasOwnProperty.call(params, key)) {
+      params[key] = Math.round(params[key] * 100) / 100;
+    }
+  }
+}
+
 // Создание объекта который хранит данные которые ввел пользователь на самом сайте
 function build(params) {
   // Выбор рода тяги
-  params.rodTagi = new Object();
+  params.rodTagi = {};
   params.rodTagi.name = document.getElementById("rodTagi-list").value;
 
   // Внешнее электроснабжение
-  params.vneshneeEletrosnabzhenie = new Object();
+  params.vneshneeEletrosnabzhenie = {};
   params.vneshneeEletrosnabzhenie.vidIsochnikaOsnovnoy =
     document.getElementById("vid-istochnika-osnovnoy").value;
   params.vneshneeEletrosnabzhenie.voltageOsnovnoy = Number(
@@ -27,7 +35,7 @@ function build(params) {
   );
 
   // Характеристика станции
-  params.station = new Object();
+  params.station = {};
   params.station.drive = Number(document.getElementById("drive").value);
   params.station.dualDrive = Number(
     document.getElementById("dual-drive").value
@@ -67,7 +75,7 @@ function build(params) {
   params.station.shuntingDwarf = Number(
     document.getElementById("shunting-dwarf").value
   );
-  params.station.garantePowerDevice = new Object();
+  params.station.garantePowerDevice = {};
   params.station.garantePowerDevice.power = Number(
     document.getElementById("device-power").value
   );
@@ -89,7 +97,7 @@ function build(params) {
   params.station.climateZone = document.getElementById("climate-zone").value;
 
   // Гарантированные и не гарантированные нагрузки
-  params.garantAndNotgarantLoad = new Object();
+  params.garantAndNotgarantLoad = {};
   params.garantAndNotgarantLoad.connection = Number(
     document.getElementById("connection-input").value
   );
@@ -169,7 +177,7 @@ function countError() {
 // Расчет мощности нагрузок бесперебойного питания
 function mathLoad(params) {
   // Signals data
-  params.mathload = new Object();
+  params.mathload = {};
   const entranceSignalP = 31,
     entranceSignalQ = 11.3,
     entranceSignalS = 33,
@@ -227,20 +235,14 @@ function mathLoad(params) {
   // math chto-to
   params.mathload.lightTotalP = lightsPS;
   params.mathload.lightTotalS = lightsPS;
-  console.log("mathload");
 
-  for (const key in params.mathload) {
-    if (Object.prototype.hasOwnProperty.call(params.mathload, key)) {
-      params.mathload[key] = Math.round(params.mathload[key] * 100) / 100;
-      // console.log(obj);
-    }
-  }
+  round(params.mathload);
 }
 
 // Расчет рельсовой цепи с преобразователями частоты 25 Гц.
 function mathRelay(params) {
   // Relay data
-  params.mathrelay = new Object();
+  params.mathrelay = {};
   const localElement_P = 2.44,
     localElement_Q = 7.5,
     localElement_S = 7.9,
@@ -259,10 +261,12 @@ function mathRelay(params) {
     params.mathrelay.localElement_TotalP ** 2 +
       params.mathrelay.localElement_TotalQ ** 2
   );
-  params.mathrelay.numberLocal =
-    Math.ceil(params.mathrelay.localElement_TotalS / powerLocalConvertor);
-  params.mathrelay.numberWays =
-    Math.ceil(params.mathrelay.powerWaysTransformator / powerWaysConvertor);
+  params.mathrelay.numberLocal = Math.ceil(
+    params.mathrelay.localElement_TotalS / powerLocalConvertor
+  );
+  params.mathrelay.numberWays = Math.ceil(
+    params.mathrelay.powerWaysTransformator / powerWaysConvertor
+  );
 
   params.mathrelay.tagaNumber =
     params.station.numberOfLines + params.station.drive;
@@ -299,20 +303,19 @@ function mathRelay(params) {
   params.mathrelay.relayCircutAntiphaseP = 860;
   params.mathrelay.relayCircutAntiphaseQ = 1140;
   params.mathrelay.relayCircutAntiphaseS = 1430;
-  params.mathrelay.relayCircutAntiphase_TotalP = params.mathrelay.relayCircutAntiphaseP * params.station.dualDrive;
-  params.mathrelay.relayCircutAntiphase_TotalQ = params.mathrelay.relayCircutAntiphaseQ * params.station.dualDrive;;
-  params.mathrelay.relayCircutAntiphase_TotalS = params.mathrelay.relayCircutAntiphaseS * params.station.dualDrive;;
+  params.mathrelay.relayCircutAntiphase_TotalP =
+    params.mathrelay.relayCircutAntiphaseP * params.station.dualDrive;
+  params.mathrelay.relayCircutAntiphase_TotalQ =
+    params.mathrelay.relayCircutAntiphaseQ * params.station.dualDrive;
+  params.mathrelay.relayCircutAntiphase_TotalS =
+    params.mathrelay.relayCircutAntiphaseS * params.station.dualDrive;
 
-  for (const key in params.mathrelay) {
-    if (Object.prototype.hasOwnProperty.call(params.mathrelay, key)) {
-      params.mathrelay[key] = Math.round(params.mathrelay[key] * 100) / 100;
-    }
-  }
+  round(params.mathrelay);
 }
 
 // Кодирование рельсовых цепей
 function coddingRelay(params) {
-  params.coddingRelay = new Object();
+  params.coddingRelay = {};
   // АЛСН
   const alsnLinesP = 15,
     alsnLinesQ = 12,
@@ -367,18 +370,20 @@ function coddingRelay(params) {
   params.coddingRelay.powerFromDecryptingDeviceQ =
     decryptingDevice_Q * params.station.numberApproaches;
 
-  for (const key in params.coddingRelay) {
-    if (Object.prototype.hasOwnProperty.call(params.coddingRelay, key)) {
-      params.coddingRelay[key] =
-        Math.round(params.coddingRelay[key] * 100) / 100;
-    }
-  }
+  // for (const key in params.coddingRelay) {
+  //   if (Object.prototype.hasOwnProperty.call(params.coddingRelay, key)) {
+  //     params.coddingRelay[key] =
+  //       Math.round(params.coddingRelay[key] * 100) / 100;
+  //   }
+  // }
+
+  round(params.coddingRelay);
 }
 
 // Стрелочные электроприводы
 function driveElectric(params) {
   // Контроль цепей и УТС
-  params.driveElectric = new Object();
+  params.driveElectric = {};
   params.driveElectric.controlCircutsAndUTS_S = 9.3;
   params.driveElectric.controlCircutsAndUTS_P = 7.7;
   params.driveElectric.controlCircutsAndUTS_Q = 5.3;
@@ -456,17 +461,12 @@ function driveElectric(params) {
       params.driveElectric.pneumoCleaningDriveQ * params.station.drive;
   }
 
-  for (const key in params.driveElectric) {
-    if (Object.prototype.hasOwnProperty.call(params.driveElectric, key)) {
-      params.driveElectric[key] =
-        Math.round(params.driveElectric[key] * 100) / 100;
-    }
-  }
+  round(params.driveElectric);
 }
 
 // Постовые цепи
 function postsCircuts(params) {
-  params.postCircuts = new Object();
+  params.postCircuts = {};
 
   // Комплекс технических средств управления и контроля КТС УК системы ЭЦ-МПК.
   params.postCircuts.numberKTS_UK =
@@ -481,6 +481,8 @@ function postsCircuts(params) {
   const powerFromCPU = 118.6;
   const powerFromUSO24min = 62.5;
   const powerFromUSO_in_out = 61.5;
+
+  round(params.postCircuts);
 }
 
 // Чтоб таблица отображалась
@@ -554,38 +556,41 @@ function createTable(params) {
     relayCircutAntiphaseP = document.getElementById("relayCircutAntiphaseP"),
     relayCircutAntiphaseQ = document.getElementById("relayCircutAntiphaseQ"),
     relayCircutAntiphaseS = document.getElementById("relayCircutAntiphaseS"),
-    relayCircutAntiphaseTotalP = document.getElementById("relayCircutAntiphaseTotalP"),
-    relayCircutAntiphaseTotalQ = document.getElementById("relayCircutAntiphaseTotalQ"),
-    relayCircutAntiphaseTotalS = document.getElementById("relayCircutAntiphaseTotalS"),
+    relayCircutAntiphaseTotalP = document.getElementById(
+      "relayCircutAntiphaseTotalP"
+    ),
+    relayCircutAntiphaseTotalQ = document.getElementById(
+      "relayCircutAntiphaseTotalQ"
+    ),
+    relayCircutAntiphaseTotalS = document.getElementById(
+      "relayCircutAntiphaseTotalS"
+    ),
     relePM = document.getElementsByClassName("relePM"),
     numberKTS_UK = document.getElementsByClassName("numberKTS-UK"),
     KTS_UKPS = document.getElementsByClassName("KTS-UKPS"),
     setynPS = document.getElementsByClassName("setynPS"),
     fencesTrainPS = document.getElementsByClassName("fencesTrainPS");
 
-    for (let index = 0; index < fencesTrainPS.length; index++) {
-      fencesTrainPS[index].textContent = params.station.numberApproaches * 2,16;
-      
-    }
+  for (let index = 0; index < fencesTrainPS.length; index++) {
+    (fencesTrainPS[index].textContent = params.station.numberApproaches * 2),
+      16;
+  }
 
-    for (let index = 0; index < setynPS.length; index++) {
-      setynPS[index].textContent = 1 * 96.0;
-      
-    }
+  for (let index = 0; index < setynPS.length; index++) {
+    setynPS[index].textContent = 1 * 96.0;
+  }
 
-    for (let index = 0; index < numberKTS_UK.length; index++) {
-      numberKTS_UK[index].textContent = params.postCircuts.numberKTS_UK;
-    }
+  for (let index = 0; index < numberKTS_UK.length; index++) {
+    numberKTS_UK[index].textContent = params.postCircuts.numberKTS_UK;
+  }
 
-    for (let index = 0; index < KTS_UKPS.length; index++) {
-      KTS_UKPS[index].textContent = params.postCircuts.numberKTS_UK * 150;
-      
-    }
+  for (let index = 0; index < KTS_UKPS.length; index++) {
+    KTS_UKPS[index].textContent = params.postCircuts.numberKTS_UK * 150;
+  }
 
-    for (let index = 0; index < relePM.length; index++) {
-      relePM[index].textContent = params.station.numberOfLines * 7.7;
-      
-    }
+  for (let index = 0; index < relePM.length; index++) {
+    relePM[index].textContent = params.station.numberOfLines * 7.7;
+  }
 
   tableResultRouteSigns.textContent =
     params.station.routeSigns == "Светодиодные"
@@ -615,18 +620,25 @@ function createTable(params) {
   }
 
   for (let index = 0; index < startRSH.length; index++) {
-    startRSH[index].innerHTML = `${params.station.numberApproaches}<br />${params.station.numberApproaches}<br />1`;
+    startRSH[
+      index
+    ].innerHTML = `${params.station.numberApproaches}<br />${params.station.numberApproaches}<br />1`;
   }
   for (let index = 0; index < resultRSHP.length; index++) {
-    resultRSHP[index].innerHTML = `${params.mathload.rta1TotalP}<br />${params.mathload.haetingTotalP}<br />${params.mathload.lightTotalP}`;
+    resultRSHP[
+      index
+    ].innerHTML = `${params.mathload.rta1TotalP}<br />${params.mathload.haetingTotalP}<br />${params.mathload.lightTotalP}`;
   }
   for (let index = 0; index < resultRSHQ.length; index++) {
-    resultRSHQ[index].innerHTML = `${params.mathload.rta1TotalQ}<br />${params.mathload.haetingTotalQ}<br />-`;
+    resultRSHQ[
+      index
+    ].innerHTML = `${params.mathload.rta1TotalQ}<br />${params.mathload.haetingTotalQ}<br />-`;
   }
   for (let index = 0; index < resultRSHS.length; index++) {
-    resultRSHS[index].innerHTML = `${params.mathload.rta1TotalS}<br />${params.mathload.haetingTotalS}<br />${params.mathload.lightTotalS}`;
+    resultRSHS[
+      index
+    ].innerHTML = `${params.mathload.rta1TotalS}<br />${params.mathload.haetingTotalS}<br />${params.mathload.lightTotalS}`;
   }
-
 
   startLocalElement.textContent = params.mathrelay.localElementNumber;
   localElement_TotalP.textContent = params.mathrelay.localElement_TotalP;
@@ -799,9 +811,12 @@ function createTable(params) {
   relayCircutAntiphaseP.textContent = params.mathrelay.relayCircutAntiphaseP;
   relayCircutAntiphaseQ.textContent = params.mathrelay.relayCircutAntiphaseQ;
   relayCircutAntiphaseS.textContent = params.mathrelay.relayCircutAntiphaseS;
-  relayCircutAntiphaseTotalP.textContent = params.mathrelay.relayCircutAntiphase_TotalP;
-  relayCircutAntiphaseTotalQ.textContent = params.mathrelay.relayCircutAntiphase_TotalQ
-  relayCircutAntiphaseTotalS.textContent = params.mathrelay.relayCircutAntiphase_TotalS
+  relayCircutAntiphaseTotalP.textContent =
+    params.mathrelay.relayCircutAntiphase_TotalP;
+  relayCircutAntiphaseTotalQ.textContent =
+    params.mathrelay.relayCircutAntiphase_TotalQ;
+  relayCircutAntiphaseTotalS.textContent =
+    params.mathrelay.relayCircutAntiphase_TotalS;
 }
 
 buttonResult.addEventListener("click", () => {
