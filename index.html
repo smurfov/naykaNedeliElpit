@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width. initial-scale=1.0" />
     <title>Что-то на науку недели</title>
     <link rel="stylesheet" href="./style.css" />
-    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon" />
   </head>
   <body>
     <!-- Шапка сайта -->
     <header class="header" id="header">
       <div class="container-header">
-        <img src="./img/logo3.png" alt="logo" class="header_logo">
-        <p class="header_title">Расчёт электропитяющей установки поста ЭЦ крупной станции</p>
+        <img src="./img/logo3.png" alt="logo" class="header_logo" />
+        <p class="header_title">
+          Расчёт электропитяющей установки поста ЭЦ крупной станции
+        </p>
       </div>
     </header>
 
@@ -510,7 +512,7 @@
         <button type="button" id="result" class="buttonResult">Кнопка</button>
 
         <!-- Итоговая таблица -->
-        <table class="tableResult visible" id="tableResult">
+        <table class="tableResult hidden" id="tableResult">
           <tr>
             <td rowspan="2"><span>№ п/п</span></td>
             <td rowspan="2"><span>Наименование нагрузки</span></td>
@@ -545,9 +547,13 @@
             <td><span>11.3</span></td>
             <td><span>33.0</span></td>
             <td><span id="startEntranceSignal"></span></td>
-            <td><span id="resultEntranceSignalP"></span></td>
+            <td>
+              <span id="resultEntranceSignalP"></span>
+            </td>
             <td><span id="resultEntranceSignalQ"></span></td>
-            <td><span id="resultEntranceSignalS"></span></td>
+            <td>
+              <span id="resultEntranceSignalS" class="totalPowerS"></span>
+            </td>
             <!-- Пустые -->
             <td></td>
             <td></td>
@@ -560,9 +566,13 @@
             <td><span>6.8</span></td>
             <td><span>22.0</span></td>
             <td><span id="startDepart-manSignal"></span></td>
-            <td><span id="resultDepart-manSignalP"></span></td>
+            <td>
+              <span id="resultDepart-manSignalP"></span>
+            </td>
             <td><span id="resultDepart-manSignalQ"></span></td>
-            <td><span id="resultDepart-manSignalS"></span></td>
+            <td>
+              <span id="resultDepart-manSignalS" class="totalPowerS"></span>
+            </td>
             <!-- Пустые -->
             <td></td>
             <td></td>
@@ -577,7 +587,7 @@
             <td><span id="startRouteSigns"></span></td>
             <td><span class="resultRouteSignsPS"></span></td>
             <td><span id="resultRouteSignsQ">-</span></td>
-            <td><span class="resultRouteSignsPS"></span></td>
+            <td><span class="resultRouteSignsPS totalPowerS"></span></td>
             <!-- Пустые -->
             <td></td>
             <td></td>
@@ -635,7 +645,7 @@
             <td><span id="startLocalElement"></span></td>
             <td><span id="localElementTotalP"></span></td>
             <td><span id="localElementTotalQ"></span></td>
-            <td><span id="localElementTotalS"></span></td>
+            <td><span id="localElementTotalS" class="totalPowerS"></span></td>
             <!-- Пустые -->
             <td></td>
             <td></td>
@@ -655,7 +665,7 @@
             <td><span id="startTaga"></span></td>
             <td><span id="tagaTotalP"></span></td>
             <td><span id="tagaTotalQ"></span></td>
-            <td><span id="tagaTotalS"></span></td>
+            <td><span id="tagaTotalS" class="totalPowerS"></span></td>
             <td></td>
             <td></td>
           </tr>
@@ -668,10 +678,12 @@
             <td><span>430</span></td>
             <td><span>770</span></td>
             <td><span>880</span></td>
-            <td><span>1</span></td>
-            <td><span>430</span></td>
-            <td><span>770</span></td>
-            <td><span>880</span></td>
+            <td><span id="numberAlone"></span></td>
+            <td><span id="relayCircutAloneTotalP"></span></td>
+            <td><span id="relayCircutAloneTotalQ"></span></td>
+            <td>
+              <span id="relayCircutAloneTotalS" class="totalPowerS"></span>
+            </td>
             <!-- Пустые -->
             <td></td>
             <td>
@@ -687,10 +699,14 @@
             <td><span id="relayCircutAntiphaseP">860</span></td>
             <td><span id="relayCircutAntiphaseQ">1140</span></td>
             <td><span id="relayCircutAntiphaseS">1430</span></td>
-            <td><span class="dualDrive"></span></td>
-            <td><span id="relayCircutAntiphaseTotalP"></span></td>
+            <td><span id="numberPairs"></span></td>
+            <td>
+              <span id="relayCircutAntiphaseTotalP"></span>
+            </td>
             <td><span id="relayCircutAntiphaseTotalQ"></span></td>
-            <td><span id="relayCircutAntiphaseTotalS"></span></td>
+            <td>
+              <span id="relayCircutAntiphaseTotalS" class="totalPowerS"></span>
+            </td>
             <td></td>
             <td>
               <span>n<sub>пп</sub> = <span id="numberWays"></span></span>
@@ -706,7 +722,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td><span id="totalPowerS"></span></td>
             <!-- Пустые -->
             <td></td>
             <td></td>
@@ -829,7 +845,9 @@
             <td><span>515</span></td>
             <td><span>742</span></td>
             <td><span id="numberSwitchesDrive"></span></td>
-            <td><span id="powerDriveElectricTotalP"></span></td>
+            <td>
+              <span id="powerDriveElectricTotalP"></span>
+            </td>
             <td><span id="powerDriveElectricTotalQ"></span></td>
             <td><span id="powerDriveElectricTotalS"></span></td>
             <!-- Пустые -->
@@ -844,7 +862,9 @@
             <td><span>5.3</span></td>
             <td><span>9.3</span></td>
             <td><span id="numberDeviceConrtol"></span></td>
-            <td><span id="controlCircutsAndUTSTotalP"></span></td>
+            <td>
+              <span id="controlCircutsAndUTSTotalP"></span>
+            </td>
             <td><span id="controlCircutsAndUTSTotalQ"></span></td>
             <td><span id="controlCircutsAndUTSTotalS"></span></td>
             <!-- Пустые -->
@@ -1016,7 +1036,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td><span id="lostPower"></span></td>
             <td></td>
             <td></td>
           </tr>

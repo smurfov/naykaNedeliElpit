@@ -6,12 +6,20 @@ const buttonResult = document.getElementById("result");
 
 const tableResult = document.getElementById("tableResult");
 
+const n = 2; // макс. кол-во знаков после
+
+const ROUND_NUMBER = 10 ** n; // 10^n
+
 function round(params) {
   for (const key in params) {
     if (Object.prototype.hasOwnProperty.call(params, key)) {
-      params[key] = Math.round(params[key] * 100) / 100;
+      params[key] = Math.round(params[key] * ROUND_NUMBER) / ROUND_NUMBER;
     }
   }
+}
+
+function roundValue(params) {
+  return Math.round(params * ROUND_NUMBER) / ROUND_NUMBER;
 }
 
 // Создание объекта который хранит данные которые ввел пользователь на самом сайте
@@ -124,7 +132,7 @@ function inputEmpty() {
   let input = document.getElementsByTagName("input");
   for (let i = 0; i < input.length; i++) {
     if (input[i].value == "") {
-      // alert("Вы не заполнили все поля");s
+      // alert("Вы не заполнили все поля");
       input[i].classList.add("errorInput");
       inputCount++;
       // break;
@@ -140,35 +148,73 @@ function inputEmpty() {
     return true;
   }
 }
-let empty;
 
-let errors = [];
+function negativeNumber() {
+  let inputCount = 0; // Подсчет пустых полей
+  let input = document.getElementsByTagName("input");
+  for (let i = 0; i < input.length; i++) {
+    if (Number(input[i].value) < 0) {
+      // alert("Вы не заполнили все поля");
+      input[i].classList.add("errorInput");
+      inputCount++;
+      // break;
+    } else {
+      input[i].classList.remove("errorInput");
+    }
+  }
+  // console.log(inputCount); // Проверка значения переменной inputCount
+
+  if (inputCount == 0) {
+    return false; // нет негативных чисел
+  } else {
+    return true; // есть негативные числа
+  }
+}
+
 const errorWindow = document.getElementById("error-window");
-function countError() {
+function countError(params) {
+  // let empty = inputEmpty(); // Переменная которая указывает на то, пустые ли поля (false = все поля заполненны, true = есть пустые поля)
+  let negative = negativeNumber();
   const errorWindowList = document.querySelectorAll(".error-window__list");
   if (errorWindowList.length >= 1) {
     for (let i = 0; i < errorWindowList.length; i++) {
       errorWindowList[i].remove();
     }
   }
+
   const ol = document.createElement("ol");
   errorWindow.appendChild(ol);
   let pointOfList = document.getElementsByClassName(
     "error-window__list__point"
   );
+
   for (let i = 0; i < pointOfList.length; i++) {
     pointOfList[i].remove();
   }
-  if (empty) {
-    errors.push("Есть пустые поля");
+  if (inputEmpty()) {
+    params.push("Есть пустые поля");
   }
-  if (deviceCos.value > 1) {
-    errors.push("Значение cos φ не может быть больше 1.");
+  if (negative) {
+    params.push("В исходных данных есть отрицательные числа.");
   }
-  for (let i = 0; i < errors.length; i++) {
+  const deviceCosValue = deviceCos.value;
+  // console.log(deviceCosValue);
+
+  if (deviceCosValue == "") {
+    deviceCos.classList.add("errorInput");
+  } else if (deviceCosValue <= 1 && deviceCosValue >= 0) {
+    deviceCos.classList.remove("errorInput");
+  } else if (deviceCosValue > 1) {
+    deviceCos.classList.add("errorInput");
+    params.push("Значение cos φ не может быть больше 1.");
+  } else if (deviceCosValue < 0) {
+    deviceCos.classList.add("errorInput");
+    params.push("Значение cos φ не может быть меньше 0.");
+  }
+  for (let i = 0; i < params.length; i++) {
     ol.classList.add("error-window__list");
     const li = document.createElement("li");
-    li.textContent = errors[i];
+    li.textContent = params[i];
     li.classList.add("error-window__list__point");
     ol.appendChild(li);
   }
@@ -243,30 +289,6 @@ function mathLoad(params) {
 function mathRelay(params) {
   // Relay data
   params.mathrelay = {};
-  const localElement_P = 2.44,
-    localElement_Q = 7.5,
-    localElement_S = 7.9,
-    powerLocalConvertor = 300,
-    powerWaysConvertor = 280;
-
-  params.mathrelay.localElementNumber =
-    params.station.numberOfLines + 2 * params.station.drive;
-  params.mathrelay.localElement_TotalP =
-    localElement_P * params.mathrelay.localElementNumber;
-  params.mathrelay.localElement_TotalQ =
-    localElement_Q * params.mathrelay.localElementNumber;
-  params.mathrelay.localElement_TotalS =
-    localElement_S * params.mathrelay.localElementNumber;
-  params.mathrelay.powerWaysTransformator = Math.sqrt(
-    params.mathrelay.localElement_TotalP ** 2 +
-      params.mathrelay.localElement_TotalQ ** 2
-  );
-  params.mathrelay.numberLocal = Math.ceil(
-    params.mathrelay.localElement_TotalS / powerLocalConvertor
-  );
-  params.mathrelay.numberWays = Math.ceil(
-    params.mathrelay.powerWaysTransformator / powerWaysConvertor
-  );
 
   params.mathrelay.tagaNumber =
     params.station.numberOfLines + params.station.drive;
@@ -303,12 +325,27 @@ function mathRelay(params) {
   params.mathrelay.relayCircutAntiphaseP = 860;
   params.mathrelay.relayCircutAntiphaseQ = 1140;
   params.mathrelay.relayCircutAntiphaseS = 1430;
-  params.mathrelay.relayCircutAntiphase_TotalP =
-    params.mathrelay.relayCircutAntiphaseP * params.station.dualDrive;
-  params.mathrelay.relayCircutAntiphase_TotalQ =
-    params.mathrelay.relayCircutAntiphaseQ * params.station.dualDrive;
-  params.mathrelay.relayCircutAntiphase_TotalS =
-    params.mathrelay.relayCircutAntiphaseS * params.station.dualDrive;
+
+  const localElement_P = 2.44,
+    localElement_Q = 7.5,
+    localElement_S = 7.9,
+    powerLocalConvertor = 300,
+    powerWaysConvertor = 280;
+
+  params.mathrelay.localElementNumber =
+    params.station.numberOfLines + 2 * params.station.drive;
+  params.mathrelay.localElement_TotalP =
+    localElement_P * params.mathrelay.localElementNumber;
+  params.mathrelay.localElement_TotalQ =
+    localElement_Q * params.mathrelay.localElementNumber;
+  params.mathrelay.localElement_TotalS =
+    localElement_S * params.mathrelay.localElementNumber;
+  params.mathrelay.numberLocal = Math.round(
+    params.mathrelay.localElement_TotalS / powerLocalConvertor
+  );
+  params.mathrelay.numberWays = Math.round(
+    params.mathrelay.taga_TotalS / powerWaysConvertor
+  );
 
   round(params.mathrelay);
 }
@@ -485,74 +522,104 @@ function postsCircuts(params) {
   round(params.postCircuts);
 }
 
+function mathTransformator(params) {
+  // Итоговые значение мощностей
+  const totalPowerS = document.getElementsByClassName("totalPowerS"),
+    totalPowerSField = document.getElementById("totalPowerS"),
+    // Потери на трансформатор 10%
+    lostPower = document.getElementById("lostPower");
+
+  // console.log(totalPowerS);
+
+  params.mathTransformator = {};
+
+  let totalPowerSValue = 0;
+  for (let index = 0; index < totalPowerS.length; index++) {
+    totalPowerSValue += Number(totalPowerS[index].textContent);
+    // console.log(totalPowerS[index].textContent);
+  }
+
+  totalPowerSValue +=
+    params.mathload.rta1TotalS +
+    params.mathload.haetingTotalS +
+    params.mathload.lightTotalS;
+
+  // console.log(totalPowerSValue);
+
+  params.mathTransformator.totalPowerS = roundValue(totalPowerSValue);
+  totalPowerSField.textContent = params.mathTransformator.totalPowerS;
+
+  params.mathTransformator.maxPower = 1500;
+  params.mathTransformator.extraPhasePower = 1200;
+
+  params.mathTransformator.lostPower =
+    params.mathTransformator.totalPowerS * 0.1;
+  params.mathTransformator.powerSHBN =
+    params.mathTransformator.lostPower + params.mathTransformator.totalPowerS;
+  params.mathTransformator.number1Phase = Math.round(
+    params.mathTransformator.totalPowerS / 1200
+  );
+  // console.log(params.mathTransformator.number1Phase);
+
+  params.mathTransformator.number3Phase = Math.round(
+    params.mathTransformator.number1Phase / 3
+  );
+  params.mathTransformator.remainsPower =
+    params.mathTransformator.totalPowerS - 10800;
+
+  round(params.mathTransformator);
+  lostPower.textContent = params.mathTransformator.lostPower;
+}
+
 // Чтоб таблица отображалась
 function createTable(params) {
   // Сигналы
   const tableResultRouteSigns = document.getElementById(
       "tableResultRouteSigns"
     ),
+    // Постоянные которые постоянно вставляются из исходных данных
     powerRouteSign = document.getElementsByClassName("powerRouteSign"),
+    dualDrive = document.getElementsByClassName("dualDrive"),
+    numberApproaches = document.getElementsByClassName("numberApproaches"),
+    numberOfLines = document.getElementsByClassName("numberOfLines"),
+    // Светофоры входные
     startEntranceSignal = document.getElementById("startEntranceSignal"),
     resultEntranceSignalP = document.getElementById("resultEntranceSignalP"),
     resultEntranceSignalQ = document.getElementById("resultEntranceSignalQ"),
     resultEntranceSignalS = document.getElementById("resultEntranceSignalS"),
+    // Светофоры выходные и маневровые
     startDepartManSignal = document.getElementById("startDepart-manSignal"),
     resultDepartManSignalP = document.getElementById("resultDepart-manSignalP"),
     resultDepartManSignalQ = document.getElementById("resultDepart-manSignalQ"),
     resultDepartManSignalS = document.getElementById("resultDepart-manSignalS"),
+    // Индикаторы
     startRouteSigns = document.getElementById("startRouteSigns"),
     resultRouteSignsPS = document.getElementsByClassName("resultRouteSignsPS"),
+    // РШ входных светофоров и РШ охраняемого переезда
     startRSH = document.getElementsByClassName("startRSH"),
     resultRSHP = document.getElementsByClassName("resultRSHP"),
     resultRSHQ = document.getElementsByClassName("resultRSHQ"),
     resultRSHS = document.getElementsByClassName("resultRSHS"),
+    // Местные элементы РЦ 25 Гц (релейный конец)
     startLocalElement = document.getElementById("startLocalElement"),
     localElement_TotalP = document.getElementById("localElementTotalP"),
     localElement_TotalQ = document.getElementById("localElementTotalQ"),
     localElement_TotalS = document.getElementById("localElementTotalS"),
+    // Путевые элементы РЦ 25 Гц (питающий конец)
     startTaga = document.getElementById("startTaga"),
     tagaTotalP = document.getElementById("tagaTotalP"),
     tagaTotalQ = document.getElementById("tagaTotalQ"),
     tagaTotalS = document.getElementById("tagaTotalS"),
-    numberLocal = document.getElementById("numberLocal"),
-    numberWays = document.getElementById("numberWays"),
-    numberApproaches = document.getElementsByClassName("numberApproaches"),
-    numberOfLines = document.getElementsByClassName("numberOfLines"),
-    rodtagi = document.getElementsByClassName("rodtagi"),
     rotagi2 = document.getElementById("rotagi2"),
-    alsnLinesP = document.getElementById("alsnLinesP"),
-    alsnLinesQ = document.getElementById("alsnLinesQ"),
-    alsnLinesS = document.getElementById("alsnLinesS"),
-    alsnRouteP = document.getElementById("alsnRouteP"),
-    alsnRouteQ = document.getElementById("alsnRouteQ"),
-    alsnRouteS = document.getElementById("alsnRouteS"),
-    decryptingDeviceP = document.getElementById("decryptingDeviceP"),
-    decryptingDeviceQ = document.getElementById("decryptingDeviceQ"),
-    decryptingDeviceS = document.getElementById("decryptingDeviceS"),
-    coddingTransformerP = document.getElementById("coddingTransformerP"),
-    coddingTransformerQ = document.getElementById("coddingTransformerQ"),
-    coddingTransformerS = document.getElementById("coddingTransformerS"),
-    numberDeviceConrtol = document.getElementById("numberDeviceConrtol"),
-    controlCircutsAndUTSTotalP = document.getElementById(
-      "controlCircutsAndUTSTotalP"
-    ),
-    controlCircutsAndUTSTotalQ = document.getElementById(
-      "controlCircutsAndUTSTotalQ"
-    ),
-    controlCircutsAndUTSTotalS = document.getElementById(
-      "controlCircutsAndUTSTotalS"
-    ),
-    numberSwitchesDrive = document.getElementById("numberSwitchesDrive"),
-    powerDriveElectricTotalP = document.getElementById(
-      "powerDriveElectricTotalP"
-    ),
-    powerDriveElectricTotalQ = document.getElementById(
-      "powerDriveElectricTotalQ"
-    ),
-    powerDriveElectricTotalS = document.getElementById(
-      "powerDriveElectricTotalS"
-    ),
-    dualDrive = document.getElementsByClassName("dualDrive"),
+    // ПЧ50/25-300 (при одиночном включении)
+    numberAlone = document.getElementById("numberAlone"),
+    numberLocal = document.getElementById("numberLocal"),
+    relayCircutAloneTotalP = document.getElementById("relayCircutAloneTotalP"),
+    relayCircutAloneTotalQ = document.getElementById("relayCircutAloneTotalQ"),
+    relayCircutAloneTotalS = document.getElementById("relayCircutAloneTotalS"),
+    // ПЧ50/25-300 (при попарно противофазном включении)
+    numberPairs = document.getElementById("numberPairs"),
+    numberWays = document.getElementById("numberWays"),
     relayCircutAntiphaseP = document.getElementById("relayCircutAntiphaseP"),
     relayCircutAntiphaseQ = document.getElementById("relayCircutAntiphaseQ"),
     relayCircutAntiphaseS = document.getElementById("relayCircutAntiphaseS"),
@@ -565,15 +632,59 @@ function createTable(params) {
     relayCircutAntiphaseTotalS = document.getElementById(
       "relayCircutAntiphaseTotalS"
     ),
+    // АЛСН (пути). при L=1000м
+    rodtagi = document.getElementsByClassName("rodtagi"),
+    alsnLinesP = document.getElementById("alsnLinesP"),
+    alsnLinesQ = document.getElementById("alsnLinesQ"),
+    alsnLinesS = document.getElementById("alsnLinesS"),
+    // АЛСН (маршруты). при L=300м
+    alsnRouteP = document.getElementById("alsnRouteP"),
+    alsnRouteQ = document.getElementById("alsnRouteQ"),
+    alsnRouteS = document.getElementById("alsnRouteS"),
+    // Дешифр. ячейки
+    decryptingDeviceP = document.getElementById("decryptingDeviceP"),
+    decryptingDeviceQ = document.getElementById("decryptingDeviceQ"),
+    decryptingDeviceS = document.getElementById("decryptingDeviceS"),
+    // Кодирующие трансформаторы
+    coddingTransformerP = document.getElementById("coddingTransformerP"),
+    coddingTransformerQ = document.getElementById("coddingTransformerQ"),
+    coddingTransformerS = document.getElementById("coddingTransformerS"),
+    // Рабочие цепи стрелок и УТС
+    numberSwitchesDrive = document.getElementById("numberSwitchesDrive"),
+    powerDriveElectricTotalP = document.getElementById(
+      "powerDriveElectricTotalP"
+    ),
+    powerDriveElectricTotalQ = document.getElementById(
+      "powerDriveElectricTotalQ"
+    ),
+    powerDriveElectricTotalS = document.getElementById(
+      "powerDriveElectricTotalS"
+    ),
+    // Контрольные цепи стрелок и УТС
+    numberDeviceConrtol = document.getElementById("numberDeviceConrtol"),
+    controlCircutsAndUTSTotalP = document.getElementById(
+      "controlCircutsAndUTSTotalP"
+    ),
+    controlCircutsAndUTSTotalQ = document.getElementById(
+      "controlCircutsAndUTSTotalQ"
+    ),
+    controlCircutsAndUTSTotalS = document.getElementById(
+      "controlCircutsAndUTSTotalS"
+    ),
+    // Реле П-М (0.34 А х 28 В)
     relePM = document.getElementsByClassName("relePM"),
+    // КТС УК
     numberKTS_UK = document.getElementsByClassName("numberKTS-UK"),
     KTS_UKPS = document.getElementsByClassName("KTS-UKPS"),
+    // ДЦ «СЕТУНЬ»
     setynPS = document.getElementsByClassName("setynPS"),
+    // Ограждение составов
     fencesTrainPS = document.getElementsByClassName("fencesTrainPS");
 
   for (let index = 0; index < fencesTrainPS.length; index++) {
-    (fencesTrainPS[index].textContent = params.station.numberApproaches * 2),
-      16;
+    fencesTrainPS[index].textContent = roundValue(
+      params.station.numberApproaches * 2.16
+    );
   }
 
   for (let index = 0; index < setynPS.length; index++) {
@@ -589,7 +700,7 @@ function createTable(params) {
   }
 
   for (let index = 0; index < relePM.length; index++) {
-    relePM[index].textContent = params.station.numberOfLines * 7.7;
+    relePM[index].textContent = roundValue(params.station.numberOfLines * 7.7);
   }
 
   tableResultRouteSigns.textContent =
@@ -717,7 +828,7 @@ function createTable(params) {
 
   const trRows = document.getElementById("trRows");
   let trRowsClass = document.getElementsByClassName("trRows");
-  console.log(trRowsClass.length);
+  // console.log(trRowsClass.length);
 
   if (trRowsClass.length > 0) {
     for (let index = 0; index < trRowsClass.length; index++) {
@@ -737,7 +848,7 @@ function createTable(params) {
           <td><span>${params.driveElectric.powerFromHeatingQ}</span></td>
           <td><span>${params.driveElectric.powerFromHeatingS}</span></td>
           <td><span>${params.station.drive}</span></td>
-          <td><span>${params.driveElectric.powerFromHeating_TotalP}</span></td>
+          <td><span class="totalPowerP">${params.driveElectric.powerFromHeating_TotalP}</span></td>
           <td><span>${params.driveElectric.powerFromHeating_TotalQ}</span></td>
           <td><span>${params.driveElectric.powerFromHeating_TotalS}</span></td>
           <!-- Пустые -->
@@ -756,7 +867,7 @@ function createTable(params) {
           <td><span>${params.driveElectric.pneumoCleaningDriveQ}</span></td>
           <td><span>${params.driveElectric.pneumoCleaningDriveS}</span></td>
           <td><span>${params.station.drive}</span></td>
-          <td><span>${params.driveElectric.pneumoCleaningDrive_TotalP}</span></td>
+          <td><span class="totalPowerP">${params.driveElectric.pneumoCleaningDrive_TotalP}</span></td>
           <td><span>${params.driveElectric.pneumoCleaningDrive_TotalQ}</span></td>
           <td><span>${params.driveElectric.pneumoCleaningDrive_TotalS}</span></td>
           <!-- Пустые -->
@@ -780,7 +891,7 @@ function createTable(params) {
         <td><span>${params.station.dualWaysQ}</span></td>
         <td><span>${params.station.dualWaysS}</span></td>
         <td><span>1</span></td>
-        <td><span>${
+        <td><span class="totalPowerP">${
           params.station.dualWaysP * params.station.dualWaysNumber
         }</span></td>
         <td><span>${
@@ -811,6 +922,31 @@ function createTable(params) {
   relayCircutAntiphaseP.textContent = params.mathrelay.relayCircutAntiphaseP;
   relayCircutAntiphaseQ.textContent = params.mathrelay.relayCircutAntiphaseQ;
   relayCircutAntiphaseS.textContent = params.mathrelay.relayCircutAntiphaseS;
+
+  let numberPairsValue =
+    (params.mathrelay.numberLocal + params.mathrelay.numberWays) / 2;
+  // console.log(numberPairsValue);
+  if (numberPairsValue == Math.ceil(numberPairsValue)) {
+    params.mathrelay.numberPairs = Math.ceil(numberPairsValue);
+    params.mathrelay.numberAlone = 0;
+  } else {
+    params.mathrelay.numberPairs = Math.ceil(numberPairsValue) - 1;
+    params.mathrelay.numberAlone = 1;
+  }
+
+  numberAlone.textContent = params.mathrelay.numberAlone;
+  relayCircutAloneTotalP.textContent = params.mathrelay.numberAlone * 430;
+  relayCircutAloneTotalQ.textContent = params.mathrelay.numberAlone * 770;
+  relayCircutAloneTotalS.textContent = params.mathrelay.numberAlone * 880;
+
+  numberPairs.textContent = params.mathrelay.numberPairs;
+  params.mathrelay.relayCircutAntiphase_TotalP =
+    params.mathrelay.relayCircutAntiphaseP * params.mathrelay.numberPairs;
+  params.mathrelay.relayCircutAntiphase_TotalQ =
+    params.mathrelay.relayCircutAntiphaseQ * params.mathrelay.numberPairs;
+  params.mathrelay.relayCircutAntiphase_TotalS =
+    params.mathrelay.relayCircutAntiphaseS * params.mathrelay.numberPairs;
+
   relayCircutAntiphaseTotalP.textContent =
     params.mathrelay.relayCircutAntiphase_TotalP;
   relayCircutAntiphaseTotalQ.textContent =
@@ -820,11 +956,12 @@ function createTable(params) {
 }
 
 buttonResult.addEventListener("click", () => {
-  empty = inputEmpty(); // Переменная которая указывает на то, пустые ли поля (false = все поля заполненны, true = есть пустые поля)
-  errors = [];
+  let errors = [];
   // console.log(`Поля пустые? ${empty}`); Проверка что возвращает
-
-  if (empty == false && deviceCos.value <= 1) {
+  countError(errors);
+  if (errors.length >= 1) {
+    body = {};
+  } else {
     build(body);
     mathLoad(body);
     mathRelay(body);
@@ -832,21 +969,12 @@ buttonResult.addEventListener("click", () => {
     driveElectric(body);
     postsCircuts(body);
     createTable(body);
+    mathTransformator(body);
     tableResult.classList.add("visible");
     tableResult.classList.remove("hidden");
     console.log(body);
-
-    // Включение таблицы
-  } else if (deviceCos.value > 1) {
-    body = {};
-    countError();
-    // console.log(errors);
-    deviceCos.classList.add("errorInput");
-  } else {
-    body = {};
-    countError();
-    // console.log(errors);
   }
+
   if (errors.length == 0) {
     errorWindow.classList.remove("visible");
     errorWindow.classList.add("hidden");
