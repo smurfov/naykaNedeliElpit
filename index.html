@@ -11,7 +11,7 @@
     <!-- Шапка сайта -->
     <header class="header" id="header">
       <div class="container-header">
-        <img src="./img/logo3.png" alt="logo" class="header_logo" />
+        <img src="./img/logo.svg" alt="logo" class="header_logo" />
         <p class="header_title">
           Расчёт электропитяющей установки поста ЭЦ крупной станции
         </p>
@@ -548,9 +548,11 @@
             <td><span>33.0</span></td>
             <td><span id="startEntranceSignal"></span></td>
             <td>
-              <span id="resultEntranceSignalP"></span>
+              <span id="resultEntranceSignalP" class="totalPowerP"></span>
             </td>
-            <td><span id="resultEntranceSignalQ"></span></td>
+            <td>
+              <span id="resultEntranceSignalQ" class="totalPowerQ"></span>
+            </td>
             <td>
               <span id="resultEntranceSignalS" class="totalPowerS"></span>
             </td>
@@ -567,9 +569,11 @@
             <td><span>22.0</span></td>
             <td><span id="startDepart-manSignal"></span></td>
             <td>
-              <span id="resultDepart-manSignalP"></span>
+              <span id="resultDepart-manSignalP" class="totalPowerP"></span>
             </td>
-            <td><span id="resultDepart-manSignalQ"></span></td>
+            <td>
+              <span id="resultDepart-manSignalQ" class="totalPowerQ"></span>
+            </td>
             <td>
               <span id="resultDepart-manSignalS" class="totalPowerS"></span>
             </td>
@@ -585,7 +589,7 @@
             <td><span>-</span></td>
             <td><span class="powerRouteSign"></span></td>
             <td><span id="startRouteSigns"></span></td>
-            <td><span class="resultRouteSignsPS"></span></td>
+            <td><span class="resultRouteSignsPS totalPowerP"></span></td>
             <td><span id="resultRouteSignsQ">-</span></td>
             <td><span class="resultRouteSignsPS totalPowerS"></span></td>
             <!-- Пустые -->
@@ -643,8 +647,8 @@
             <td><span>7.5</span></td>
             <td><span>7.9</span></td>
             <td><span id="startLocalElement"></span></td>
-            <td><span id="localElementTotalP"></span></td>
-            <td><span id="localElementTotalQ"></span></td>
+            <td><span id="localElementTotalP" class="totalPowerP"></span></td>
+            <td><span id="localElementTotalQ" class="totalPowerQ"></span></td>
             <td><span id="localElementTotalS" class="totalPowerS"></span></td>
             <!-- Пустые -->
             <td></td>
@@ -663,8 +667,8 @@
             <td><span>14.8</span></td>
             <td><span>34.8</span></td>
             <td><span id="startTaga"></span></td>
-            <td><span id="tagaTotalP"></span></td>
-            <td><span id="tagaTotalQ"></span></td>
+            <td><span id="tagaTotalP" class="totalPowerP"></span></td>
+            <td><span id="tagaTotalQ" class="totalPowerQ"></span></td>
             <td><span id="tagaTotalS" class="totalPowerS"></span></td>
             <td></td>
             <td></td>
@@ -679,8 +683,12 @@
             <td><span>770</span></td>
             <td><span>880</span></td>
             <td><span id="numberAlone"></span></td>
-            <td><span id="relayCircutAloneTotalP"></span></td>
-            <td><span id="relayCircutAloneTotalQ"></span></td>
+            <td>
+              <span id="relayCircutAloneTotalP" class="totalPowerP"></span>
+            </td>
+            <td>
+              <span id="relayCircutAloneTotalQ" class="totalPowerQ"></span>
+            </td>
             <td>
               <span id="relayCircutAloneTotalS" class="totalPowerS"></span>
             </td>
@@ -701,9 +709,11 @@
             <td><span id="relayCircutAntiphaseS">1430</span></td>
             <td><span id="numberPairs"></span></td>
             <td>
-              <span id="relayCircutAntiphaseTotalP"></span>
+              <span id="relayCircutAntiphaseTotalP" class="totalPowerP"></span>
             </td>
-            <td><span id="relayCircutAntiphaseTotalQ"></span></td>
+            <td>
+              <span id="relayCircutAntiphaseTotalQ" class="totalPowerQ"></span>
+            </td>
             <td>
               <span id="relayCircutAntiphaseTotalS" class="totalPowerS"></span>
             </td>
@@ -720,8 +730,8 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
+            <td><span id="totalPowerP"></span></td>
+            <td><span id="totalPowerQ"></span></td>
             <td><span id="totalPowerS"></span></td>
             <!-- Пустые -->
             <td></td>
@@ -1034,9 +1044,9 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td><span id="lostPower"></span></td>
+            <td><span id="lostPowerP"></span></td>
+            <td><span id="lostPowerQ"></span></td>
+            <td><span id="lostPowerS"></span></td>
             <td></td>
             <td></td>
           </tr>
@@ -1081,10 +1091,10 @@
             <td><span>320.0</span></td>
             <td><span>240.0</span></td>
             <td><span>400.0</span></td>
-            <td><span>1</span></td>
-            <td><span>320.0</span></td>
-            <td><span>240.0</span></td>
-            <td><span>400.0</span></td>
+            <td><span>2</span></td>
+            <td><span>640.0</span></td>
+            <td><span>480.0</span></td>
+            <td><span>800.0</span></td>
             <td></td>
             <td></td>
           </tr>

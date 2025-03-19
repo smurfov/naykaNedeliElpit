@@ -8,6 +8,97 @@ const tableResult = document.getElementById("tableResult");
 
 const n = 2; // макс. кол-во знаков после
 
+const batteryData = [
+  {
+    type: "Delta DTM 1233 L",
+    voltage: 12,
+    nominalCapacity: 33,
+    dimensions: { D: 195, W: 130, H: 155 },
+    weight: 10.1,
+    price: 5618,
+  },
+  {
+    type: "Delta DTM 1240 L",
+    voltage: 12,
+    nominalCapacity: 40,
+    dimensions: { D: 198, W: 166, H: 170 },
+    weight: 14,
+    price: 8107,
+  },
+  {
+    type: "Delta DTM 1255 L",
+    voltage: 12,
+    nominalCapacity: 55,
+    dimensions: { D: 239, W: 132, H: 205 },
+    weight: 16.2,
+    price: 9057,
+  },
+  {
+    type: "Delta DTM 1265 L",
+    voltage: 12,
+    nominalCapacity: 65,
+    dimensions: { D: 350, W: 167, H: 179 },
+    weight: 22.4,
+    price: 12022,
+  },
+  {
+    type: "Delta DTM 1275 L",
+    voltage: 12,
+    nominalCapacity: 75,
+    dimensions: { D: 258, W: 166, H: 206 },
+    weight: 22.4,
+    price: 12809,
+  },
+  {
+    type: "Delta DTM 1290 L",
+    voltage: 12,
+    nominalCapacity: 90,
+    dimensions: { D: 306, W: 169, H: 211 },
+    weight: 27,
+    price: 15271,
+  },
+  {
+    type: "Delta DTM 12100 L",
+    voltage: 12,
+    nominalCapacity: 100,
+    dimensions: { D: 330, W: 171, H: 215 },
+    weight: 27,
+    price: 15673,
+  },
+  {
+    type: "Delta DTM 12150 L",
+    voltage: 12,
+    nominalCapacity: 150,
+    dimensions: { D: 482, W: 170, H: 240 },
+    weight: 45,
+    price: 23931,
+  },
+  {
+    type: "Delta DTM 12200 L",
+    voltage: 12,
+    nominalCapacity: 200,
+    dimensions: { D: 522, W: 238, H: 218 },
+    weight: 59,
+    price: 30510,
+  },
+  {
+    type: "Delta DTM 12230 L",
+    voltage: 12,
+    nominalCapacity: 230,
+    dimensions: { D: 520, W: 269, H: 203 },
+    weight: 72.6,
+    price: 34714,
+  },
+  {
+    type: "Delta DTM 12250 L",
+    voltage: 12,
+    nominalCapacity: 250,
+    dimensions: { D: 520, W: 269, H: 221 },
+    weight: 74,
+    price: 37991,
+  },
+];
+
 const ROUND_NUMBER = 10 ** n; // 10^n
 
 function round(params) {
@@ -340,10 +431,10 @@ function mathRelay(params) {
     localElement_Q * params.mathrelay.localElementNumber;
   params.mathrelay.localElement_TotalS =
     localElement_S * params.mathrelay.localElementNumber;
-  params.mathrelay.numberLocal = Math.round(
+  params.mathrelay.numberLocal = Math.ceil(
     params.mathrelay.localElement_TotalS / powerLocalConvertor
   );
-  params.mathrelay.numberWays = Math.round(
+  params.mathrelay.numberWays = Math.ceil(
     params.mathrelay.taga_TotalS / powerWaysConvertor
   );
 
@@ -526,8 +617,14 @@ function mathTransformator(params) {
   // Итоговые значение мощностей
   const totalPowerS = document.getElementsByClassName("totalPowerS"),
     totalPowerSField = document.getElementById("totalPowerS"),
+    totalPowerQ = document.getElementsByClassName("totalPowerQ"),
+    totalPowerQField = document.getElementById("totalPowerQ"),
+    totalPowerP = document.getElementsByClassName("totalPowerP"),
+    totalPowerPField = document.getElementById("totalPowerP"),
     // Потери на трансформатор 10%
-    lostPower = document.getElementById("lostPower");
+    lostPowerS = document.getElementById("lostPowerS"),
+    lostPowerQ = document.getElementById("lostPowerQ"),
+    lostPowerP = document.getElementById("lostPowerP");
 
   // console.log(totalPowerS);
 
@@ -538,27 +635,55 @@ function mathTransformator(params) {
     totalPowerSValue += Number(totalPowerS[index].textContent);
     // console.log(totalPowerS[index].textContent);
   }
+  let totalPowerQValue = 0;
+  for (let index = 0; index < totalPowerQ.length; index++) {
+    if (totalPowerQ[index].textContent != "-") {
+      totalPowerQValue += Number(totalPowerQ[index].textContent);
+    }
+    // console.log(totalPowerS[index].textContent);
+  }
+  let totalPowerPValue = 0;
+  for (let index = 0; index < totalPowerP.length; index++) {
+    if (totalPowerP[index].textContent != "-") {
+      totalPowerPValue += Number(totalPowerP[index].textContent);
+    }
+    // console.log(totalPowerS[index].textContent);
+  }
 
   totalPowerSValue +=
     params.mathload.rta1TotalS +
     params.mathload.haetingTotalS +
     params.mathload.lightTotalS;
+  totalPowerQValue +=
+    params.mathload.rta1TotalQ + params.mathload.haetingTotalQ;
+  totalPowerPValue +=
+    params.mathload.rta1TotalP +
+    params.mathload.haetingTotalP +
+    params.mathload.lightTotalP;
 
   // console.log(totalPowerSValue);
 
   params.mathTransformator.totalPowerS = roundValue(totalPowerSValue);
   totalPowerSField.textContent = params.mathTransformator.totalPowerS;
+  params.mathTransformator.totalPowerQ = roundValue(totalPowerQValue);
+  totalPowerQField.textContent = params.mathTransformator.totalPowerQ;
+  params.mathTransformator.totalPowerP = roundValue(totalPowerPValue);
+  totalPowerPField.textContent = params.mathTransformator.totalPowerP;
 
   params.mathTransformator.maxPower = 1500;
   params.mathTransformator.extraPhasePower = 1200;
 
-  params.mathTransformator.lostPower =
+  params.mathTransformator.lostPowerS =
     params.mathTransformator.totalPowerS * 0.1;
   params.mathTransformator.powerSHBN =
-    params.mathTransformator.lostPower + params.mathTransformator.totalPowerS;
-  params.mathTransformator.number1Phase = Math.round(
+    params.mathTransformator.lostPowerS + params.mathTransformator.totalPowerS;
+  params.mathTransformator.number1Phase = Math.ceil(
     params.mathTransformator.totalPowerS / 1200
   );
+  params.mathTransformator.lostPowerQ =
+    params.mathTransformator.totalPowerQ * 0.1;
+  params.mathTransformator.lostPowerP =
+    params.mathTransformator.totalPowerP * 0.1;
   // console.log(params.mathTransformator.number1Phase);
 
   params.mathTransformator.number3Phase = Math.round(
@@ -568,7 +693,18 @@ function mathTransformator(params) {
     params.mathTransformator.totalPowerS - 10800;
 
   round(params.mathTransformator);
-  lostPower.textContent = params.mathTransformator.lostPower;
+  lostPowerS.textContent = params.mathTransformator.lostPowerS;
+  lostPowerQ.textContent = params.mathTransformator.lostPowerQ;
+  lostPowerP.textContent = params.mathTransformator.lostPowerP;
+}
+
+function mathAndChooseElementsUPS(params) {
+  // Массив возможных значений
+  const values = [1.1, 1.2, 1.3];
+
+  // Случайный выбор значения из массива
+  const n = values[Math.floor(Math.random() * values.length)];
+  console.log(n);
 }
 
 // Чтоб таблица отображалась
@@ -924,13 +1060,13 @@ function createTable(params) {
   relayCircutAntiphaseS.textContent = params.mathrelay.relayCircutAntiphaseS;
 
   let numberPairsValue =
-    (params.mathrelay.numberLocal + params.mathrelay.numberWays) / 2;
+    params.mathrelay.numberLocal + params.mathrelay.numberWays;
   // console.log(numberPairsValue);
-  if (numberPairsValue == Math.ceil(numberPairsValue)) {
-    params.mathrelay.numberPairs = Math.ceil(numberPairsValue);
+  if (numberPairsValue % 2 == 0) {
+    params.mathrelay.numberPairs = numberPairsValue / 2;
     params.mathrelay.numberAlone = 0;
   } else {
-    params.mathrelay.numberPairs = Math.ceil(numberPairsValue) - 1;
+    params.mathrelay.numberPairs = numberPairsValue / 2 - 0.5;
     params.mathrelay.numberAlone = 1;
   }
 
@@ -955,36 +1091,41 @@ function createTable(params) {
     params.mathrelay.relayCircutAntiphase_TotalS;
 }
 
+// Функция для обработки body
+function processBody(data) {
+  build(data);
+  mathLoad(data);
+  mathRelay(data);
+  coddingRelay(data);
+  driveElectric(data);
+  postsCircuts(data);
+  createTable(data);
+  mathTransformator(data);
+  mathAndChooseElementsUPS(data);
+}
+function toggleVisibility(element, isVisible) {
+  element.classList.toggle("visible", isVisible);
+  element.classList.toggle("hidden", !isVisible);
+}
+
 buttonResult.addEventListener("click", () => {
   let errors = [];
-  // console.log(`Поля пустые? ${empty}`); Проверка что возвращает
   countError(errors);
-  if (errors.length >= 1) {
-    body = {};
-  } else {
-    build(body);
-    mathLoad(body);
-    mathRelay(body);
-    coddingRelay(body);
-    driveElectric(body);
-    postsCircuts(body);
-    createTable(body);
-    mathTransformator(body);
+
+  // Обновляем состояние окна ошибок
+  toggleVisibility(errorWindow, errors.length > 0);
+
+  if (errors.length === 0) {
+    processBody(body);
     tableResult.classList.add("visible");
     tableResult.classList.remove("hidden");
     console.log(body);
-  }
-
-  if (errors.length == 0) {
-    errorWindow.classList.remove("visible");
-    errorWindow.classList.add("hidden");
   } else {
-    errorWindow.classList.add("visible");
-    errorWindow.classList.remove("hidden");
+    body = {};
   }
-
-  // console.log(body);
 });
+
+// Функция для переключения видимости элемента
 
 const closeSign = document.getElementById("close-sign");
 closeSign.addEventListener("click", () => {
