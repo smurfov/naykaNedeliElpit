@@ -698,6 +698,44 @@ function mathTransformator(params) {
   lostPowerP.textContent = params.mathTransformator.lostPowerP;
 }
 
+function powerWithoutDrive(params) {
+  const powerWithoutDriveP = document.getElementsByClassName("powerWithoutDriveP"),
+   powerWithoutDriveQ = document.getElementsByClassName("powerWithoutDriveQ"),
+   powerWithoutDriveS = document.getElementsByClassName("powerWithoutDriveS"),
+   fieldPowerWithoutDriveP = document.getElementById("fieldPowerWithoutDriveP"),
+   fieldPowerWithoutDriveQ = document.getElementById("fieldPowerWithoutDriveQ"),
+   fieldPowerWithoutDriveS = document.getElementById("fieldPowerWithoutDriveS");
+
+  params.powerWithoutDrive = {};
+
+  let totalPowerWithoutDriveP = 0;
+  for (let index = 0; index < powerWithoutDriveP.length; index++) {
+    if (powerWithoutDriveP[index].textContent != "-") {
+      totalPowerWithoutDriveP += Number(powerWithoutDriveP[index].textContent);
+    }
+  }
+  params.powerWithoutDrive.P = totalPowerWithoutDriveP + params.mathTransformator.totalPowerP + params.mathTransformator.lostPowerP;
+  let totalPowerWithoutDriveQ = 0;
+  for (let index = 0; index < powerWithoutDriveQ.length; index++) {
+    if (powerWithoutDriveQ[index].textContent != "-") {
+      totalPowerWithoutDriveQ += Number(powerWithoutDriveQ[index].textContent);
+    }
+  }
+  params.powerWithoutDrive.Q = totalPowerWithoutDriveQ + params.mathTransformator.totalPowerQ + params.mathTransformator.lostPowerQ;
+  let totalPowerWithoutDriveS = 0;
+  for (let index = 0; index < powerWithoutDriveS.length; index++) {
+    if (powerWithoutDriveS[index].textContent != "-") {
+      totalPowerWithoutDriveS += Number(powerWithoutDriveS[index].textContent);
+    }
+  }
+  params.powerWithoutDrive.S = totalPowerWithoutDriveS + params.mathTransformator.totalPowerS + params.mathTransformator.lostPowerS;
+
+  round(params.powerWithoutDrive);
+  fieldPowerWithoutDriveP.textContent = params.powerWithoutDrive.P
+  fieldPowerWithoutDriveQ.textContent = params.powerWithoutDrive.Q
+  fieldPowerWithoutDriveS.textContent = params.powerWithoutDrive.S
+}
+
 function mathAndChooseElementsUPS(params) {
   // Массив возможных значений
   const values = [1.1, 1.2, 1.3];
@@ -705,6 +743,20 @@ function mathAndChooseElementsUPS(params) {
   // Случайный выбор значения из массива
   const n = values[Math.floor(Math.random() * values.length)];
   console.log(n);
+}
+
+function sumActivePower(params) {
+  const sumActivePower = document.getElementsByClassName("sumActivePower");
+
+  params.sumActivePower = {}
+
+  params.sumActivePower.P = params.powerWithoutDrive.P * 1.2;
+
+  round(params.sumActivePower);
+
+  for (let index = 0; index < sumActivePower.length; index++) {
+    sumActivePower[index].textContent = params.sumActivePower.P; 
+  }
 }
 
 // Чтоб таблица отображалась
@@ -1101,7 +1153,9 @@ function processBody(data) {
   postsCircuts(data);
   createTable(data);
   mathTransformator(data);
+  powerWithoutDrive(data);
   mathAndChooseElementsUPS(data);
+  sumActivePower(data);
 }
 function toggleVisibility(element, isVisible) {
   element.classList.toggle("visible", isVisible);
