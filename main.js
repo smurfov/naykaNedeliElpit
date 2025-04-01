@@ -920,7 +920,7 @@ function mathNonGarantPower(params) {
 
   params.mathNonGarantPower.power = totalNonGarantPower * 1000;
 
-  roundValue(params.mathNonGarantPower);
+  round(params.mathNonGarantPower);
 
   nonGarantPowerTotal.textContent = params.mathNonGarantPower.power;
 }
