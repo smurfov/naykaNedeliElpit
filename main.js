@@ -101,6 +101,7 @@ const batteryData = [
 
 const ROUND_NUMBER = 10 ** n; // 10^n
 
+// Округление больших значений свойств body
 function round(params) {
   for (const key in params) {
     if (Object.prototype.hasOwnProperty.call(params, key)) {
@@ -109,6 +110,7 @@ function round(params) {
   }
 }
 
+// Округление определнного значения
 function roundValue(params) {
   return Math.round(params * ROUND_NUMBER) / ROUND_NUMBER;
 }
@@ -240,6 +242,7 @@ function inputEmpty() {
   }
 }
 
+// Проверка на отрицательные числа
 function negativeNumber() {
   let inputCount = 0; // Подсчет пустых полей
   let input = document.getElementsByTagName("input");
@@ -262,6 +265,7 @@ function negativeNumber() {
   }
 }
 
+// Вывод ошибок в окно
 const errorWindow = document.getElementById("error-window");
 function countError(params) {
   // let empty = inputEmpty(); // Переменная которая указывает на то, пустые ли поля (false = все поля заполненны, true = есть пустые поля)
@@ -613,6 +617,7 @@ function postsCircuts(params) {
   round(params.postCircuts);
 }
 
+// Расчет трансформатора
 function mathTransformator(params) {
   // Итоговые значение мощностей
   const totalPowerS = document.getElementsByClassName("totalPowerS"),
@@ -698,6 +703,7 @@ function mathTransformator(params) {
   lostPowerP.textContent = params.mathTransformator.lostPowerP;
 }
 
+// Расчет общей мощности без стрелок
 function powerWithoutDrive(params) {
   const powerWithoutDriveP = document.getElementsByClassName("powerWithoutDriveP"),
    powerWithoutDriveQ = document.getElementsByClassName("powerWithoutDriveQ"),
@@ -736,15 +742,6 @@ function powerWithoutDrive(params) {
   fieldPowerWithoutDriveS.textContent = params.powerWithoutDrive.S
 }
 
-function mathAndChooseElementsUPS(params) {
-  // Массив возможных значений
-  const values = [1.1, 1.2, 1.3];
-
-  // Случайный выбор значения из массива
-  const n = values[Math.floor(Math.random() * values.length)];
-  console.log(n);
-}
-
 function sumActivePower(params) {
   const sumActivePower = document.getElementsByClassName("sumActivePower");
 
@@ -758,6 +755,58 @@ function sumActivePower(params) {
     sumActivePower[index].textContent = params.sumActivePower.P; 
   }
 }
+
+// Расчет и выбор элементов УБП
+function mathAndChooseElementsUPS(params) {
+  params.mathAndChooseElementsUPS = {};
+
+  // Массив возможных значений
+  const values = [1.1, 1.2, 1.3];
+
+  // Случайный выбор значения из массива
+  const n = values[Math.floor(Math.random() * values.length)];
+  // console.log(n);
+  params.mathAndChooseElementsUPS.n = n;
+
+  // Мощность УБП
+  params.mathAndChooseElementsUPS.powerUPS = 1.2 * 3 * params.powerWithoutDrive.S * n;
+  let pound = 23423;
+
+  for (let index = 0; index < 4; index++) {
+    pound /= 10;
+  }
+
+  if (pound < 1 && pound > 0) pound *= 10;
+
+  pound = Math.ceil(pound);
+
+  params.mathAndChooseElementsUPS.powerUPSnominal = pound * 10;
+
+  // Расчет емкости аккумуляторной батареи
+  const time_charging = 2,
+    koefficient_charging = 0.61,
+    temp_koefficient = 0.008,
+    temp_electrolit = 15,
+    temp_nominal_capacity = 20,
+    kpd_invertora = 0.9,
+    koefficient_deep_charging = 0.9, power_accum = 422.4;
+
+  params.mathAndChooseElementsUPS.capacity =
+    (params.sumActivePower.P * time_charging) / (power_accum * koefficient_charging *
+      (1 + temp_koefficient * (temp_electrolit - temp_nominal_capacity)) * kpd_invertora * koefficient_deep_charging);
+
+  for (let index = 0; index < batteryData.length; index++) {
+    if (batteryData[index++]) {
+      if (params.mathAndChooseElementsUPS.capacity > batteryData[index].nominalCapacity &&
+        params.mathAndChooseElementsUPS.capacity < batteryData[index++].nominalCapacity) {
+          params.mathAndChooseElementsUPS.accum = batteryData[index]
+      } else {
+        params.mathAndChooseElementsUPS.accum = batteryData[index]
+      }
+    }
+  }
+}
+
 
 // Чтоб таблица отображалась
 function createTable(params) {
@@ -1157,6 +1206,8 @@ function processBody(data) {
   mathAndChooseElementsUPS(data);
   sumActivePower(data);
 }
+
+// Функция чтоб делать элементы видимыми/невидимыми
 function toggleVisibility(element, isVisible) {
   element.classList.toggle("visible", isVisible);
   element.classList.toggle("hidden", !isVisible);

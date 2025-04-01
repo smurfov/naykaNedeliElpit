@@ -85,7 +85,11 @@ table td input {
   font-weight: bold;
   text-align: center;
   width: 100%;
-  margin-left: -200px;
+}
+
+.header_block {
+  width: 200px;
+  height: 200px;
 }
 
 .container-header {
@@ -206,24 +210,14 @@ table td input {
   text-align: center;
 }
 
-@media screen and (max-width: 1150px) {
-  .header_title {
-    margin-left: -130px;
-  }
-}
-
-@media screen and (max-width: 1080px) {
-  .header_title {
-    margin-left: -100px;
-  }
-}
 @media screen and (max-width: 1050px) {
   .header_logo {
     width: 150px;
     height: 150px;
   }
-  .header_title {
-    margin-left: -100px;
+  .header_block {
+    width: 150px;
+    height: 150px;
   }
 }
 
