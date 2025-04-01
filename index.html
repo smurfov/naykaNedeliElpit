@@ -11,7 +11,13 @@
     <!-- Шапка сайта -->
     <header class="header" id="header">
       <div class="container-header">
-        <img src="./img/logo.svg" alt="logo" class="header_logo" width="200px" height="200px" />
+        <img
+          src="./img/logo.svg"
+          alt="logo"
+          class="header_logo"
+          width="200px"
+          height="200px"
+        />
         <p class="header_title">
           Расчёт электропитяющей установки поста ЭЦ крупной станции
         </p>
@@ -426,7 +432,7 @@
               <td>
                 <input
                   type="number"
-                  class="text"
+                  class="text garantPower"
                   name="connection-input"
                   id="connection-input"
                 />
@@ -437,7 +443,7 @@
               <td>
                 <input
                   type="number"
-                  class="text"
+                  class="text garantPower"
                   name="light-relay"
                   id="light-relay"
                 />
@@ -450,7 +456,7 @@
               <td>
                 <input
                   type="number"
-                  class="text"
+                  class="text garantPower"
                   name="conditional-device"
                   id="conditional-device"
                 />
@@ -460,7 +466,7 @@
               <td><span class="text">Прогрев ДГА. ЗУ</span></td>
               <td>
                 <input
-                  class="text"
+                  class="text garantPower"
                   type="number"
                   name="heating-dga"
                   id="heating-dga"
@@ -479,7 +485,7 @@
               <td>
                 <input
                   type="number"
-                  class="text"
+                  class="text nonGarantPower"
                   name="total-lights"
                   id="total-lights"
                 />
@@ -490,7 +496,7 @@
               <td>
                 <input
                   type="number"
-                  class="text"
+                  class="text nonGarantPower"
                   name="power-equipment"
                   id="power-equipment"
                 />
@@ -793,9 +799,15 @@
             <td><span>16.8</span></td>
             <td><span>23.6</span></td>
             <td><span class="numberApproaches"></span></td>
-            <td><span id="decryptingDeviceP" class="powerWithoutDriveP"></span></td>
-            <td><span id="decryptingDeviceQ" class="powerWithoutDriveQ"></span></td>
-            <td><span id="decryptingDeviceS" class="powerWithoutDriveS"></span></td>
+            <td>
+              <span id="decryptingDeviceP" class="powerWithoutDriveP"></span>
+            </td>
+            <td>
+              <span id="decryptingDeviceQ" class="powerWithoutDriveQ"></span>
+            </td>
+            <td>
+              <span id="decryptingDeviceS" class="powerWithoutDriveS"></span>
+            </td>
             <!-- Пустые -->
             <td></td>
             <td></td>
@@ -808,9 +820,15 @@
             <td><span>76</span></td>
             <td><span>79.1</span></td>
             <td><span class="numberApproaches"></span></td>
-            <td><span id="coddingTransformerP" class="powerWithoutDriveP"></span></td>
-            <td><span id="coddingTransformerQ" class="powerWithoutDriveQ"></span></td>
-            <td><span id="coddingTransformerS" class="powerWithoutDriveS"></span></td>
+            <td>
+              <span id="coddingTransformerP" class="powerWithoutDriveP"></span>
+            </td>
+            <td>
+              <span id="coddingTransformerQ" class="powerWithoutDriveQ"></span>
+            </td>
+            <td>
+              <span id="coddingTransformerS" class="powerWithoutDriveS"></span>
+            </td>
             <!-- Пустые -->
             <td></td>
             <td></td>
@@ -862,10 +880,23 @@
             <td><span>9.3</span></td>
             <td><span id="numberDeviceConrtol"></span></td>
             <td>
-              <span id="controlCircutsAndUTSTotalP" class="powerWithoutDriveP"></span>
+              <span
+                id="controlCircutsAndUTSTotalP"
+                class="powerWithoutDriveP"
+              ></span>
             </td>
-            <td><span id="controlCircutsAndUTSTotalQ" class="powerWithoutDriveQ"></span></td>
-            <td><span id="controlCircutsAndUTSTotalS" class="powerWithoutDriveS"></span></td>
+            <td>
+              <span
+                id="controlCircutsAndUTSTotalQ"
+                class="powerWithoutDriveQ"
+              ></span>
+            </td>
+            <td>
+              <span
+                id="controlCircutsAndUTSTotalS"
+                class="powerWithoutDriveS"
+              ></span>
+            </td>
             <!-- Пустые -->
             <td></td>
             <td></td>
@@ -1149,7 +1180,7 @@
             </td>
             <td></td>
             <td></td>
-            <td></td>
+            <td><span id="powerUPS"></span></td>
             <td><span>A. B. C</span></td>
             <td><span>Расчёт по формуле (29)</span></td>
           </tr>
@@ -1160,7 +1191,7 @@
             </td>
             <td></td>
             <td></td>
-            <td></td>
+            <td><span id="powerUPSnominal"></span></td>
             <td><span>A. B. C</span></td>
             <td></td>
           </tr>
@@ -1179,40 +1210,62 @@
             <td><span class="bold">13</span></td>
             <td colspan="6" class="left">
               <span
-                >НАГРУЗКИ ЖАТ С УЧЁТОМ РАБОЧИХ ЦЕПЕЙ СТРЕЛОК (ШТАТНЫЙ РЕЖИМ
-                УБП)</span
+                >ФАЗНАЯ МОЩНОСТЬ ГАРАНТИРОВАННЫХ НАГРУЗОК (S<sub>гн</sub>)</span
               >
             </td>
             <td></td>
             <td></td>
+            <td><span id="garantPowerTotal"></span></td>
             <td></td>
-            <td>
-              <span>A<br />B<br />C</span>
-            </td>
-            <td><span>Расчёт по формуле (36)</span></td>
+            <td></td>
           </tr>
           <tr>
             <td><span class="bold">14</span></td>
             <td colspan="6" class="left">
               <span
-                >НАГРУЗКИ ЖАТ С УЧЁТОМ РАБОЧИХ ЦЕПЕЙ СТРЕЛОК (РЕЖИМ БАЙПАСА
-                УБП)</span
+                >ФАЗНАЯ МОЩНОСТЬ НЕГАРАНТИРОВАННЫХ НАГРУЗОК
+                (S<sub>нгн</sub>)</span
               >
             </td>
             <td></td>
             <td></td>
+            <td><span id="nonGarantPowerTotal"></span></td>
             <td></td>
-            <td>
-              <span>A<br />B<br />C</span>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="bold">15</span></td>
+            <td colspan="11" class="left">
+              <span
+                >ВЫБРАННАЯ АККУМУЛЯТОРНАЯ БАТАРЕЯ:
+                <span id="accum_name"></span>; НОМИНАЛЬНАЯ ЕМКОСТЬ:
+                <span id="accum_nominal"></span> Ач
+              </span>
             </td>
+          </tr>
+          <tr>
+            <td><span class="bold">16</span></td>
+            <td colspan="6" class="left">
+              <span>МОЩНОСТЬ ИЗОЛИРУЮЩЕГО ТРАНСФОРМАТОРА (ИТ)</span>
+            </td>
+            <td></td>
+            <td></td>
+            <td><span id="powerInsulatingTransformator"></span></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="bold">17</span></td>
+            <td colspan="6" class="left">
+              <span>МОЩНОСТЬ ДГА</span>
+            </td>
+            <td></td>
+            <td></td>
+            <td><span id="powerDGA"></span></td>
+            <td></td>
             <td></td>
           </tr>
         </table>
-
-        <details>
-          <summary>Расчеты</summary>
-          <div></div>
-        </details>
       </div>
     </main>
 

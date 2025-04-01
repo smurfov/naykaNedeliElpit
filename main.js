@@ -105,7 +105,11 @@ const ROUND_NUMBER = 10 ** n; // 10^n
 function round(params) {
   for (const key in params) {
     if (Object.prototype.hasOwnProperty.call(params, key)) {
-      params[key] = Math.round(params[key] * ROUND_NUMBER) / ROUND_NUMBER;
+      if (typeof params[key] === "number") {
+        params[key] = Math.round(params[key] * ROUND_NUMBER) / ROUND_NUMBER;
+      } else if (typeof params[key] === "object" && params[key] !== null) {
+        round(params[key]);
+      }
     }
   }
 }
@@ -705,12 +709,19 @@ function mathTransformator(params) {
 
 // Расчет общей мощности без стрелок
 function powerWithoutDrive(params) {
-  const powerWithoutDriveP = document.getElementsByClassName("powerWithoutDriveP"),
-   powerWithoutDriveQ = document.getElementsByClassName("powerWithoutDriveQ"),
-   powerWithoutDriveS = document.getElementsByClassName("powerWithoutDriveS"),
-   fieldPowerWithoutDriveP = document.getElementById("fieldPowerWithoutDriveP"),
-   fieldPowerWithoutDriveQ = document.getElementById("fieldPowerWithoutDriveQ"),
-   fieldPowerWithoutDriveS = document.getElementById("fieldPowerWithoutDriveS");
+  const powerWithoutDriveP =
+      document.getElementsByClassName("powerWithoutDriveP"),
+    powerWithoutDriveQ = document.getElementsByClassName("powerWithoutDriveQ"),
+    powerWithoutDriveS = document.getElementsByClassName("powerWithoutDriveS"),
+    fieldPowerWithoutDriveP = document.getElementById(
+      "fieldPowerWithoutDriveP"
+    ),
+    fieldPowerWithoutDriveQ = document.getElementById(
+      "fieldPowerWithoutDriveQ"
+    ),
+    fieldPowerWithoutDriveS = document.getElementById(
+      "fieldPowerWithoutDriveS"
+    );
 
   params.powerWithoutDrive = {};
 
@@ -720,44 +731,59 @@ function powerWithoutDrive(params) {
       totalPowerWithoutDriveP += Number(powerWithoutDriveP[index].textContent);
     }
   }
-  params.powerWithoutDrive.P = totalPowerWithoutDriveP + params.mathTransformator.totalPowerP + params.mathTransformator.lostPowerP;
+  params.powerWithoutDrive.P =
+    totalPowerWithoutDriveP +
+    params.mathTransformator.totalPowerP +
+    params.mathTransformator.lostPowerP;
   let totalPowerWithoutDriveQ = 0;
   for (let index = 0; index < powerWithoutDriveQ.length; index++) {
     if (powerWithoutDriveQ[index].textContent != "-") {
       totalPowerWithoutDriveQ += Number(powerWithoutDriveQ[index].textContent);
     }
   }
-  params.powerWithoutDrive.Q = totalPowerWithoutDriveQ + params.mathTransformator.totalPowerQ + params.mathTransformator.lostPowerQ;
+  params.powerWithoutDrive.Q =
+    totalPowerWithoutDriveQ +
+    params.mathTransformator.totalPowerQ +
+    params.mathTransformator.lostPowerQ;
   let totalPowerWithoutDriveS = 0;
   for (let index = 0; index < powerWithoutDriveS.length; index++) {
     if (powerWithoutDriveS[index].textContent != "-") {
       totalPowerWithoutDriveS += Number(powerWithoutDriveS[index].textContent);
     }
   }
-  params.powerWithoutDrive.S = totalPowerWithoutDriveS + params.mathTransformator.totalPowerS + params.mathTransformator.lostPowerS;
+  params.powerWithoutDrive.S =
+    totalPowerWithoutDriveS +
+    params.mathTransformator.totalPowerS +
+    params.mathTransformator.lostPowerS;
 
   round(params.powerWithoutDrive);
-  fieldPowerWithoutDriveP.textContent = params.powerWithoutDrive.P
-  fieldPowerWithoutDriveQ.textContent = params.powerWithoutDrive.Q
-  fieldPowerWithoutDriveS.textContent = params.powerWithoutDrive.S
+  fieldPowerWithoutDriveP.textContent = params.powerWithoutDrive.P;
+  fieldPowerWithoutDriveQ.textContent = params.powerWithoutDrive.Q;
+  fieldPowerWithoutDriveS.textContent = params.powerWithoutDrive.S;
 }
 
 function sumActivePower(params) {
   const sumActivePower = document.getElementsByClassName("sumActivePower");
 
-  params.sumActivePower = {}
+  params.sumActivePower = {};
 
   params.sumActivePower.P = params.powerWithoutDrive.P * 1.2;
+  params.sumActivePower.S = params.sumActivePower.P;
 
   round(params.sumActivePower);
 
   for (let index = 0; index < sumActivePower.length; index++) {
-    sumActivePower[index].textContent = params.sumActivePower.P; 
+    sumActivePower[index].textContent = params.sumActivePower.P;
   }
 }
 
 // Расчет и выбор элементов УБП
 function mathAndChooseElementsUPS(params) {
+  const accumName = document.getElementById("accum_name"),
+    accumNominal = document.getElementById("accum_nominal"),
+    powerUPS = document.getElementById("powerUPS"),
+    powerUPSnominal = document.getElementById("powerUPSnominal");
+
   params.mathAndChooseElementsUPS = {};
 
   // Массив возможных значений
@@ -769,8 +795,10 @@ function mathAndChooseElementsUPS(params) {
   params.mathAndChooseElementsUPS.n = n;
 
   // Мощность УБП
-  params.mathAndChooseElementsUPS.powerUPS = 1.2 * 3 * params.powerWithoutDrive.S * n;
-  let pound = 23423;
+  params.mathAndChooseElementsUPS.powerUPS =
+    1.2 * 3 * params.powerWithoutDrive.S * n;
+
+  let pound = params.mathAndChooseElementsUPS.powerUPS;
 
   for (let index = 0; index < 4; index++) {
     pound /= 10;
@@ -780,7 +808,7 @@ function mathAndChooseElementsUPS(params) {
 
   pound = Math.ceil(pound);
 
-  params.mathAndChooseElementsUPS.powerUPSnominal = pound * 10;
+  params.mathAndChooseElementsUPS.powerUPSnominal = pound * 10 * 1000;
 
   // Расчет емкости аккумуляторной батареи
   const time_charging = 2,
@@ -789,24 +817,145 @@ function mathAndChooseElementsUPS(params) {
     temp_electrolit = 15,
     temp_nominal_capacity = 20,
     kpd_invertora = 0.9,
-    koefficient_deep_charging = 0.9, power_accum = 422.4;
+    koefficient_deep_charging = 0.9,
+    power_accum = 422.4;
 
   params.mathAndChooseElementsUPS.capacity =
-    (params.sumActivePower.P * time_charging) / (power_accum * koefficient_charging *
-      (1 + temp_koefficient * (temp_electrolit - temp_nominal_capacity)) * kpd_invertora * koefficient_deep_charging);
+    (params.sumActivePower.P * time_charging) /
+    (power_accum *
+      koefficient_charging *
+      (1 + temp_koefficient * (temp_electrolit - temp_nominal_capacity)) *
+      kpd_invertora *
+      koefficient_deep_charging);
 
-  for (let index = 0; index < batteryData.length; index++) {
-    if (batteryData[index++]) {
-      if (params.mathAndChooseElementsUPS.capacity > batteryData[index].nominalCapacity &&
-        params.mathAndChooseElementsUPS.capacity < batteryData[index++].nominalCapacity) {
-          params.mathAndChooseElementsUPS.accum = batteryData[index]
+  // Выбор аккумуляторной батареи
+  if (
+    params.mathAndChooseElementsUPS.capacity === undefined ||
+    isNaN(params.mathAndChooseElementsUPS.capacity)
+  ) {
+    console.error("Capacity is undefined or NaN");
+  } else {
+    // Перебираем массив batteryData
+    for (let index = 0; index < batteryData.length; index++) {
+      if (index == 0) {
+        if (
+          params.mathAndChooseElementsUPS.capacity <
+          batteryData[index].nominalCapacity
+        ) {
+          params.mathAndChooseElementsUPS.accm = batteryData[index];
+          break;
+        }
+      } else if (index == batteryData.length - 1) {
+        if (
+          params.mathAndChooseElementsUPS.capacity >=
+          batteryData[index].nominalCapacity
+        ) {
+          params.mathAndChooseElementsUPS.accm = batteryData[index];
+          break;
+        }
       } else {
-        params.mathAndChooseElementsUPS.accum = batteryData[index]
+        if (
+          params.mathAndChooseElementsUPS.capacity >=
+            batteryData[index].nominalCapacity &&
+          params.mathAndChooseElementsUPS.capacity <
+            batteryData[index + 1].nominalCapacity
+        ) {
+          params.mathAndChooseElementsUPS.accm = batteryData[index];
+          break;
+        }
       }
     }
   }
+
+  round(params.mathAndChooseElementsUPS);
+
+  // Выводим результаты
+  accumName.textContent = params.mathAndChooseElementsUPS.accm.type;
+  accumNominal.textContent =
+    params.mathAndChooseElementsUPS.accm.nominalCapacity;
+
+  powerUPS.textContent = params.mathAndChooseElementsUPS.powerUPS;
+  powerUPSnominal.textContent = params.mathAndChooseElementsUPS.powerUPSnominal;
 }
 
+// Расчет шины гарантированного питания
+function mathGarantPower(params) {
+  const garantPower = document.getElementsByClassName("garantPower"),
+    garantPowerTotal = document.getElementById("garantPowerTotal"),
+    powerInsulatingTransformator = document.getElementById(
+      "powerInsulatingTransformator"
+    );
+
+  params.mathGarantPower = {};
+  let totalGarantPower = 0;
+  for (let index = 0; index < garantPower.length; index++) {
+    if (garantPower[index].textContent != "-") {
+      totalGarantPower += Number(garantPower[index].value);
+    }
+  }
+
+  params.mathGarantPower.totalGarantPower = totalGarantPower * 1000;
+
+  params.mathGarantPower.powerInsulatingTransformator =
+    params.mathAndChooseElementsUPS.powerUPSnominal * 1.25;
+
+  round(params.mathGarantPower);
+
+  garantPowerTotal.textContent = params.mathGarantPower.totalGarantPower;
+  powerInsulatingTransformator.textContent =
+    params.mathGarantPower.powerInsulatingTransformator;
+}
+
+// Расчёт мощности нагрузок негарантированных потребителей
+function mathNonGarantPower(params) {
+  const nonGarantPower = document.getElementsByClassName("nonGarantPower"),
+    nonGarantPowerTotal = document.getElementById("nonGarantPowerTotal");
+  params.mathNonGarantPower = {};
+  let totalNonGarantPower = 0;
+  for (let index = 0; index < nonGarantPower.length; index++) {
+    if (nonGarantPower[index].textContent != "-") {
+      totalNonGarantPower += Number(nonGarantPower[index].value);
+    }
+  }
+
+  params.mathNonGarantPower.power = totalNonGarantPower * 1000;
+
+  roundValue(params.mathNonGarantPower);
+
+  nonGarantPowerTotal.textContent = params.mathNonGarantPower.power;
+}
+
+// Расчёт мощности РАЭС
+function mathPowerDGA(params) {
+  const powerDGA = document.getElementById("powerDGA");
+
+  params.mathPowerDGA = {};
+
+  params.mathPowerDGA.power =
+    ((params.sumActivePower.S * 1.25) / 0.915 / 0.97 / 0.85) * 1.8 +
+    params.mathGarantPower.totalGarantPower;
+
+  const length = String(Math.abs(Math.floor(params.mathPowerDGA.power))).length;
+
+  // Если длина числа меньше 4, то округляем до ближайших 10^(длина-1)
+  if (length < 4) {
+    params.mathPowerDGA.powerNominal =
+      Math.round(Math.floor(params.mathPowerDGA.power) / 10 ** (length - 1)) *
+      10 ** (length - 1);
+  } else {
+    // Для чисел длиной 4 и более округляем до ближайших 10^(длина-3)
+    const multiplier = 10 ** (length - 3);
+    params.mathPowerDGA.powerNominal =
+      Math.round(Math.floor(params.mathPowerDGA.power) / multiplier) *
+      multiplier;
+  }
+  params.mathPowerDGA.degreeOfLoading =
+    params.mathPowerDGA.power / params.mathPowerDGA.powerNominal;
+
+  round(params.mathPowerDGA);
+
+  powerDGA.textContent = params.mathPowerDGA.power;
+}
 
 // Чтоб таблица отображалась
 function createTable(params) {
@@ -1203,8 +1352,11 @@ function processBody(data) {
   createTable(data);
   mathTransformator(data);
   powerWithoutDrive(data);
-  mathAndChooseElementsUPS(data);
   sumActivePower(data);
+  mathAndChooseElementsUPS(data);
+  mathGarantPower(data);
+  mathNonGarantPower(data);
+  mathPowerDGA(data);
 }
 
 // Функция чтоб делать элементы видимыми/невидимыми
