@@ -957,6 +957,43 @@ function mathPowerDGA(params) {
   powerDGA.textContent = params.mathPowerDGA.power;
 }
 
+// Расчет сечения кабелей и выбор устройств защиты
+function cableDeviceProtection(params) {
+  params.cableDeviceProtection = {};
+
+  // Расчет сечения кабеля
+  const denistyCooper = 0.0175,
+    energyBattery = 10.8 * 32,
+    kpd = 0.915,
+    length = 5;
+
+  params.cableDeviceProtection.cableCrossSection =
+    (denistyCooper * params.sumActivePower.S * 2 * length) /
+    ((0.01 * energyBattery) ^ (2 * kpd));
+
+  params.cableDeviceProtection.cableCurrentLoad =
+    params.sumActivePower.S / 3 / 220;
+
+  // Расчет номиналов АВ
+  params.cableDeviceProtection.currentInsulatingTransformator =
+    (params.mathGarantPower.powerInsulatingTransformator / 3 / 220) * 1.2;
+  params.cableDeviceProtection.currentDGA =
+    (params.mathGarantPower.totalGarantPower / 220 +
+      params.cableDeviceProtection.currentInsulatingTransformator) *
+    1.2;
+  params.cableDeviceProtection.fider1_fider2 =
+    (params.mathGarantPower.totalGarantPower / 220 +
+      params.mathNonGarantPower.power / 220 +
+      params.cableDeviceProtection.currentInsulatingTransformator) *
+    1.2;
+  params.cableDeviceProtection.currentUPS =
+    (params.mathAndChooseElementsUPS.powerUPSnominal / 220) * 1.2;
+  params.cableDeviceProtection.ng =
+    (params.mathNonGarantPower.power / 220) * 1.2;
+
+  round(params.cableDeviceProtection);
+}
+
 // Чтоб таблица отображалась
 function createTable(params) {
   // Сигналы
@@ -1357,6 +1394,7 @@ function processBody(data) {
   mathGarantPower(data);
   mathNonGarantPower(data);
   mathPowerDGA(data);
+  cableDeviceProtection(data);
 }
 
 // Функция чтоб делать элементы видимыми/невидимыми
